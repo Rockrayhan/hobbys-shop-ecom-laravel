@@ -19,7 +19,6 @@ class FrontendController extends Controller
 
     public function allProducts()
     {
-        // $products = Product::paginate(12);
         return view('frontend.all-products');
     }
 }
