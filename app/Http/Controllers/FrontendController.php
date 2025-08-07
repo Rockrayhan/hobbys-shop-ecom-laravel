@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 class FrontendController extends Controller
 {
      public function home()
-    {
-        // $featured = Product::latest()->take(6)->get();
+    {        
         return view('frontend.home');
+    }
+     public function customerDashboard()
+    {        
+        return view('frontend.customerDashboard');
     }
 
     public function about()

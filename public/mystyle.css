@@ -1,8 +1,14 @@
+
+/* banner */
+
 .banner {
-    height: 100vh !important;
+    min-height: 100vh !important;
+    height: fit-content;
 }
 
-.banner-img {
+.banner img {
     height: 50%;
     width: 50%;
 }
+
+

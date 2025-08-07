@@ -7,7 +7,7 @@
 - id, category_id (FK), name, slug, image, description, price, stock
 
 3. users
-- id, name, phone, email, password, address
+- id, name, role, phone, email, password, address
 
 4. carts
 - id, user_id (FK)

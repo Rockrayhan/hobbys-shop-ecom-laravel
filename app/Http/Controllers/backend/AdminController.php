@@ -9,7 +9,6 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        // $featured = Product::latest()->take(6)->get();
         return view('backend.admin.dashboard');
     }
 }

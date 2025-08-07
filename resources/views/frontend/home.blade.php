@@ -1,13 +1,8 @@
-
-
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('title', 'Home')
 
 @section('content')
-
-
-
 
 
     {{-- banner --}}
@@ -20,7 +15,7 @@
                             <div class="row banner-item text-center align-items-center">
                                 <div class="col-lg-6">
                                     <div class="image-holder">
-                                        <img src="{{asset('images/two-col-banner-2.png')}}" alt="product"
+                                        <img src="{{ asset('images/two-col-banner-2.png') }}" alt="product"
                                             class="product-image banner-img img-fluid">
                                     </div>
                                 </div>
@@ -30,7 +25,7 @@
                                     <p>Discover the world's finest luxury timepieces, where precision meets artistry.
                                     </p>
                                     <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
-                                        Collection</a>
+                                        Collections</a>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +42,7 @@
                                     <p>For those who appreciate timeless sophistication—sleek designs with refined
                                         details, powered by mechanical mastery.</p>
                                     <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
-                                        Collection</a>
+                                        Collections</a>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +59,7 @@
                                     <p>Engineered for precision under pressure—robust, high-performance watches for the
                                         modern explorer.</p>
                                     <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
-                                        Collection</a>
+                                        Collections</a>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +77,8 @@
     </section>
 
     {{-- featured --}}
-    <section class="features py-5 border-top">
+
+    {{-- <section class="features py-5 border-top">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="0">
@@ -123,7 +119,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- categoires --}}
     <section class="categories full-width-container overflow-hidden py-5 slide-clip-animation" data-aos="fade-in">
@@ -131,8 +127,8 @@
             <div class="col-md-4 col-sm-6">
                 <div class="cat-item image-zoom-effect position-relative">
                     <div class="image-holder">
-                        <a href="shop-four-column-wide.html"><img src="{{asset('images/category-banner-3.jpg')}}" alt="categories"
-                                class="product-image img-fluid"></a>
+                        <a href="shop-four-column-wide.html"><img src="{{ asset('images/category-banner-3.jpg') }}"
+                                alt="categories" class="product-image img-fluid"></a>
                         <div class="category-content position-absolute bottom-0 p-5 text-uppercase">
                             <h4 class="section-title text-white">For Men</h4>
                             <a href="shop-four-column-wide.html" class="text-white btn-link">Shop it Now</a>
@@ -143,8 +139,8 @@
             <div class="col-md-4 col-sm-6">
                 <div class="cat-item image-zoom-effect position-relative">
                     <div class="image-holder">
-                        <a href="shop-four-column-wide.html"><img src="{{asset('images/category-banner-1.jpg')}}" alt="categories"
-                                class="product-image img-fluid"></a>
+                        <a href="shop-four-column-wide.html"><img src="{{ asset('images/category-banner-1.jpg') }}"
+                                alt="categories" class="product-image img-fluid"></a>
                         <div class="category-content position-absolute bottom-0 p-5 text-uppercase">
                             <h4 class="section-title text-white">For Women</h4>
                             <a href="shop-four-column-wide.html" class="text-white btn-link">Shop it Now</a>
@@ -155,9 +151,9 @@
             <div class="col-md-4 col-sm-6">
                 <div class="cat-item image-zoom-effect position-relative">
                     <div class="image-holder">
-                        <a href="shop-four-column-wide.html"><img src="{{asset('images/category-banner-2.jpg')}}" alt="categories"
-                                class="product-image img-fluid"></a>
-                        <div class="category-content position-absolute bottom-0 p-5 text-uppercase">
+                        <a href="shop-four-column-wide.html"><img src="{{ asset('images/category-banner-2.jpg') }}"
+                                alt="categories" class="product-image img-fluid"></a>
+                        <div class="category-content position-absolute bottom-0 p-5 text-uppercase bg-dark bg-gradient">
                             <h4 class="section-title text-white">For Accessories</h4>
                             <a href="shop-four-column-wide.html" class="text-white btn-link">Shop it Now</a>
                         </div>
@@ -317,8 +313,7 @@
                         <div class="image-zoom-effect link-effect mb-5">
                             <div class="image-holder">
                                 <a href="single-product.html">
-                                    <img src="images/product-thumb-7.jpg" alt="product"
-                                        class="product-image img-fluid">
+                                    <img src="images/product-thumb-7.jpg" alt="product" class="product-image img-fluid">
                                 </a>
                                 <a href="wishlist.html" class="btn-icon btn-wishlist">
                                     <svg width="24" height="24" viewBox="0 0 24 24">
@@ -788,4 +783,4 @@
         </div>
     </section>
 
-    @endsection
+@endsection
