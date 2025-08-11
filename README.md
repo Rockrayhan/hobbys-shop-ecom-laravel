@@ -4,7 +4,7 @@
 - id, name , slug
 
 2. Products
-- id, category_id (FK), name, slug, image, description, price, stock
+- id, category_id (FK), name, slug, image, description, Current_price,  previous_price, isOnSale 
 
 3. users
 - id, name, role, phone, email, password, address

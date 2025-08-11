@@ -18,10 +18,11 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
+
+
     <!-- Local Stylesheets -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/vendor.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
-
     <link rel="stylesheet" type="text/css" href="{{ asset('mystyle.css') }}">
 
     <!-- Google Fonts -->
@@ -218,312 +219,20 @@
     </div>
 
     {{-- cart item --}}
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart">
-        <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="order-md-last">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-primary">Your cart</span>
-                    <span class="badge bg-primary rounded-pill">3</span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Product One</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$1200</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Product Two</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$900</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">Product Three</h6>
-                            <small class="text-body-secondary">Brief description</small>
-                        </div>
-                        <span class="text-body-secondary">$1100</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total (USD)</span>
-                        <strong>$2600</strong>
-                    </li>
-                </ul>
-
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-            </div>
-        </div>
-    </div>
+    @include('frontend.includes.cart')
 
 
     {{-- header --}}
+    @include('frontend.includes.header')
 
-    <nav class="navbar fixed-top navbar-expand-lg bg-white text-uppercase fs-6 p-3 border-bottom align-items-center">
-        <div class="container-fluid">
-            <div class="row justify-content-between align-items-center w-100 gx-0">
-
-                <div class="col-auto">
-                    <a class="navbar-brand" href="{{ route('home') }}"><img
-                            src=" {{ asset('images/main-logo.png') }}" alt="logo"></a>
-                </div>
-
-                <div class="col-auto">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
-                        aria-labelledby="offcanvasNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-
-                        <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-4 pe-3">
-
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="{{ route('home') }}" aria-haspopup="true"
-                                        aria-expanded="false">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('about')}}" aria-haspopup="true"
-                                        aria-expanded="false">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('all-products')}}" aria-haspopup="true"
-                                        aria-expanded="false">All Products</a>
-                                </li>
-
-
-                                {{-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="{{route('all-products')}}" id="dropdownShop"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Products</a>
-                                    <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-                                        <li>
-                                            <a href="shop.html" class="dropdown-item item-anchor">Shop <span
-                                                    class="badge bg-primary">PRO</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="single-product.html" class="dropdown-item item-anchor">Single
-                                                Product <span class="badge bg-primary">PRO</span></a>
-                                        </li>
-                                    </ul>
-                                </li> --}}
-
-
-
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-
-
-                                <li class="nav-item">
-                                    <a class="btn btn-outline-primary rounded-pill"
-                                        href="https://templatesjungle.gumroad.com/l/elegant-watch-store-html-template"
-                                        target="_blank">Get PRO</a>
-                                </li>
-
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-3 col-lg-auto">
-                    <ul class="list-unstyled d-flex m-0">
-                        <li class="d-none d-lg-block">
-                            <a href="wishlist.html" class="text-uppercase mx-3">Wishlist <span
-                                    class="wishlist-count">(0)</span>
-                            </a>
-                        </li>
-                        <li class="d-none d-lg-block">
-                            <a href="cart.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">Cart <span
-                                    class="cart-count">(0)</span>
-                            </a>
-                        </li>
-                        <li class="d-lg-none">
-                            <a href="#" class="mx-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24">
-                                    <use xlink:href="#heart"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="d-lg-none">
-                            <a href="#" class="mx-2" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                                <svg width="24" height="24" viewBox="0 0 24 24">
-                                    <use xlink:href="#cart"></use>
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="search-box mx-2">
-                            <a href="#search" class="search-button">
-                                <svg width="24" height="24" viewBox="0 0 24 24">
-                                    <use xlink:href="#search"></use>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-        </div>
-    </nav>
-
+    {{-- body --}}
     @yield('content')
 
-    {{-- ========== footer ========== --}}
+    {{-- footer --}}
+    @include('frontend.includes.footer')
 
-    <footer id="footer" class="mt-5">
-        <div class="container">
-            <div class="row d-flex flex-wrap justify-content-between py-5">
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu footer-menu-001">
-                        <div class="footer-intro mb-4">
-                            <a href="index.html">
-                                <img src="images/main-logo.png" alt="logo">
-                            </a>
-                        </div>
-                        <p>Gravida massa volutpat aenean odio. Amet, turpis erat nullam fringilla elementum diam in.
-                            Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit.</p>
-                        <div class="social-links">
-                            <ul class="list-unstyled d-flex flex-wrap gap-3">
-                                <li>
-                                    <a href="#" class="text-secondary">
-                                        <svg width="24" height="24" viewBox="0 0 24 24">
-                                            <use xlink:href="#facebook"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-secondary">
-                                        <svg width="24" height="24" viewBox="0 0 24 24">
-                                            <use xlink:href="#twitter"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-secondary">
-                                        <svg width="24" height="24" viewBox="0 0 24 24">
-                                            <use xlink:href="#youtube"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-secondary">
-                                        <svg width="24" height="24" viewBox="0 0 24 24">
-                                            <use xlink:href="#pinterest"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="text-secondary">
-                                        <svg width="24" height="24" viewBox="0 0 24 24">
-                                            <use xlink:href="#instagram"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu footer-menu-002">
-                        <h5 class="widget-title text-uppercase mb-4">Quick Links</h5>
-                        <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
-                            <li class="menu-item">
-                                <a href="index.html" class="item-anchor">Home</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="shop-four-column-wide.html" class="item-anchor">About</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="blog.html" class="item-anchor">Services</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="styles.html" class="item-anchor">Single item</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu footer-menu-003">
-                        <h5 class="widget-title text-uppercase mb-4">Help & Info</h5>
-                        <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Track Your Order</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Returns + Exchanges</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Shipping + Delivery</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Contact Us</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Find us easy</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="faqs.html" class="item-anchor">Faqs</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu footer-menu-004 border-animation-left">
-                        <h5 class="widget-title text-uppercase mb-4">Contact Us</h5>
-                        <p>Do you have any questions or suggestions? <a href="mailto:contact@yourcompany.com"
-                                class="item-anchor">contact@yourcompany.com</a></p>
-                        <p>Do you need support? Give us a call. <a href="tel:+43720115278" class="item-anchor">+43
-                                720 115 278</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="border-top py-4">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 d-flex flex-wrap">
-                        <div class="payment-option">
-                            <span>We accept:</span>
-                            <img src="images/visa-card.png" alt="card">
-                            <img src="images/paypal-card.png" alt="card">
-                            <img src="images/master-card.png" alt="card">
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <p class="footer-credit">
-                            © Copyright 2025 Elegant. All rights reserved.
-                            Design by <a href="https://templatesjungle.com" target="_blank">TemplatesJungle</a>
-                        </p>
-                        <p>
-                            Develped by <a target="_blank" href="https://khayrul-alam-portfo.netlify.app/">Khayrul
-                                Alam 👨‍💻</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/plugins.js') }}"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
@@ -533,6 +242,68 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add to Cart
+            document.querySelectorAll(".add-to-cart").forEach(function(btn) {
+                btn.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    fetch("{{ route('cart.add') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                id: this.dataset.id,
+                                name: this.dataset.name,
+                                price: this.dataset.price
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                // Replace only the offcanvas body content, keep wrapper intact
+                                document.querySelector("#offcanvasCartBody").innerHTML = data
+                                    .cart_view;
+
+                                // Show the offcanvas (existing element)
+                                let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
+                                    document.getElementById("offcanvasCart"));
+                                cartCanvas.show();
+                            }
+                        });
+                });
+            });
+
+            // Remove from Cart (delegated event listener)
+            document.addEventListener("click", function(e) {
+                if (e.target.classList.contains("remove-cart-item")) {
+                    e.preventDefault();
+                    let id = e.target.dataset.id;
+
+                    fetch(`/cart/remove/${id}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                // Update only inner content
+                                document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
+
+                                // Keep offcanvas open
+                                let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(document
+                                    .getElementById("offcanvasCart"));
+                                cartCanvas.show();
+                            }
+                        });
+                }
+            });
+        });
+    </script>
+
+
 
 </body>
 

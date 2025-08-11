@@ -15,8 +15,8 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('123456789'),
             'role' => 'admin',
             'phone' => '0123456789',
             'address' => 'Admin Street',
@@ -24,8 +24,8 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Customer User',
-            'email' => 'customer@example.com',
-            'password' => bcrypt('password'),
+            'email' => 'customer@gmail.com',
+            'password' => bcrypt('123456789'),
             'role' => 'customer',
             'phone' => '0987654321',
             'address' => 'Customer Lane',

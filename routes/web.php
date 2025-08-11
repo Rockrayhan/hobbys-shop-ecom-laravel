@@ -2,18 +2,22 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Support\Facades\Route;
 
 
-// frontend
+// =========== frontend =============
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('all-products');
 
 
+// cart
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
-// backend
+// ============= backend ==========
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
