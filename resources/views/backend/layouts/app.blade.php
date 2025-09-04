@@ -35,6 +35,12 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/kaiadmin.min.css') }}" />
 
 
+    <style>
+        .body-content {
+            margin-top: 50px ;
+            margin-left: 50px ;
+        }
+    </style>
 
 </head>
 
@@ -43,26 +49,25 @@
 
         {{--  Sidebar  --}}
         @include('backend.includes.sidebar')
-        
-        <!-- End Sidebar -->
-        
+
+
         <div class="main-panel">
-            
-            
-            {{-- ========  header ==========--}}
-            
+
+            {{-- ========  header ========== --}}
             @include('backend.includes.header')
             
-
-            {{-- ========  header ends ==========--}}
-
-        @yield('content')
-
-
-            {{-- =========  footer =========--}}
-            @include('backend.includes.footer')
-            {{-- =========  footer ends =========--}}
             
+            
+            {{-- ========  content ========== --}}
+           <div class="h-100 body-content">
+             @yield('content')
+           </div>
+
+
+            {{-- =========  footer ========= --}}
+            @include('backend.includes.footer')
+
+
         </div>
     </div>
     <!-- Core JS Files -->

@@ -244,7 +244,7 @@
                                         <a href="single-product.html">Chronosport X1</a>
                                     </h5>
 
-                                    <a href="javascript:void(0);" class="text-decoration-none add-to-cart" data-id="1"
+                                    <a href="" class="text-decoration-none add-to-cart" data-id="1"
                                         data-name="Chronosport X1" data-after="Add to cart" data-price="65">
                                         <span>$65.00</span>
                                     </a>

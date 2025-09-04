@@ -45,11 +45,6 @@
                                     <div class="numbers">
                                         <p class="card-category">Visitors</p>
                                         <h4 class="card-title">1,294</h4>
-                                        <h1>Log out..!!</h1>
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit">Logout</button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
