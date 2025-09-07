@@ -50,7 +50,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/admin/categories/create">
+                                <a href="{{route('admin.categories.create')}}">
                                     <span class="sub-item">create Category</span>
                                 </a>
                             </li>

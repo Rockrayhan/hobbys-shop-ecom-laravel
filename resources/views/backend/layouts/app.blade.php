@@ -37,8 +37,8 @@
 
     <style>
         .body-content {
-            margin-top: 50px ;
-            margin-left: 50px ;
+            margin-top: 100px;
+            margin-left: 50px;
         }
     </style>
 
@@ -55,13 +55,15 @@
 
             {{-- ========  header ========== --}}
             @include('backend.includes.header')
-            
-            
-            
+
+
+
             {{-- ========  content ========== --}}
-           <div class="h-100 body-content">
-             @yield('content')
-           </div>
+            <div class="h-100 body-content px-5 ">
+                <div class="pb-5">
+                    @yield('content')
+                </div>
+            </div>
 
 
             {{-- =========  footer ========= --}}
