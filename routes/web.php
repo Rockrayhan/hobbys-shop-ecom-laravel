@@ -18,6 +18,8 @@ Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('a
 // cart
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::post('/cart/update/{id}', [CartController::class, 'updateQuantity'])->name('cart.update');
+
 
 // ============= backend ==========
 

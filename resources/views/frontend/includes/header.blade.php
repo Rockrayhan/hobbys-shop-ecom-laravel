@@ -75,15 +75,15 @@
 
                 <div class="col-3 col-lg-auto">
                     <ul class="list-unstyled d-flex m-0">
-                        <li class="d-none d-lg-block">
+                        {{-- <li class="d-none d-lg-block">
                             <a href="wishlist.html" class="text-uppercase mx-3">Wishlist <span
                                     class="wishlist-count">(0)</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="d-none d-lg-block">
-                            <a href="cart.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">Cart <span
-                                    class="cart-count">(0)</span>
+                            <a href="cart.html" class="text-uppercase mx-3 fw-bold" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">  Cart  <i class="bi bi-bag-fill fs-5 text-primary-emphasis"></i> <span
+                                    class="cart-count badge bg-danger text-white rounded-pill p-1 fs-6">  {{ count(session('cart', [])) }} </span>
                             </a>
                         </li>
                         <li class="d-lg-none">

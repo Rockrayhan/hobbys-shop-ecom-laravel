@@ -16,7 +16,7 @@
                                 <div class="col-lg-6">
                                     <div class="image-holder">
                                         <img src="{{ asset('images/two-col-banner-2.png') }}" alt="product"
-                                            class="product-image banner-img img-fluid">
+                                            class="banner-img img-fluid">
                                     </div>
                                 </div>
                                 <div class="banner-content col-lg-6 p-5">
@@ -33,8 +33,7 @@
                             <div class="row banner-item text-center align-items-center">
                                 <div class="col-lg-6">
                                     <div class="image-holder">
-                                        <img src="images/two-col-banner-3.png" alt="product"
-                                            class="product-image banner-img img-fluid">
+                                        <img src="images/two-col-banner-3.png" alt="product" class=" banner-img img-fluid">
                                     </div>
                                 </div>
                                 <div class="banner-content col-lg-6 p-5">
@@ -50,8 +49,7 @@
                             <div class="row banner-item text-center align-items-center">
                                 <div class="col-lg-6">
                                     <div class="image-holder">
-                                        <img src="images/two-col-banner-1.png" alt="product"
-                                            class="product-image banner-img img-fluid">
+                                        <img src="images/two-col-banner-1.png" alt="product" class=" banner-img img-fluid">
                                     </div>
                                 </div>
                                 <div class="banner-content col-lg-6 p-5">
@@ -76,50 +74,7 @@
         </div>
     </section>
 
-    {{-- featured --}}
 
-    {{-- <section class="features py-5 border-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="0">
-                    <div class="py-5">
-                        <svg width="38" height="38" viewBox="0 0 24 24">
-                            <use xlink:href="#calendar"></use>
-                        </svg>
-                        <h4 class="element-title text-capitalize my-3">Book An Appointment</h4>
-                        <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="300">
-                    <div class="py-5">
-                        <svg width="38" height="38" viewBox="0 0 24 24">
-                            <use xlink:href="#shopping-bag"></use>
-                        </svg>
-                        <h4 class="element-title text-capitalize my-3">Pick up in store</h4>
-                        <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="600">
-                    <div class="py-5">
-                        <svg width="38" height="38" viewBox="0 0 24 24">
-                            <use xlink:href="#gift"></use>
-                        </svg>
-                        <h4 class="element-title text-capitalize my-3">Special packaging</h4>
-                        <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center" data-aos="fade-in" data-aos-delay="900">
-                    <div class="py-5">
-                        <svg width="38" height="38" viewBox="0 0 24 24">
-                            <use xlink:href="#arrow-cycle"></use>
-                        </svg>
-                        <h4 class="element-title text-capitalize my-3">free global returns</h4>
-                        <p>At imperdiet dui accumsan sit amet nulla risus est ultricies quis.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
     {{-- categoires --}}
     <section class="categories full-width-container overflow-hidden py-5 slide-clip-animation" data-aos="fade-in">
@@ -164,446 +119,71 @@
     </section>
 
 
-    {{-- product nav tab --}}
+
+
+    {{-- all products nav tab --}}
     <section class="product-grid py-5 clearfix">
         <div class="container">
             <div class="row">
 
-                <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
+                {{-- <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
                     <a href="#" class="btn-link text-uppercase is-checked" data-filter=".bestsellers">Best
                         Sellers</a>
                     <a href="#" class="btn-link text-uppercase" data-filter=".newarrivals">New Arrivals</a>
                     <a href="#" class="btn-link text-uppercase" data-filter=".bestreviewed">Best Reviewed</a>
+                </div> --}}
+
+                <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
+                    <a href="#" class="btn-link text-uppercase is-checked" data-filter="*">All</a>
+                    @foreach ($categories as $cat)
+                        <a href="#" class="btn-link text-uppercase" data-filter=".{{ Str::slug($cat->name) }}">
+                            {{ $cat->name }}
+                        </a>
+                    @endforeach
                 </div>
 
+
                 <div class="grid p-0 clearfix">
+                    @foreach ($products as $item)
+                        <div class="col-md-3 p-2 product-item {{ Str::slug($item->category->name) }}">
+                            <div class="image-zoom-effect link-effect mb-5">
+                                <div class="image-holder">
+                                    <a href="single-product.html">
+                                        @if ($item->image)
+                                            <img src="{{ asset($item->image) }}" alt="{{ $item->category->name }}"
+                                                class="product-img img-fluid" width="300">
+                                        @else
+                                            <span class="text-muted">No Image</span>
+                                        @endif
 
-                    <div class="col-md-3 p-2 product-item newarrivals">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-1.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="element-title text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Royal Heritage Chronograph</a>
-                                    </h5>
-                                    <a href="#" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$95.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-3 p-2 product-item newarrivals">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-4.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Regent Sapphire</a>
-                                    </h5>
-                                    <a href="#" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$50.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- best sellers products --}}
-
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-8.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Chronosport X1</a>
-                                    </h5>
-
-                                    <a href="" class="text-decoration-none add-to-cart" data-id="1"
-                                        data-name="Chronosport X1" data-after="Add to cart" data-price="65">
-                                        <span>$65.00</span>
                                     </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-2.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Eternalis Perpetual Calendar</a>
-                                    </h5>
-
-                                    <a href="javascript:void(0);" class="text-decoration-none add-to-cart" data-id="2"
-                                        data-name="Eternalis Perpetual Calendar" data-after="Add to cart"
-                                        data-price="55">
-                                        <span>$55.00</span>
+                                    <a href="wishlist.html" class="btn-icon btn-wishlist">
+                                        <svg width="24" height="24" viewBox="0 0 24 24">
+                                            <use xlink:href="#heart"></use>
+                                        </svg>
                                     </a>
+                                    <div class="product-content">
+                                        <h5 class="element-title text-uppercase fs-5 mt-3">
+                                            <a href="single-product.html"> {{ $item->name }} </a>
+                                        </h5>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-12.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Aviator Carbon</a>
-                                    </h5>
-                                    <a href="javascript:void(0);" class="text-decoration-none add-to-cart" data-id="3"
-                                        data-name="Aviator Carbon" data-after="Add to cart" data-price="45">
-                                        <span>$45.00</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                        <a href="#" class="text-decoration-none add-to-cart"
+                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                            data-after="Add to cart" data-price="{{ $item->current_price }}"
+                                            data-image="{{ asset($item->image) }}"
+                                            >
+                                            {{-- <span>{{ number_format($item->current_price, 2) }} bdt</span> --}}
+                                            <span>{{ fmod($item['current_price'], 1) == 0 ? number_format($item['current_price'], 0) : number_format($item['current_price'], 2) }} bdt</span>
+                                        </a>
 
 
-                    <div class="col-md-3 p-2 product-item link-bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-3.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Grandeur Moonphase</a>
-                                    </h5>
-                                    <a href="javascript:void(0);" class="text-decoration-none add-to-cart" data-id="4"
-                                        data-name="Grandeur Moonphase" data-after="Add to cart" data-price="35">
-                                        <span>$35.00</span>
-                                    </a>
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
 
 
-                    <div class="col-md-3 p-2 product-item bestreviewed">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-5.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Legacy Tourbillon</a>
-                                    </h5>
-                                    <a href="#" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item link-bestreviewed">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-6.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Apex Diver Pro</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$95.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item bestreviewed">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-7.jpg" alt="product" class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Titanium Oceanmaster</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$55.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-3 p-2 product-item link-newarrivals">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-9.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Stealth GMT</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$50.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item bestreviewed">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-10.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Vortex Regatta</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item bestreviewed">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-11.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Skyquest GMT</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-13.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Horizon Flyback</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-14.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Aeronaut Chrono</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-15.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Chrono War II</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-16.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Aeronaut Space</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item bestsellers">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-17.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Space Grey</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-2 product-item newarrivals">
-                        <div class="image-zoom-effect link-effect mb-5">
-                            <div class="image-holder">
-                                <a href="single-product.html">
-                                    <img src="images/product-thumb-18.jpg" alt="categories"
-                                        class="product-image img-fluid">
-                                </a>
-                                <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                    <svg width="24" height="24" viewBox="0 0 24 24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg>
-                                </a>
-                                <div class="product-content">
-                                    <h5 class="text-uppercase fs-5 mt-3">
-                                        <a href="single-product.html">Infinity Skeleton</a>
-                                    </h5>
-                                    <a href="cart.html" class="text-decoration-none"
-                                        data-after="Add to cart"><span>$70.00</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -653,6 +233,11 @@
             <div class="swiper-pagination"></div>
         </div>
     </section> --}}
+
+
+
+
+
 
 
     {{-- blogs --}}

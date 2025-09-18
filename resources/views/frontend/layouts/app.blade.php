@@ -17,7 +17,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-
+    {{-- bootstrap icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 
     <!-- Local Stylesheets -->
@@ -244,9 +245,9 @@
     <script src="{{ asset('js/script.js') }}"></script>
 
 
+    {{-- Add to Cart  --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Add to Cart
             document.querySelectorAll(".add-to-cart").forEach(function(btn) {
                 btn.addEventListener("click", function(e) {
                     e.preventDefault();
@@ -260,7 +261,9 @@
                             body: JSON.stringify({
                                 id: this.dataset.id,
                                 name: this.dataset.name,
-                                price: this.dataset.price
+                                price: this.dataset.price,
+                                image: this.dataset.image // ✅ send image
+
                             })
                         })
                         .then(res => res.json())
@@ -300,6 +303,41 @@
                         });
                 }
             });
+
+
+            // Update Quantity (+ / - buttons)
+            document.addEventListener("click", function(e) {
+                if (e.target.classList.contains("update-qty")) {
+                    e.preventDefault();
+                    let id = e.target.dataset.id;
+                    let action = e.target.dataset.action;
+
+                    fetch(`/cart/update/${id}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                action: action
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
+
+                                // Keep offcanvas open
+                                let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
+                                    document.getElementById("offcanvasCart")
+                                );
+                                cartCanvas.show();
+                            }
+                        });
+                }
+            });
+
+
         });
     </script>
 

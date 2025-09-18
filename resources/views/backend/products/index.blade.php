@@ -25,9 +25,9 @@
                 @foreach ($products as $prod)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $prod->name }}</td>
+                        <td> {{ $prod->name }} </td>
                         <td>{{ $prod->category->name }}</td>
-                        <td>${{ number_format($prod->current_price, 2) }}</td>
+                        <td> {{ number_format($prod->current_price, 2) }} bdt </td>
                         <td>
                             @if ($prod->isOnSale)
                                 <span class="badge bg-success">Yes</span>
@@ -37,7 +37,7 @@
                         </td>
                         <td>
                             @if ($prod->image)
-                                <img src="{{ asset($prod->image) }}" alt="{{ $prod->name }}" width="100"
+                                <img src="{{ asset($prod->image) }}" alt="{{ $prod->name }}" width="70"
                                     class="img-thumbnail">
                             @else
                                 <span class="text-muted">No Image</span>
