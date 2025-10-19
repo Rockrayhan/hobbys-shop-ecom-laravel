@@ -75,10 +75,9 @@
     </section>
 
 
-
     {{-- categoires --}}
     <section class="categories full-width-container overflow-hidden py-5 slide-clip-animation" data-aos="fade-in">
-        <div class="row d-flex flex-wrap">
+        <div class="row d-flex flex-wrap g-0">
             <div class="col-md-4 col-sm-6">
                 <div class="cat-item image-zoom-effect position-relative">
                     <div class="image-holder">
@@ -120,18 +119,10 @@
 
 
 
-
     {{-- all products nav tab --}}
     <section class="product-grid py-5 clearfix">
         <div class="container">
             <div class="row">
-
-                {{-- <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
-                    <a href="#" class="btn-link text-uppercase is-checked" data-filter=".bestsellers">Best
-                        Sellers</a>
-                    <a href="#" class="btn-link text-uppercase" data-filter=".newarrivals">New Arrivals</a>
-                    <a href="#" class="btn-link text-uppercase" data-filter=".bestreviewed">Best Reviewed</a>
-                </div> --}}
 
                 <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
                     <a href="#" class="btn-link text-uppercase is-checked" data-filter="*">All</a>
@@ -145,36 +136,56 @@
 
                 <div class="grid p-0 clearfix">
                     @foreach ($products as $item)
-                        <div class="col-md-3 p-2 product-item {{ Str::slug($item->category->name) }}">
-                            <div class="image-zoom-effect link-effect mb-5">
-                                <div class="image-holder">
-                                    <a href="single-product.html">
+                        <!-- Product Card -->
+                        <div
+                            class="col-12 col-sm-6 col-md-4 col-lg-3 p-2 product-item {{ Str::slug($item->category->name) }}">
+                            <div class="product-card position-relative bg-white rounded-3 overflow-hidden shadow-sm h-100">
+
+                                <!-- Product Image -->
+                                <div class="image-holder position-relative overflow-hidden">
+                                    <a href="single-product.html" class="d-block">
                                         @if ($item->image)
-                                            <img src="{{ asset($item->image) }}" alt="{{ $item->category->name }}"
-                                                class="product-img img-fluid" width="300">
+                                            <img src="{{ asset($item->image) }}" alt="{{ $item->name }}"
+                                                class="product-img w-100 object-fit-cover">
                                         @else
-                                            <span class="text-muted">No Image</span>
+                                            <span class="text-muted d-block text-center py-5">No Image</span>
                                         @endif
-
                                     </a>
-                                    <a href="wishlist.html" class="btn-icon btn-wishlist">
-                                        <svg width="24" height="24" viewBox="0 0 24 24">
-                                            <use xlink:href="#heart"></use>
-                                        </svg>
-                                    </a>
-                                    <div class="product-content">
-                                        <h5 class="element-title text-uppercase fs-5 mt-3">
-                                            <a href="single-product.html"> {{ $item->name }} </a>
-                                        </h5>
 
-                                        <a href="#" class="text-decoration-none add-to-cart"
-                                            data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                                            data-after="Add to cart" data-price="{{ $item->current_price }}"
-                                            data-image="{{ asset($item->image) }}"
-                                            >
-                                            {{-- <span>{{ number_format($item->current_price, 2) }} bdt</span> --}}
-                                            <span>{{ fmod($item['current_price'], 1) == 0 ? number_format($item['current_price'], 0) : number_format($item['current_price'], 2) }} bdt</span>
-                                        </a>
+                                    <!-- Discount Price -->
+                                    @if ($item->previous_price > 0 && $item->previous_price > $item->current_price)
+                                        <span class="discount-price">
+                                            {{ number_format($item->previous_price - $item->current_price, 0) }}৳ OFF
+                                        </span>
+                                    @endif
+
+                                </div>
+
+                                <!-- Product Info -->
+                                <div class="product-content p-3">
+                                    <h5 class="element-title text-uppercase fw-semibold fs-6 mb-3 ">
+                                        <a href="single-product.html"
+                                            class="text-dark text-decoration-none">{{ $item->name }}</a>
+                                    </h5>
+
+                                    <div class="mb-3">
+                                        <span class="fw-bold text-primary fs-5">
+                                            {{ fmod($item['current_price'], 1) == 0
+                                                ? number_format($item['current_price'], 0)
+                                                : number_format($item['current_price'], 2) }}
+                                            ৳
+                                        </span>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <button class="btn btn-sm add-to-cart px-3 py-2" data-id="{{ $item->id }}"
+                                            data-name="{{ $item->name }}" data-price="{{ $item->current_price }}"
+                                            data-image="{{ asset($item->image) }}">
+                                            <i class="bi bi-cart me-1"></i> Add to cart
+                                        </button>
+
+                                        <button class="btn btn-primary btn-sm ">
+                                            Buy Now  
+                                        </button>
 
 
                                     </div>
@@ -189,6 +200,10 @@
             </div>
         </div>
     </section>
+
+
+
+
 
     {{-- testimonial --}}
     {{-- <section class="testimonials py-5">

@@ -5,6 +5,7 @@
     </h6>
 
     @php $total = 0; @endphp
+
     @forelse (session('cart', []) as $id => $item)
         @php
             $subtotal = (float) $item['price'] * (int) $item['quantity'];
@@ -53,19 +54,25 @@
             </div>
         </div>
     @empty
-        <p class="text-center text-muted">Your cart is empty</p>
+        <!-- 🛍 Empty Cart Message -->
+        <div class="text-center py-5">
+            <i class="bi bi-cart-x fs-1 text-muted"></i>
+            <p class="mt-3 text-muted fs-5">Your cart is currently empty.</p>
+        </div>
     @endforelse
 
-    <!-- Cart Summary -->
-    <div class="d-flex justify-content-between border-top pt-3 fw-bold">
-        <h6>SubTotal</h6>
-        <h6>{{ fmod($total, 1) == 0 ? number_format($total, 0) : number_format($total, 2) }} bdt</h6>
-    </div>
+    @if (count(session('cart', [])) > 0)
+        <!-- Cart Summary -->
+        <div class="d-flex justify-content-between border-top pt-3 fw-bold">
+            <h6>SubTotal</h6>
+            <h6>{{ fmod($total, 1) == 0 ? number_format($total, 0) : number_format($total, 2) }} bdt</h6>
+        </div>
 
-    <!-- Checkout -->
-    <div class="mt-3">
-        <button class="w-100 btn btn-lg btn-warning text-dark fw-semibold shadow-sm">
-            Order Now
-        </button>
-    </div>
+        <!-- Checkout -->
+        <div class="mt-3">
+            <button class="w-100 btn btn-lg btn-warning text-dark fw-semibold shadow-sm">
+                Order Now
+            </button>
+        </div>
+    @endif
 </div>

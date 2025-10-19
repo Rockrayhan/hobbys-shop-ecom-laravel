@@ -5,11 +5,10 @@
                     <div class="footer-menu footer-menu-001">
                         <div class="footer-intro mb-4">
                             <a href="index.html">
-                                <img src="images/main-logo.png" alt="logo">
+                                <img src="images/main-logo.png" alt="logo" class="footer-logo">
                             </a>
                         </div>
-                        <p>Gravida massa volutpat aenean odio. Amet, turpis erat nullam fringilla elementum diam in.
-                            Nisi, purus vitae, ultrices nunc. Sit ac sit suscipit hendrerit.</p>
+                        <p> Fulfill Your Hobby at Your Fingertips ! </p>
                         <div class="social-links">
                             <ul class="list-unstyled d-flex flex-wrap gap-3">
                                 <li>
@@ -101,10 +100,10 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="footer-menu footer-menu-004 border-animation-left">
                         <h5 class="widget-title text-uppercase mb-4">Contact Us</h5>
-                        <p>Do you have any questions or suggestions? <a href="mailto:contact@yourcompany.com"
-                                class="item-anchor">contact@yourcompany.com</a></p>
-                        <p>Do you need support? Give us a call. <a href="tel:+43720115278" class="item-anchor">+43
-                                720 115 278</a>
+                        <p>Do you have any questions or suggestions? <a href="mailto:hobbyshopbuy@gmail.com"
+                                class="item-anchor">hobbyshopbuy@gmail.com</a></p>
+                        <p>Do you need support? Give us a call. <a href="tel:+8801535835810" class="item-anchor">
+                                01535-835810</a>
                         </p>
                     </div>
                 </div>
