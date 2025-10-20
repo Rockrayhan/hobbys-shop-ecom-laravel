@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\CategoryController;
+use App\Http\Controllers\backend\OrderController as BackendOrderController;
+use App\Http\Controllers\frontend\OrderController as FrontendOrderController;
 use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\FrontendController;
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('all-products');
+
+
+
+// orders
+Route::get('/checkout', [FrontendOrderController::class, 'showCheckoutForm'])->name('checkout.form');
+Route::post('/checkout', [FrontendOrderController::class, 'placeOrder'])->name('checkout.place');
+Route::get('/order/success/{order}', [FrontendOrderController::class, 'success'])->name('order.success');
 
 
 // cart
@@ -45,7 +54,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/categories/delete/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
 
-    
+
     // Products
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -53,6 +62,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::post('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+
+
+    // orders
+    Route::get('/orders', [BackendOrderController::class, 'index'])->name('orders');
+    Route::delete('/orders/delete/{id}', [BackendOrderController::class, 'destroy'])->name('orders.destroy');
 });
 
 

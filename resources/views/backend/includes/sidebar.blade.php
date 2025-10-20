@@ -36,6 +36,8 @@
                     </span>
                     <h4 class="text-section">Components</h4>
                 </li>
+
+                {{-- categories --}}
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#Categories">
                         <i class="fas fa-layer-group"></i>
@@ -57,6 +59,8 @@
                         </ul>
                     </div>
                 </li>
+
+                {{-- products --}}
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#Products">
                         <i class="fas fa-layer-group"></i>
@@ -78,22 +82,28 @@
                         </ul>
                     </div>
                 </li>
+
+                {{-- orders --}}
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#forms">
-                        <i class="fas fa-pen-square"></i>
-                        <p>Forms</p>
+                    <a data-bs-toggle="collapse" href="#Orders">
+                        <i class="fas fa-layer-group"></i>
+                        <p>Orders</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="forms">
+                    <div class="collapse" id="Orders">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="forms/forms.html">
-                                    <span class="sub-item">Basic Form</span>
+                                <a href="/admin/orders">
+                                    <span class="sub-item">All Orders</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
+
+
+
+
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#tables">
                         <i class="fas fa-table"></i>

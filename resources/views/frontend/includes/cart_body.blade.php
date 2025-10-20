@@ -16,30 +16,28 @@
         <div class="row align-items-center border rounded p-2 mb-3 shadow-sm">
             <!-- Product Image -->
             <div class="col-4">
-                <img src="{{ $item['image'] ?? 'https://via.placeholder.com/100' }}" 
-                     alt="{{ $item['name'] }}" 
-                     class="img-fluid rounded">
+                <img src="{{ $item['image'] ?? 'https://via.placeholder.com/100' }}" alt="{{ $item['name'] }}"
+                    class="img-fluid rounded">
             </div>
 
             <!-- Product Info -->
             <div class="col-8">
                 <h6 class="fw-semibold mb-1">{{ $item['name'] }}</h6>
                 <p class="mb-2 text-muted small">
-                    Price: 
+                    Price:
                     {{ fmod($item['price'], 1) == 0 ? number_format($item['price'], 0) : number_format($item['price'], 2) }}
                     bdt
                 </p>
 
                 <!-- Quantity + Remove -->
                 <div class="d-flex gap-2 align-items-center">
-                    <button class="btn btn-sm btn-outline-secondary update-qty" 
-                            data-id="{{ $id }}" data-action="decrease">−</button>
+                    <button class="btn btn-sm btn-outline-secondary update-qty" data-id="{{ $id }}"
+                        data-action="decrease">−</button>
                     <span class="fw-bold">{{ $item['quantity'] }}</span>
-                    <button class="btn btn-sm btn-outline-secondary update-qty" 
-                            data-id="{{ $id }}" data-action="increase">+</button>
+                    <button class="btn btn-sm btn-outline-secondary update-qty" data-id="{{ $id }}"
+                        data-action="increase">+</button>
 
-                    <button class="btn btn-danger btn-sm ms-auto remove-cart-item" 
-                            data-id="{{ $id }}">
+                    <button class="btn btn-danger btn-sm ms-auto remove-cart-item" data-id="{{ $id }}">
                         Remove
                     </button>
                 </div>
@@ -48,7 +46,7 @@
             <!-- Subtotal -->
             <div class="col-12 mt-2 text-end">
                 <span class="fw-bold text-secondary">
-                    tk: 
+                    tk:
                     {{ fmod($subtotal, 1) == 0 ? number_format($subtotal, 0) : number_format($subtotal, 2) }} bdt
                 </span>
             </div>
@@ -70,9 +68,11 @@
 
         <!-- Checkout -->
         <div class="mt-3">
-            <button class="w-100 btn btn-lg btn-warning text-dark fw-semibold shadow-sm">
-                Order Now
-            </button>
+            <a href="/checkout">
+                <button class="w-100 btn btn-lg btn-warning text-dark fw-semibold shadow-sm">
+                    Order Now
+                </button>
+            </a>
         </div>
     @endif
 </div>

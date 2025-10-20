@@ -22,7 +22,7 @@
 
 
 # orders 
-- id, user_name, phone, address, is_inside_dhaka, delivery_charge, order_status
+- id, user_name, phone, address, is_inside_dhaka, delivery_charge, order_status, subtotal , grand_total
 
 
 # order_items
