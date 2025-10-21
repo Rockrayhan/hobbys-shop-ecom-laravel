@@ -29,7 +29,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                    <textarea name="description" class="form-control getTinyMce" rows="3" placeholder="Enter description"></textarea>
                 </div>
 
                 <div class="row">

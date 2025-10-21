@@ -9,6 +9,10 @@
             <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Add Product</a>
         </div>
 
+        @php
+            $highlightId = session('highlight_id');
+        @endphp
+
         <table class="table table-bordered table-hover align-middle">
             <thead class="table-light">
                 <tr>
@@ -23,11 +27,11 @@
             </thead>
             <tbody>
                 @foreach ($products as $prod)
-                    <tr>
+                    <tr @if ($highlightId == $prod->id) id="highlight-row" class="table-success" @endif>
                         <td>{{ $loop->iteration }}</td>
-                        <td> {{ $prod->name }} </td>
+                        <td>{{ $prod->name }}</td>
                         <td>{{ $prod->category->name }}</td>
-                        <td> {{ number_format($prod->current_price, 2) }} bdt </td>
+                        <td>{{ number_format($prod->current_price, 2) }} bdt</td>
                         <td>
                             @if ($prod->isOnSale)
                                 <span class="badge bg-success">Yes</span>
@@ -43,26 +47,20 @@
                                 <span class="text-muted">No Image</span>
                             @endif
                         </td>
-
                         <td>
-                            <a href="{{ route('admin.products.edit', $prod->id) }}" class="btn btn-warning btn-sm">
-                                Edit
-                            </a>
+                            <a href="{{ route('admin.products.edit', $prod->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('admin.products.destroy', $prod->id) }}" method="POST"
+                                class="delete-form d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger btn-sm delete-btn">Delete</button>
+                            </form>
 
-                        <form action="{{ route('admin.products.destroy', $prod->id) }}" method="POST"
-                            style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Are you sure?')">
-                                Delete
-                            </button>
-                        </form>
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>
+
         </table>
     </div>
 @endsection

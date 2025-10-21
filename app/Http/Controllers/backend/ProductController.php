@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'name' => 'required|unique:products',
+            'name' => 'required|unique:products|min:3',
             'current_price' => 'required|numeric',
             'previous_price' => 'nullable|numeric',
             'image' => 'nullable|image'
@@ -36,7 +36,8 @@ class ProductController extends Controller
 
         $filename = null;
         if ($request->hasFile('image')) {
-            $filename = time() . '.' . $request->image->extension();
+            $slug = Str::slug($request->name);
+            $filename = $slug . '-' . uniqid() . '.' . $request->image->extension();
             $request->image->move(public_path('uploads/products'), $filename);
             $filename = 'uploads/products/' . $filename;
         }
@@ -53,7 +54,9 @@ class ProductController extends Controller
             'image' => $filename
         ]);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product added!');
+        return redirect()->route('admin.products.index')
+        ->with('success', '✅ Product added successfully!');
+        // ->with('highlight_id', $product->id);
     }
 
 
@@ -65,23 +68,32 @@ class ProductController extends Controller
         return view('backend.products.edit', compact('product', 'categories'));
     }
 
+
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
 
         $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'name' => 'required|unique:products,name,' . $id,
+            'name' => 'required|min:3|unique:products,name,' . $id,
             'current_price' => 'required|numeric',
             'previous_price' => 'nullable|numeric',
-            'image' => 'nullable|image',
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        $filename = $product->image; // keep old image
+        $filename = $product->image; // keep old image by default
+
         if ($request->hasFile('image')) {
-            $filename = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('uploads/products'), $filename);
-            $filename = 'uploads/products/' . $filename;
+            // ✅ delete old image if it exists
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
+
+            // ✅ upload new image
+            $slug = Str::slug($request->name);
+            $newFilename = $slug . '-' . uniqid() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads/products'), $newFilename);
+            $filename = 'uploads/products/' . $newFilename;
         }
 
         $product->update([
@@ -91,11 +103,13 @@ class ProductController extends Controller
             'description' => $request->description,
             'current_price' => $request->current_price,
             'previous_price' => $request->previous_price,
-            'isOnSale' => $request->isOnSale ? 1 : 0,
+            'isOnSale' => $request->has('isOnSale') ? 1 : 0,
             'image' => $filename,
         ]);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully!');
+        return redirect()->route('admin.products.index')
+        ->with('success', '✅ Product updated successfully!')
+        ->with('highlight_id', $product->id);
     }
 
 

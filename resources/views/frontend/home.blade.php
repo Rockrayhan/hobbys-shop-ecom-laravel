@@ -185,8 +185,8 @@
                                             <i class="bi bi-cart me-1"></i> Add to cart
                                         </button>
 
-                                        <a href="{{ route('product.details', $item->slug) }}"
-                                            class="btn btn-primary btn-sm">
+                                        <a href="{{ route('checkout.form', ['product' => $item->slug]) }}"
+                                            class="btn btn-primary btn-sm px-4 py-2">
                                             Buy Now
                                         </a>
                                     </div>

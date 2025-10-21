@@ -30,7 +30,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea name="description" class="form-control" rows="3">{{ old('description', $product->description) }}</textarea>
+                    <textarea name="description" class="form-control getTinyMce" rows="3">{{ old('description', $product->description) }}</textarea>
                 </div>
 
                 <div class="row">

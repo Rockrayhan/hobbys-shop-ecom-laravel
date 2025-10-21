@@ -29,7 +29,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|unique:categories']);
+        $request->validate(['name' => 'required|min:3|unique:categories']);
 
         Category::create([
             'name' => $request->name,
@@ -54,7 +54,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|unique:categories,name,' . $id,
+            'name' => 'required|min:3|unique:categories,name,' . $id,
         ]);
 
         $category->update([
@@ -71,8 +71,10 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        // Optional: also delete related products if you want
-        // $category->products()->delete();
+        // Check if category has products
+        if ($category->products()->count() > 0) {
+            return redirect()->back()->with('error', 'This category cannot be deleted because it has associated products.');
+        }
 
         $category->delete();
 

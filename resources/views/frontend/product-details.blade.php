@@ -39,8 +39,9 @@
                     </span>
                 </div>
 
-                <p class="text-secondary mb-4">
-                    {{ $product->description ?? 'No description available.' }}
+                <p class="mb-4">
+                    {!! $product->description ?? 'No description available.' !!}
+
                 </p>
 
                 <div class="d-flex align-items-center gap-3">
@@ -50,7 +51,7 @@
                         <i class="bi bi-cart me-1"></i> Add to cart
                     </button>
 
-                    {{-- <a href="/checkout" class="btn btn-primary btn-sm px-4 py-2">Buy Now</a> --}}
+                    
                     <a href="{{ route('checkout.form', ['product' => $product->slug]) }}"
                         class="btn btn-primary btn-sm px-4 py-2">
                         Buy Now
