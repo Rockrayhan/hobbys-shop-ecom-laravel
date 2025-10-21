@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,21 +13,65 @@ use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
 
-    public function showCheckoutForm()
+    // public function showCheckoutPage()
+    // {
+    //     $cart = session()->get('cart', []);
+    //     // if (empty($cart)) {
+    //     //     return redirect()->route('home')->with('info', 'Your cart is empty.');
+    //     // }
+
+
+    //     $subtotal = 0;
+    //     foreach ($cart as $id => $item) {
+    //         $subtotal += ((float)$item['price']) * ((int)$item['quantity']);
+    //     }
+
+    //     return view('frontend.checkout', compact('cart', 'subtotal'));
+    // }
+
+    public function showCheckoutPage(Request $request)
     {
+        // Get existing cart from session or empty array
         $cart = session()->get('cart', []);
-        // if (empty($cart)) {
-        //     return redirect()->route('home')->with('info', 'Your cart is empty.');
-        // }
-
-
         $subtotal = 0;
-        foreach ($cart as $id => $item) {
-            $subtotal += ((float)$item['price']) * ((int)$item['quantity']);
+
+        // ✅ Handle Buy Now
+        if ($request->has('product')) {
+            $product = Product::where('slug', $request->product)->firstOrFail();
+
+            // If product already exists in cart, just increase quantity by 1
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['quantity'] += 1;
+            } else {
+                // Otherwise, add new product to existing cart
+                $cart[$product->id] = [
+                    'name' => $product->name,
+                    'price' => $product->current_price,
+                    'quantity' => 1,
+                    'image' => $product->image ? asset($product->image) : null,
+                ];
+            }
+
+            // ✅ Save back to session
+            session(['cart' => $cart]);
+        }
+
+        // ✅ Calculate subtotal for all cart items
+        foreach ($cart as $item) {
+            $subtotal += ((float) $item['price']) * ((int) $item['quantity']);
         }
 
         return view('frontend.checkout', compact('cart', 'subtotal'));
     }
+
+
+
+    // public function buynow($id)
+    // {
+    //     $product = Product::with('category')->where('id', $id)->firstOrFail();
+
+    //     return view('frontend.checkoutSingleProduct', compact('product', 'relatedProducts'));
+    // }
 
 
 

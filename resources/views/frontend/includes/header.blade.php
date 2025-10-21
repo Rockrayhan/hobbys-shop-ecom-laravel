@@ -1,5 +1,5 @@
 
-<nav class="navbar fixed-top navbar-expand-lg bg-white text-uppercase fs-6 py-1  border-bottom my-nav">
+<nav class="navbar fixed-top navbar-expand-lg bg-white text-uppercase fs-6 py-1  border-bottom">
     <div class="container-fluid d-flex justify-content-between justify-content-md-around align-items-center">
 
 
@@ -23,11 +23,11 @@
         <div class="d-flex align-items-center gap-3">
 
             <!-- Cart -->
-            <a href="#" class="text-uppercase fw-bold position-relative d-flex align-items-center"
+            <a href="#" class="text-uppercase fw-bold position-relative d-flex align-items-center "
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                 <i class="bi bi-bag-fill fs-5 text-primary-emphasis"></i>
                 <span
-                    class="badge bg-danger text-white rounded-circle position-absolute top-0 start-100 translate-middle p-1"
+                    class="badge bg-danger text-white rounded-circle position-absolute top-0 start-100 translate-middle p-1 cart-count"
                     style="font-size: 10px; min-width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;">
                     {{ count(session('cart', [])) }}
                 </span>

@@ -18,6 +18,24 @@ class FrontendController extends Controller
     }
 
 
+    public function productDetails($slug)
+    {
+        $product = Product::with('category')->where('slug', $slug)->firstOrFail();
+
+        // Optionally, fetch related products (same category)
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->take(4)
+            ->get();
+
+        return view('frontend.product-details', compact('product', 'relatedProducts'));
+    }
+
+    
+
+
+
+
     public function customerDashboard()
     {
         return view('frontend.customerDashboard');

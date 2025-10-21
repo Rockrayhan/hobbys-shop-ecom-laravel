@@ -143,7 +143,7 @@
 
                                 <!-- Product Image -->
                                 <div class="image-holder position-relative overflow-hidden">
-                                    <a href="single-product.html" class="d-block">
+                                    <a href="{{ route('product.details', $item->slug) }}" class="d-block">
                                         @if ($item->image)
                                             <img src="{{ asset($item->image) }}" alt="{{ $item->name }}"
                                                 class="product-img w-100 object-fit-cover">
@@ -158,14 +158,15 @@
                                             {{ number_format($item->previous_price - $item->current_price, 0) }}৳ OFF
                                         </span>
                                     @endif
-
                                 </div>
 
                                 <!-- Product Info -->
                                 <div class="product-content p-3">
                                     <h5 class="element-title text-uppercase fw-semibold fs-6 mb-3 ">
-                                        <a href="single-product.html"
-                                            class="text-dark text-decoration-none">{{ $item->name }}</a>
+                                        <a href="{{ route('product.details', $item->slug) }}"
+                                            class="text-dark text-decoration-none">
+                                            {{ $item->name }}
+                                        </a>
                                     </h5>
 
                                     <div class="mb-3">
@@ -176,6 +177,7 @@
                                             ৳
                                         </span>
                                     </div>
+
                                     <div class="d-flex align-items-center justify-content-between">
                                         <button class="btn btn-sm add-to-cart px-3 py-2" data-id="{{ $item->id }}"
                                             data-name="{{ $item->name }}" data-price="{{ $item->current_price }}"
@@ -183,11 +185,10 @@
                                             <i class="bi bi-cart me-1"></i> Add to cart
                                         </button>
 
-                                        <button class="btn btn-primary btn-sm ">
-                                            Buy Now  
-                                        </button>
-
-
+                                        <a href="{{ route('product.details', $item->slug) }}"
+                                            class="btn btn-primary btn-sm">
+                                            Buy Now
+                                        </a>
                                     </div>
                                 </div>
                             </div>

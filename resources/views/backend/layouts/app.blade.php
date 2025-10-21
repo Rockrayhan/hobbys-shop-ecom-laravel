@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <title> Hobby's Shop - Admin </title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="icon" href="{{ asset('backend/assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon" />
 
@@ -38,7 +38,7 @@
     <style>
         .body-content {
             margin-top: 100px;
-            margin-left: 50px;
+            /* margin-left: 50px; */
         }
     </style>
 
@@ -55,7 +55,6 @@
 
             {{-- ========  header ========== --}}
             @include('backend.includes.header')
-
 
 
             {{-- ========  content ========== --}}

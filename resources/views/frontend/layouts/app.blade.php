@@ -224,7 +224,9 @@
 
 
     {{-- header --}}
-    @include('frontend.includes.header')
+    <div class="mb-5">
+        @include('frontend.includes.header')
+    </div>
 
     {{-- body --}}
     @yield('content')
@@ -239,7 +241,7 @@
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="{{ asset('js/SmoothScroll.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="{{ asset('js/script.js') }}"></script>
@@ -247,111 +249,112 @@
 
 
     {{-- Add to Cart  --}}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 🔁 Helper to update cart count everywhere
-        function updateCartCount(count) {
-            document.querySelectorAll('.cart-count').forEach(el => {
-                el.textContent = count;
-            });
-        }
-
-        // ✅ Add to Cart
-        document.querySelectorAll(".add-to-cart").forEach(function(btn) {
-            btn.addEventListener("click", function(e) {
-                e.preventDefault();
-
-                fetch("{{ route('cart.add') }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            id: this.dataset.id,
-                            name: this.dataset.name,
-                            price: this.dataset.price,
-                            image: this.dataset.image
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === "success") {
-                            // 🛒 Update offcanvas content
-                            document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
-
-                            // 🔁 Update cart count in navbar
-                            updateCartCount(data.cart_count);
-
-                            // 🧊 Keep offcanvas visible
-                            let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
-                                document.getElementById("offcanvasCart")
-                            );
-                            cartCanvas.show();
-                        }
-                    });
-            });
-        });
-
-        // ✅ Remove from Cart
-        document.addEventListener("click", function(e) {
-            if (e.target.classList.contains("remove-cart-item")) {
-                e.preventDefault();
-                let id = e.target.dataset.id;
-
-                fetch(`/cart/remove/${id}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === "success") {
-                            document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
-
-                            // 🔁 Update count dynamically
-                            updateCartCount(data.cart_count);
-
-                            let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
-                                document.getElementById("offcanvasCart")
-                            );
-                            cartCanvas.show();
-                        }
-                    });
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 🔁 Helper to update cart count everywhere
+            function updateCartCount(count) {
+                document.querySelectorAll('.cart-count').forEach(el => {
+                    el.textContent = count;
+                });
             }
-        });
 
-        // ✅ Update Quantity (+ / -)
-        document.addEventListener("click", function(e) {
-            if (e.target.classList.contains("update-qty")) {
-                e.preventDefault();
-                let id = e.target.dataset.id;
-                let action = e.target.dataset.action;
+            // ✅ Add to Cart
+            document.querySelectorAll(".add-to-cart").forEach(function(btn) {
+                btn.addEventListener("click", function(e) {
+                    e.preventDefault();
 
-                fetch(`/cart/update/${id}`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            action: action
+                    fetch("{{ route('cart.add') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                id: this.dataset.id,
+                                name: this.dataset.name,
+                                price: this.dataset.price,
+                                image: this.dataset.image
+                            })
                         })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === "success") {
-                            document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                // 🛒 Update offcanvas content
+                                document.querySelector("#offcanvasCartBody").innerHTML = data
+                                    .cart_view;
 
-                            // 🔁 Update count dynamically
-                            updateCartCount(data.cart_count);
+                                // 🔁 Update cart count in navbar
+                                updateCartCount(data.cart_count);
 
-                            let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
-                                document.getElementById("offcanvasCart")
-                            );
-                            cartCanvas.show();
-                        }
-                    });
-            }
+                                // 🧊 Keep offcanvas visible
+                                let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
+                                    document.getElementById("offcanvasCart")
+                                );
+                                cartCanvas.show();
+                            }
+                        });
+                });
+            });
+
+            // ✅ Remove from Cart
+            document.addEventListener("click", function(e) {
+                if (e.target.classList.contains("remove-cart-item")) {
+                    e.preventDefault();
+                    let id = e.target.dataset.id;
+
+                    fetch(`/cart/remove/${id}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
+
+                                // 🔁 Update count dynamically
+                                updateCartCount(data.cart_count);
+
+                                let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
+                                    document.getElementById("offcanvasCart")
+                                );
+                                cartCanvas.show();
+                            }
+                        });
+                }
+            });
+
+            // ✅ Update Quantity (+ / -)
+            document.addEventListener("click", function(e) {
+                if (e.target.classList.contains("update-qty")) {
+                    e.preventDefault();
+                    let id = e.target.dataset.id;
+                    let action = e.target.dataset.action;
+
+                    fetch(`/cart/update/${id}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                action: action
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                document.querySelector("#offcanvasCartBody").innerHTML = data.cart_view;
+
+                                // 🔁 Update count dynamically
+                                updateCartCount(data.cart_count);
+
+                                let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
+                                    document.getElementById("offcanvasCart")
+                                );
+                                cartCanvas.show();
+                            }
+                        });
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 
 

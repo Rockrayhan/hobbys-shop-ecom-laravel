@@ -15,14 +15,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('all-products');
+Route::get('/product/{slug}', [FrontendController::class, 'productDetails'])->name('product.details');
+
 
 
 
 // orders
-Route::get('/checkout', [FrontendOrderController::class, 'showCheckoutForm'])->name('checkout.form');
+Route::get('/checkout', [FrontendOrderController::class, 'showCheckoutPage'])->name('checkout.form');
 Route::post('/checkout', [FrontendOrderController::class, 'placeOrder'])->name('checkout.place');
 Route::get('/order/success/{order}', [FrontendOrderController::class, 'success'])->name('order.success');
 
+
+
+
+// Route::post('/checkout/buy-now/{id}', [FrontendOrderController::class, 'buyNow'])->name('checkout.buyNow');
 
 // cart
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
