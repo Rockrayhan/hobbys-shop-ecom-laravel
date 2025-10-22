@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('items.product')->latest()->get();
+        $query = Order::with('items.product')->latest();
 
-        return view('backend.orders.index', compact('orders'));
+        // Filter by status if provided
+        if ($request->filled('status') && in_array($request->status, ['pending', 'processing', 'completed', 'cancelled'])) {
+            $query->where('order_status', $request->status);
+        }
+
+        $orders = $query->paginate(10)->withQueryString(); // preserve filter in pagination links
+
+        return view('backend.orders.index', compact('orders'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
+
 
 
 
@@ -28,7 +37,7 @@ class OrderController extends Controller
         $order->save();
 
         return redirect()->back()->with('success', 'Order status updated to ' . ucfirst($order->order_status) . '!')
-        ->with('highlight_id', $order->id);
+            ->with('highlight_id', $order->id);
     }
 
 

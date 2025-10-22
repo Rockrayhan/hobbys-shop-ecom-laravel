@@ -7,7 +7,7 @@
             position: relative;
             overflow-y: auto;
             overflow-x: auto;
-            max-height: 80vh;
+            max-height: 90vh;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -25,7 +25,6 @@
         }
 
         .table td {
-            padding: 16px 12px;
             vertical-align: middle;
             border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
@@ -46,7 +45,7 @@
         }
 
         .table-scrollbar-top::-webkit-scrollbar {
-            height: 6px;
+            height: 8px;
         }
 
         .table-scrollbar-top::-webkit-scrollbar-thumb {
@@ -217,7 +216,25 @@
     </style>
 
     <div class="container">
-        <h2 class="mb-4">All Orders</h2>
+
+<div class="d-flex justify-content-between mb-3 align-items-center flex-wrap">
+    <h2 class="mb-0">All Orders</h2>
+
+    <form method="GET" action="{{ route('admin.orders') }}" class="d-flex align-items-center gap-2 mb-0">
+        <label for="status" class="mb-0 fw-semibold">Filter by Status:</label>
+        <select name="status" id="status" class="form-select form-select-sm d-inline-block w-auto shadow" onchange="this.form.submit()">
+            <option value="">All</option>
+            @foreach (['pending', 'processing', 'completed', 'cancelled'] as $status)
+                <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
+                    {{ ucfirst($status) }}
+                </option>
+            @endforeach
+        </select>
+    </form>
+</div>
+
+
+
 
         <!-- Top scrollbar -->
         <div id="table-scroll-top" class="table-scrollbar-top">
@@ -302,7 +319,7 @@
                                 <span>
                                     Change Status :
                                     <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST"
-                                        class="status-form">
+                                        class="status-form mb-2">
                                         @csrf
                                         @method('PATCH')
                                         <select name="order_status" class="form-select form-select-sm"
@@ -317,15 +334,18 @@
                                     </form>
                                 </span>
 
-                                <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST"
-                                    class="delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger delete-btn"
-                                        onclick="return confirm('Are you sure you want to delete this order?')">
-                                        Delete
-                                    </button>
-                                </form>
+                                <span>
+                                    <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST"
+                                        class="delete-form mt-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger delete-btn"
+                                            onclick="return confirm('Are you sure you want to delete this order?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </span>
+
                             </td>
                         </tr>
                     @empty
@@ -335,6 +355,13 @@
                     @endforelse
                 </tbody>
             </table>
+
+            <!-- Pagination Links -->
+            <div class="d-flex justify-content-center">
+                {{ $orders->links('pagination::bootstrap-5') }}
+                {{-- {{ $orders->links() }} --}}
+            </div>
+
         </div>
     </div>
 
@@ -342,6 +369,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             const topScroll = document.getElementById("table-scroll-top");
             const tableContainer = document.getElementById("table-container");
+            const table = document.getElementById("orders-table");
 
             // Sync scroll both ways
             topScroll.addEventListener("scroll", () => {
@@ -353,9 +381,27 @@
             });
 
             // Auto set top scrollbar width to match table
-            const table = document.getElementById("orders-table");
             document.getElementById("scroll-sync").style.width = table.scrollWidth + "px";
 
+            // ✅ Highlighted row scroll
+            const highlightRow = document.getElementById("highlight-row");
+            if (highlightRow && tableContainer) {
+                // Calculate offset relative to scrollable container
+                const containerTop = tableContainer.getBoundingClientRect().top;
+                const rowTop = highlightRow.getBoundingClientRect().top;
+                const scrollOffset = rowTop - containerTop - tableContainer.clientHeight / 2;
+
+                tableContainer.scrollTo({
+                    top: tableContainer.scrollTop + scrollOffset,
+                    behavior: "smooth"
+                });
+
+                // Optional: remove highlight after 3s
+                setTimeout(() => {
+                    highlightRow.classList.remove("table-success");
+                }, 3000);
+            }
         });
     </script>
+
 @endsection
