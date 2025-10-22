@@ -74,6 +74,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // orders
     Route::get('/orders', [BackendOrderController::class, 'index'])->name('orders');
     Route::delete('/orders/delete/{id}', [BackendOrderController::class, 'destroy'])->name('orders.destroy');
+    Route::patch('/orders/{id}/status', [BackendOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
 });
 
 

@@ -2,12 +2,14 @@
 
 @section('content')
     <style>
-        /* Sticky table header styling */
+        /* Improved table styling */
         .table-responsive {
             position: relative;
             overflow-y: auto;
             overflow-x: auto;
             max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .table thead.sticky-header th {
@@ -15,43 +17,220 @@
             top: 0;
             z-index: 10;
             background-color: #212529 !important;
-            /* same as .table-dark */
             color: #fff;
+            padding: 16px 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            padding: 16px 12px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
         }
 
         /* Top scrollbar container */
         .table-scrollbar-top {
             overflow-x: auto;
             overflow-y: hidden;
-            height: 20px;
-            margin-bottom: 4px;
+            height: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
         }
 
         .table-scrollbar-top::-webkit-scrollbar {
-            height: 8px;
+            height: 6px;
         }
 
         .table-scrollbar-top::-webkit-scrollbar-thumb {
             background-color: #6c757d;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .table-scrollbar-top::-webkit-scrollbar-track {
             background-color: #e9ecef;
+            border-radius: 3px;
+        }
+
+        /* Improved column widths */
+
+
+        /* ID */
+        .table th:nth-child(1),
+        .table td:nth-child(1) {
+            width: 80px;
+        }
+
+        /* Customer */
+        .table th:nth-child(2),
+        .table td:nth-child(2) {
+            width: 150px;
+            min-width: 150px;
+        }
+
+        /* Phone */
+        .table th:nth-child(3),
+        .table td:nth-child(3) {
+            width: 140px;
+            min-width: 140px;
+        }
+
+        /* Address */
+        .table th:nth-child(4),
+        .table td:nth-child(4) {
+            width: 200px;
+            min-width: 200px;
+        }
+
+        /* Subtotal */
+        .table th:nth-child(5),
+        .table td:nth-child(5) {
+            width: 120px;
+            min-width: 120px;
+        }
+
+        /* Delivery */
+        .table th:nth-child(6),
+        .table td:nth-child(6) {
+            width: 120px;
+            min-width: 120px;
+        }
+
+        /* Grand Total */
+        .table th:nth-child(7),
+        .table td:nth-child(7) {
+            width: 130px;
+            min-width: 130px;
+        }
+
+        /* Status */
+        .table th:nth-child(8),
+        .table td:nth-child(8) {
+            width: 150px;
+            min-width: 150px;
+        }
+
+        /* Items */
+        .table th:nth-child(9),
+        .table td:nth-child(9) {
+            width: 250px;
+            min-width: 250px;
+        }
+
+        /* Date */
+        .table th:nth-child(10),
+        .table td:nth-child(10) {
+            width: 160px;
+            min-width: 160px;
+        }
+
+        /* Action */
+        .table th:nth-child(11),
+        .table td:nth-child(11) {
+            width: 150px;
+            min-width: 150px;
+        }
+
+
+        /* Status badge improvements */
+        .badge {
+            font-size: 0.75rem;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        /* Status form improvements */
+        .status-form {
+            margin-top: 8px;
+        }
+
+        .status-form .form-select {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Product items styling */
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .product-item img {
+            border-radius: 6px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .product-item span {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #495057;
+        }
+
+
+        /* Empty state styling */
+        .table tbody tr td.text-center {
+            padding: 40px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* Table header improvements */
+        .table th {
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .table-responsive {
+                max-height: 70vh;
+            }
+
+            .table td,
+            .table th {
+                padding: 12px 8px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 
     <div class="container">
-        <h2 class="">All Orders</h2>
+        <h2 class="mb-4">All Orders</h2>
 
-        <!-- 🔹 Top scrollbar -->
+        <!-- Top scrollbar -->
         <div id="table-scroll-top" class="table-scrollbar-top">
             <div id="scroll-sync" style="width: 1800px;"></div>
         </div>
 
-        <!-- 🔹 Main scrollable table -->
+        @php
+            $highlightId = session('highlight_id');
+        @endphp
+
+        <!-- Main scrollable table -->
         <div id="table-container" class="table-responsive">
-            <table id="orders-table" class="table    table-bordered align-middle">
+            <table id="orders-table" class="table table-bordered align-middle">
                 <thead class="table-dark text-uppercase sticky-header">
                     <tr>
                         <th>#ID</th>
@@ -69,14 +248,18 @@
                 </thead>
                 <tbody>
                     @forelse ($orders as $order)
-                        <tr>
-                            <td>{{ $order->id }}</td>
+                        <tr @if ($highlightId == $order->id) id="highlight-row" class="table-success" @endif>
+                            <td><strong>{{ $order->id }}</strong></td>
                             <td>{{ $order->user_name }}</td>
                             <td>{{ $order->phone }}</td>
-                            <td>{{ $order->address }}</td>
-                            <td>{{ number_format($order->subtotal, 2) }} bdt</td>
-                            <td>{{ number_format($order->delivery_charge, 2) }} bdt</td>
-                            <td>{{ number_format($order->grand_total, 2) }} bdt</td>
+                            <td>
+                                <div style="max-height: 60px; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ Str::limit($order->address, 50) }}
+                                </div>
+                            </td>
+                            <td class="text-nowrap">{{ number_format($order->subtotal, 2) }} bdt</td>
+                            <td class="text-nowrap">{{ number_format($order->delivery_charge, 2) }} bdt</td>
+                            <td class="text-nowrap"><strong>{{ number_format($order->grand_total, 2) }} bdt</strong></td>
                             <td>
                                 @php
                                     $statusClasses = [
@@ -89,37 +272,65 @@
                                 <span class="badge {{ $statusClasses[$order->order_status] ?? 'bg-secondary' }}">
                                     {{ ucfirst($order->order_status) }}
                                 </span>
+
                             </td>
                             <td>
-                                <div class="d-flex flex-column gap-2 w-100">
+                                <div class="d-flex flex-column gap-1">
                                     @foreach ($order->items as $item)
-                                        <div class="d-flex align-items-center gap-2 w-100">
+                                        <div class="product-item">
                                             @if ($item->product && $item->product->image)
                                                 <img src="{{ asset($item->product->image) }}"
-                                                    alt="{{ $item->product->name }}" width="80" height="80"
+                                                    alt="{{ $item->product->name }}" width="50" height="50"
                                                     class="rounded border">
+                                            @else
+                                                <div class="rounded border bg-light d-flex align-items-center justify-content-center"
+                                                    style="width: 50px; height: 50px;">
+                                                    <small class="text-muted">No Image</small>
+                                                </div>
                                             @endif
                                             <span>
-                                                {{ $item->product ? $item->product->name : 'Product #' . $item->product_id }}
-                                                x{{ $item->quantity }}
+                                                <strong>{{ $item->product ? $item->product->name : 'Product #' . $item->product_id }}</strong><br>
+                                                <small class="text-muted">Qty: {{ $item->quantity }}</small>
                                             </span>
                                         </div>
                                     @endforeach
                                 </div>
                             </td>
-                            <td>{{ $order->created_at->format('d M Y, h:i A') }}</td>
+                            <td class="text-nowrap">{{ $order->created_at->format('d M Y, h:i A') }}</td>
                             <td>
+
+                                <span>
+                                    Change Status :
+                                    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST"
+                                        class="status-form">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="order_status" class="form-select form-select-sm"
+                                            onchange="this.form.submit()">
+                                            @foreach (['pending', 'processing', 'completed', 'cancelled'] as $status)
+                                                <option value="{{ $status }}"
+                                                    {{ $order->order_status === $status ? 'selected' : '' }}>
+                                                    {{ ucfirst($status) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </span>
+
                                 <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST"
                                     class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger delete-btn">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-danger delete-btn"
+                                        onclick="return confirm('Are you sure you want to delete this order?')">
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="11" class="text-center">No orders found.</td>
+                            <td colspan="11" class="text-center py-4">No orders found.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -144,6 +355,7 @@
             // Auto set top scrollbar width to match table
             const table = document.getElementById("orders-table");
             document.getElementById("scroll-sync").style.width = table.scrollWidth + "px";
+
         });
     </script>
 @endsection
