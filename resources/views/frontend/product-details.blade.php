@@ -1,19 +1,91 @@
 @extends('frontend.layouts.app')
 
+
 @section('content')
+
+    <style>
+        .mySwiper2 {
+            width: 100%;
+            height: 400px;
+        }
+
+        .mySwiper2 img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .mySwiper {
+            height: 100px;
+            box-sizing: border-box;
+        }
+
+        .mySwiper .swiper-slide {
+            width: 25%;
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .mySwiper .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+        .mySwiper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
     <div class="container py-5 mt-5">
 
         <!-- Product Details -->
         <div class="row g-4 align-items-start">
             <!-- Left: Image -->
             <div class="col-md-5">
+
+
                 <div class="bg-white p-3 rounded-3 shadow-sm">
-                    @if ($product->image)
-                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-fluid w-100 rounded">
+                    @php
+                        $images = collect([
+                            $product->image,
+                            $product->image_2,
+                            $product->image_3,
+                            $product->image_4,
+                            $product->image_5,
+                        ])->filter();
+                    @endphp
+
+                    @if ($images->isNotEmpty())
+                        <!-- Main Swiper -->
+                        <div class="swiper mySwiper2 mb-3">
+                            <div class="swiper-wrapper">
+                                @foreach ($images as $img)
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset($img) }}" alt="{{ $product->name }}"
+                                            class="img-fluid w-100 rounded">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Thumbs Swiper -->
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                @foreach ($images as $img)
+                                    <div class="swiper-slide">
+                                        <img src="{{ asset($img) }}" alt="{{ $product->name }}" class="img-fluid rounded">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     @else
                         <span class="text-muted d-block text-center py-5">No Image</span>
                     @endif
                 </div>
+
+
+
             </div>
 
             <!-- Right: Details -->
@@ -51,7 +123,7 @@
                         <i class="bi bi-cart me-1"></i> Add to cart
                     </button>
 
-                    
+
                     <a href="{{ route('checkout.form', ['product' => $product->slug]) }}"
                         class="btn btn-primary btn-sm px-4 py-2">
                         Buy Now
@@ -92,4 +164,24 @@
             </div>
         @endif
     </div>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var swiperThumbs = new Swiper(".mySwiper", {
+                spaceBetween: 10,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+            });
+            var swiperMain = new Swiper(".mySwiper2", {
+                spaceBetween: 10,
+                thumbs: {
+                    swiper: swiperThumbs,
+                },
+            });
+        });
+    </script>
+
 @endsection
