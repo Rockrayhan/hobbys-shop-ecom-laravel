@@ -217,21 +217,22 @@
 
     <div class="container">
 
-<div class="d-flex justify-content-between mb-3 align-items-center flex-wrap">
-    <h2 class="mb-0">All Orders</h2>
+        <div class="d-flex justify-content-between mb-3 align-items-center flex-wrap">
+            <h2 class="mb-0">All Orders</h2>
 
-    <form method="GET" action="{{ route('admin.orders') }}" class="d-flex align-items-center gap-2 mb-0">
-        <label for="status" class="mb-0 fw-semibold">Filter by Status:</label>
-        <select name="status" id="status" class="form-select form-select-sm d-inline-block w-auto shadow" onchange="this.form.submit()">
-            <option value="">All</option>
-            @foreach (['pending', 'processing', 'completed', 'cancelled'] as $status)
-                <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
-                    {{ ucfirst($status) }}
-                </option>
-            @endforeach
-        </select>
-    </form>
-</div>
+            <form method="GET" action="{{ route('admin.orders') }}" class="d-flex align-items-center gap-2 mb-0">
+                <label for="status" class="mb-0 fw-semibold">Filter by Status:</label>
+                <select name="status" id="status" class="form-select form-select-sm d-inline-block w-auto shadow"
+                    onchange="this.form.submit()">
+                    <option value="">All</option>
+                    @foreach (['pending', 'processing', 'completed', 'cancelled'] as $status)
+                        <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
+                            {{ ucfirst($status) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
 
 
 
@@ -339,8 +340,7 @@
                                         class="delete-form mt-2">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger delete-btn"
-                                            onclick="return confirm('Are you sure you want to delete this order?')">
+                                        <button type="submit" class="btn btn-sm btn-danger delete-btn">
                                             Delete
                                         </button>
                                     </form>

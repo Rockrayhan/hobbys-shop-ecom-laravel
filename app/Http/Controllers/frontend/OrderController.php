@@ -28,64 +28,52 @@ class OrderController extends Controller
 
     //     return view('frontend.checkout', compact('cart', 'subtotal'));
     // }
-public function showCheckoutPage(Request $request)
-{
-    // 🛒 Existing cart
-    $cart = session()->get('cart', []);
+    public function showCheckoutPage(Request $request)
+    {
+        // 🛒 Existing cart
+        $cart = session()->get('cart', []);
 
-    // 💥 Handle Buy Now (if product param exists)
-    if ($request->has('product')) {
-        $product = Product::where('slug', $request->product)->firstOrFail();
+        // 💥 Handle Buy Now (if product param exists)
+        if ($request->has('product')) {
+            $product = Product::where('slug', $request->product)->firstOrFail();
 
-        // Temporary Buy Now item (not saved in cart)
-        $buyNowItem = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'price' => $product->current_price,
-            'quantity' => 1,
-            'image' => $product->image ? asset($product->image) : null,
-            'is_buy_now' => true, // flag for UI
-        ];
+            // Temporary Buy Now item (not saved in cart)
+            $buyNowItem = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->current_price,
+                'quantity' => 1,
+                'image' => $product->image ? asset($product->image) : null,
+                'is_buy_now' => true, // flag for UI
+            ];
 
-        // Store temporarily in session for checkout
-        session(['buy_now_item' => $buyNowItem]);
+            // Store temporarily in session for checkout
+            session(['buy_now_item' => $buyNowItem]);
 
-        // ✅ Merge cart + buy now item (but do not modify session cart)
-        $cartWithBuyNow = $cart;
-        $cartWithBuyNow[$buyNowItem['id']] = $buyNowItem;
-    } else {
-        // Normal checkout
-        $cartWithBuyNow = $cart;
+            // ✅ Merge cart + buy now item (but do not modify session cart)
+            $cartWithBuyNow = $cart;
+            $cartWithBuyNow[$buyNowItem['id']] = $buyNowItem;
+        } else {
+            // Normal checkout
+            $cartWithBuyNow = $cart;
+        }
+
+        // 🧮 Calculate subtotal
+        $subtotal = collect($cartWithBuyNow)->sum(fn($item) => $item['price'] * $item['quantity']);
+
+        return view('frontend.checkout', [
+            'cart' => $cartWithBuyNow,
+            'subtotal' => $subtotal,
+        ]);
     }
 
-    // 🧮 Calculate subtotal
-    $subtotal = collect($cartWithBuyNow)->sum(fn($item) => $item['price'] * $item['quantity']);
-
-    return view('frontend.checkout', [
-        'cart' => $cartWithBuyNow,
-        'subtotal' => $subtotal,
-    ]);
-}
-
-
-    // public function buynow($id)
-    // {
-    //     $product = Product::with('category')->where('id', $id)->firstOrFail();
-
-    //     return view('frontend.checkoutSingleProduct', compact('product', 'relatedProducts'));
-    // }
 
 public function placeOrder(Request $request)
 {
-    // 🛒 Combine both sources
-    $cart = session()->get('cart', []);
-    $buyNowItem = session()->get('buy_now_item');
+    // ✅ Decode updated cart from frontend
+    $frontendCart = json_decode($request->input('cart_data'), true) ?? [];
 
-    if ($buyNowItem) {
-        $cart[$buyNowItem['id']] = $buyNowItem;
-    }
-
-    if (empty($cart)) {
+    if (empty($frontendCart)) {
         return back()->withErrors(['cart' => 'Your cart is empty.']);
     }
 
@@ -98,7 +86,21 @@ public function placeOrder(Request $request)
     ]);
 
     $deliveryCharge = (float) $data['delivery_charge'];
-    $subtotal = collect($cart)->sum(fn($item) => ((float) $item['price']) * ((int) $item['quantity']));
+
+    // ✅ Build normalized cart structure
+    $cart = collect($frontendCart)->mapWithKeys(function ($item) {
+        $unitPrice = $item['lineTotal'] / $item['qty'];
+        return [
+            $item['id'] => [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'price' => $unitPrice,
+                'quantity' => $item['qty'],
+            ]
+        ];
+    });
+
+    $subtotal = $cart->sum(fn($item) => $item['price'] * $item['quantity']);
     $total = $subtotal + $deliveryCharge;
 
     try {
@@ -126,10 +128,12 @@ public function placeOrder(Request $request)
 
         DB::commit();
 
-        // ✅ Clear only Buy Now temp item (keep cart if you want)
+        // ✅ Clear both cart and temporary buy-now item
+        session()->forget('cart');
         session()->forget('buy_now_item');
-        // If you want to clear full cart too, uncomment below:
-        // session()->forget('cart');
+
+        // ✅ Optional: You can also flash a success message
+        // session()->flash('success', 'Your order has been placed successfully!');
 
         return redirect()->route('order.success', $order->id);
     } catch (\Throwable $e) {
@@ -143,6 +147,7 @@ public function placeOrder(Request $request)
         return back()->withErrors('Something went wrong while placing your order.');
     }
 }
+
 
 
 
