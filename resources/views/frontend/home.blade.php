@@ -20,8 +20,7 @@
                                     </div>
                                 </div>
                                 <div class="banner-content col-lg-6 p-5">
-                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Timeless Elegance,
-                                        Crafted for Perfection</h2>
+                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up"> Crafted for Perfection</h2>
                                     <p>Discover the world's finest luxury timepieces, where precision meets artistry.
                                     </p>
                                     <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the

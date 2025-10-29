@@ -70,12 +70,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 
+    Route::get('/products/trashed', [ProductController::class, 'trashed'])->name('products.trashed');
+    Route::post('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
+    Route::delete('/products/force-delete/{id}', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
+
+
 
     // orders
     Route::get('/orders', [BackendOrderController::class, 'index'])->name('orders');
     Route::delete('/orders/delete/{id}', [BackendOrderController::class, 'destroy'])->name('orders.destroy');
     Route::patch('/orders/{id}/status', [BackendOrderController::class, 'updateStatus'])->name('orders.updateStatus');
-
 });
 
 

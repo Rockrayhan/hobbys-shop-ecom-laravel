@@ -4,10 +4,32 @@
 
 @section('content')
     <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+
+        <div class="d-flex justify-content-between align-items-center mb-3 sticky-top bg-light p-3"
+            style="top: 6rem; z-index: 1000;">
             <h2>Products</h2>
+
+            <form method="GET" action="{{ route('admin.products.index') }}" class="d-flex align-items-center gap-2 mb-0">
+                <label for="category_id" class="mb-0 fw-semibold">Filter by Category:</label>
+                <select name="category_id" id="category_id" class="form-select form-select-sm d-inline-block w-auto shadow"
+                    onchange="this.form.submit()">
+                    <option value="all">All</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+
+
             <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Add Product</a>
         </div>
+
+
+
 
         @php
             $highlightId = session('highlight_id');
@@ -60,7 +82,11 @@
                     </tr>
                 @endforeach
             </tbody>
-
         </table>
+
+        <div class="d-flex justify-content-center">
+            {{ $products->links() }}
+        </div>
+
     </div>
 @endsection

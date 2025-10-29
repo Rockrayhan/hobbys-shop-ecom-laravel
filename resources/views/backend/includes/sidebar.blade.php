@@ -79,6 +79,11 @@
                                     <span class="sub-item">create Product</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="/admin/products/trashed">
+                                    <span class="sub-item">Trashed Products</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

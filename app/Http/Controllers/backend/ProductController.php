@@ -11,11 +11,23 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->latest()->get();
-        return view('backend.products.index', compact('products'));
+        $query = Product::with('category')->latest();
+
+        // Filter by category if provided
+        if ($request->filled('category_id') && $request->category_id !== 'all') {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $products = $query->paginate(10)->withQueryString(); // keep filters during pagination
+
+        $categories = Category::orderBy('name')->get();
+
+        return view('backend.products.index', compact('products', 'categories'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
+
 
     public function create()
     {
@@ -130,14 +142,50 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $product->delete(); // 👈 Soft delete
+        return redirect()->route('admin.products.index')
+            ->with('success', '🕓 Product moved to trash!');
+    }
 
-        // Delete product image if exists
+
+
+
+
+    // 🧹 Trashed Products
+    public function trashed()
+    {
+        $products = Product::onlyTrashed()->with('category')->get();
+        return view('backend.products.trashed', compact('products'));
+    }
+
+
+
+
+    // ♻️ Restore Product
+    public function restore($id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+        $product->restore();
+
+        return redirect()->route('admin.products.trashed')
+            ->with('success', '✅ Product restored successfully!');
+    }
+
+
+
+    // ❌ Permanently Delete Product
+    public function forceDelete($id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+
+        // Optionally delete image files
         if ($product->image && file_exists(public_path($product->image))) {
             unlink(public_path($product->image));
         }
 
-        $product->delete();
+        $product->forceDelete();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted!');
+        return redirect()->route('admin.products.trashed')
+            ->with('success', '🗑️ Product permanently deleted!');
     }
 }
