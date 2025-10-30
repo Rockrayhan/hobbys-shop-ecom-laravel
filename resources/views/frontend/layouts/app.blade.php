@@ -174,46 +174,40 @@
         </defs>
     </svg>
 
-    <div class="preloader text-white fs-6 text-uppercase overflow-hidden"></div>
+    {{-- <div class="preloader text-white fs-6 text-uppercase overflow-hidden"></div> --}}
 
 
     {{-- search popup container --}}
     <div class="search-popup">
         <div class="search-popup-container">
 
-            <form role="search" method="get" class="form-group" action="index.html">
+            <form role="search" method="GET" class="form-group" action="{{ route('product.search') }}">
                 <input type="search" id="search-form" class="form-control border-0 border-bottom"
-                    placeholder="Type and press enter" value="" name="s" />
+                    placeholder="Search products..." value="{{ request('query') }}" name="query" />
                 <button type="submit" class="search-submit border-0 position-absolute bg-white"
                     style="top: 15px;right: 15px;"><svg class="search" width="24" height="24">
                         <use xlink:href="#search"></use>
                     </svg></button>
             </form>
 
+            <!-- Live Suggestions Container -->
+            <div id="search-suggestions"
+                class="list-group position-absolute w-100 mt-1 bg-white border rounded shadow-sm"
+                style="z-index: 1000; display:none;"></div>
+
+
+
             <h5 class="cat-list-title">Browse Categories</h5>
 
-            <ul class="cat-list">
-                <li class="cat-list-item">
-                    <a href="#" title="Jackets">Jackets</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="#" title="T-shirts">T-shirts</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="#" title="Handbags">Handbags</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="#" title="Accessories">Accessories</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="#" title="Cosmetics">Cosmetics</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="#" title="Dresses">Dresses</a>
-                </li>
-                <li class="cat-list-item">
-                    <a href="#" title="Jumpsuits">Jumpsuits</a>
-                </li>
+            <ul class="cat-list list-unstyled">
+                @foreach ($allCategories as $category)
+                    <li class="cat-list-item">
+                        <a href="{{ route('all-products', ['category' => $category->id]) }}"
+                            title="{{ $category->name }}">
+                            {{ $category->name }}
+                        </a>
+                    </li>
+                @endforeach
             </ul>
 
         </div>
@@ -356,6 +350,66 @@
         });
     </script>
 
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById('search-input');
+    const suggestions = document.getElementById('search-suggestions');
+
+    if (!input || !suggestions) return; // Prevent error if not found
+
+    let timeout = null;
+
+    input.addEventListener('input', function() {
+        const query = this.value.trim();
+
+        if (timeout) clearTimeout(timeout);
+
+        if (!query) {
+            suggestions.style.display = 'none';
+            return;
+        }
+
+        timeout = setTimeout(() => {
+            fetch(`/search-suggestions?query=${encodeURIComponent(query)}`)
+                .then(res => res.json())
+                .then(data => {
+                    suggestions.innerHTML = '';
+
+                    if (data.length) {
+                        data.forEach(product => {
+                            const item = document.createElement('a');
+                            item.href = `/products/${product.id}`;
+                            item.className =
+                                'list-group-item list-group-item-action d-flex align-items-center';
+                            item.innerHTML = `
+                                <img src="${product.image ? product.image : '/images/no-image.png'}"
+                                     class="me-2" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                                <div>
+                                    <small>${product.name}</small><br>
+                                    <span class="text-primary fw-bold">${parseFloat(product.price).toFixed(2)} BDT</span>
+                                </div>
+                            `;
+                            suggestions.appendChild(item);
+                        });
+                        suggestions.style.display = 'block';
+                    } else {
+                        suggestions.style.display = 'none';
+                    }
+                })
+                .catch(err => console.error('Live search error:', err));
+        }, 300);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!input.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.style.display = 'none';
+        }
+    });
+});
+</script>
 
 
 

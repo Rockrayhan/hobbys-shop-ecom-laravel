@@ -31,7 +31,44 @@ class FrontendController extends Controller
         return view('frontend.product-details', compact('product', 'relatedProducts'));
     }
 
-    
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        // Fetch products matching the search query
+        $products = Product::where('name', 'like', "%{$query}%")
+            ->orWhere('description', 'like', "%{$query}%")
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('frontend.search-results', compact('products', 'query'));
+    }
+
+
+
+
+
+
+    public function liveSearch(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (!$query) {
+            return response()->json([]);
+        }
+
+        // Fetch up to 5 matching products
+        $products = Product::where('name', 'like', "%{$query}%")
+            ->orWhere('description', 'like', "%{$query}%")
+            ->take(5)
+            ->get(['id', 'name', 'price', 'image']);
+
+        return response()->json($products);
+    }
+
+
+
 
 
 

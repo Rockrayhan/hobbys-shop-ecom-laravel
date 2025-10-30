@@ -248,7 +248,7 @@
 
         <!-- Main scrollable table -->
         <div id="table-container" class="table-responsive">
-            <table id="orders-table" class="table table-bordered align-middle">
+            <table id="orders-table" class="table table-bordered align-middle px-3">
                 <thead class="table-dark text-uppercase sticky-header">
                     <tr>
                         <th>#ID</th>
@@ -359,7 +359,7 @@
             <!-- Pagination Links -->
             <div class="d-flex justify-content-center">
                 {{ $orders->links('pagination::bootstrap-5') }}
-                {{-- {{ $orders->links() }} --}}
+                    
             </div>
 
         </div>

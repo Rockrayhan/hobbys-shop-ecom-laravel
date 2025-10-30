@@ -75,7 +75,7 @@
 
 
     {{-- categoires --}}
-    <section class="categories full-width-container overflow-hidden py-5 slide-clip-animation" data-aos="fade-in">
+    <section class="categories full-width-container overflow-hidden pb-5 slide-clip-animation" data-aos="fade-in">
         <div class="row d-flex flex-wrap g-0">
             <div class="col-md-4 col-sm-6">
                 <div class="cat-item image-zoom-effect position-relative">

@@ -2,9 +2,9 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="/admin" class="logo">
-                <img src="/backend/assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand"
-                    height="20" />
+            <a href="/admin" class="d-flex text-white gap-2 ms-md-0 ms-5">
+                <i class="fas fa-home mt-2"></i>
+                <h4>Dashboard</h4>
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -23,13 +23,13 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item active">
-                    <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                {{-- <li class="nav-item active">
+                    <a data-bs-toggle="collapse" href="/admin" class="collapsed" aria-expanded="false">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
 
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
@@ -52,7 +52,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('admin.categories.create')}}">
+                                <a href="{{ route('admin.categories.create') }}">
                                     <span class="sub-item">create Category</span>
                                 </a>
                             </li>

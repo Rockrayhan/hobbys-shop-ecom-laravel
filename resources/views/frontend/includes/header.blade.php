@@ -1,4 +1,3 @@
-
 <nav class="navbar fixed-top navbar-expand-lg bg-white text-uppercase fs-6 py-1  border-bottom">
     <div class="container-fluid d-flex justify-content-between justify-content-md-around align-items-center">
 
@@ -34,9 +33,14 @@
             </a>
 
             <!-- Search -->
-            <a href="#search" class="text-dark">
-                <i class="bi bi-search fs-5"></i>
-            </a>
+            <li class="search-box mx-2">
+                <a href="#search" class="search-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <use xlink:href="#search"></use>
+                    </svg>
+                </a>
+            </li>
+
 
             <!-- Toggler (visible on mobile only) -->
             <button class="navbar-toggler border-0 shadow-none d-lg-none" type="button" data-bs-toggle="offcanvas"

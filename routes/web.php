@@ -17,6 +17,13 @@ Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('all-products');
 Route::get('/product/{slug}', [FrontendController::class, 'productDetails'])->name('product.details');
 
+Route::get('/search', [FrontendController::class, 'search'])->name('product.search');
+
+
+// Live search AJAX route
+Route::get('/search-suggestions', [FrontendController::class, 'liveSearch'])
+    ->name('product.live.search');
+
 
 
 
