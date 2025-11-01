@@ -37,7 +37,7 @@
             border-radius: 8px;
         }
     </style>
-    <div class="container py-5 mt-5">
+    <div class="container mt-5">
 
         <!-- Product Details -->
         <div class="row g-4 align-items-start">

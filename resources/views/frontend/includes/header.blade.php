@@ -12,9 +12,31 @@
         <div class="d-none d-lg-flex align-items-center">
             <ul class="navbar-nav justify-content-center flex-grow-1 gap-3">
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Categories
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        @forelse ($allCategories as $category)
+                            <li>
+                                <a class="dropdown-item" href="{{ route('category.details', $category->slug) }}">
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @empty
+                            <li><span class="dropdown-item text-muted">No categories found</span></li>
+                        @endforelse
+                    </ul>
+                </li>
+
+
+
                 <li class="nav-item"><a class="nav-link" href="{{ route('all-products') }}">All Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
             </ul>
         </div>
 
@@ -62,9 +84,29 @@
         <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-center flex-grow-1 gap-3">
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Categories
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        @forelse ($allCategories as $category)
+                            <li>
+                                <a class="dropdown-item" href="{{ route('category.details', $category->slug) }}">
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @empty
+                            <li><span class="dropdown-item text-muted">No categories found</span></li>
+                        @endforelse
+                    </ul>
+                </li>
+
+
                 <li class="nav-item"><a class="nav-link" href="{{ route('all-products') }}">All Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
             </ul>
         </div>
     </div>

@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 
 // =========== frontend =============
 Route::get('/', [FrontendController::class, 'home'])->name('home');
-Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/all-products', [FrontendController::class, 'allProducts'])->name('all-products');
 Route::get('/product/{slug}', [FrontendController::class, 'productDetails'])->name('product.details');
+Route::get('/category/{slug}', [FrontendController::class, 'categoryDetails'])->name('category.details');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 Route::get('/search', [FrontendController::class, 'search'])->name('product.search');
 

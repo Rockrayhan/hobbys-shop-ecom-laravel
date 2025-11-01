@@ -32,6 +32,23 @@ class FrontendController extends Controller
     }
 
 
+    public function categoryDetails($slug)
+    {
+        // Find category by slug
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        // Get products that belong to this category
+        $products = $category->products()->latest()->paginate(9);
+
+        // Optionally: get related categories (excluding current one)
+        $relatedCategories = Category::where('id', '!=', $category->id)->take(5)->get();
+
+        return view('frontend.category-details', compact('category', 'products', 'relatedCategories'));
+    }
+
+
+
+
     public function search(Request $request)
     {
         $query = $request->input('query');
@@ -44,7 +61,6 @@ class FrontendController extends Controller
 
         return view('frontend.search-results', compact('products', 'query'));
     }
-
 
 
 
@@ -70,6 +86,14 @@ class FrontendController extends Controller
 
 
 
+    public function allProducts()
+    {
+
+        $products = Product::with('category')->latest()->get();
+        $categories = Category::all();
+
+        return view('frontend.all-products', compact('products', 'categories'));
+    }
 
 
 
@@ -79,14 +103,8 @@ class FrontendController extends Controller
     }
 
 
-    public function about()
+    public function contact()
     {
-        return view('frontend.about');
-    }
-
-
-    public function allProducts()
-    {
-        return view('frontend.all-products');
+        return view('frontend.contact');
     }
 }

@@ -5,7 +5,7 @@
                     <div class="footer-menu footer-menu-001">
                         <div class="footer-intro mb-4">
                             <a href="index.html">
-                                <img src="images/main-logo.png" alt="logo" class="footer-logo">
+                                <img src="{{ asset('images/main-logo.png') }}" alt="logo" class="footer-logo">
                             </a>
                         </div>
                         <p> Fulfill Your Hobby at Your Fingertips ! </p>

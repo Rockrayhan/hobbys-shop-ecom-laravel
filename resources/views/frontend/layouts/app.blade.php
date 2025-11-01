@@ -218,12 +218,14 @@
 
 
     {{-- header --}}
-    <div class="mb-5">
+    <div class="mb-4">
         @include('frontend.includes.header')
     </div>
 
     {{-- body --}}
-    @yield('content')
+    <div class="py-5">
+        @yield('content')
+    </div>
 
     {{-- footer --}}
     @include('frontend.includes.footer')
