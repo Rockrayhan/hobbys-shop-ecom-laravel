@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\backend\BannerController;
 use App\Http\Controllers\backend\CategoryController;
 use App\Http\Controllers\backend\OrderController as BackendOrderController;
 use App\Http\Controllers\frontend\OrderController as FrontendOrderController;
@@ -82,6 +83,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/products/restore/{id}', [ProductController::class, 'restore'])->name('products.restore');
     Route::delete('/products/force-delete/{id}', [ProductController::class, 'forceDelete'])->name('products.forceDelete');
 
+
+    // banner
+    Route::resource('banners', BannerController::class);
 
 
     // orders

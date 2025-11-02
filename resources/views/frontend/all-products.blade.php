@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
 
-        <h3 class="text-center"> All products </h3>
+        <h3 class="text-center fw-semibold mt-5 mb-0"> All products </h3>
 
         {{-- all products nav tab --}}
         <section class="product-grid clearfix">

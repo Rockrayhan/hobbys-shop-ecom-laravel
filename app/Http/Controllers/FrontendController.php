@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -13,9 +14,11 @@ class FrontendController extends Controller
     {
         $products = Product::with('category')->latest()->get();
         $categories = Category::all();
+        $banners = Banner::with('product')->where('is_active', true)->get();
 
-        return view('frontend.home', compact('products', 'categories'));
+        return view('frontend.home', compact('products', 'categories', 'banners'));
     }
+
 
 
     public function productDetails($slug)
@@ -101,6 +104,9 @@ class FrontendController extends Controller
     {
         return view('frontend.customerDashboard');
     }
+
+
+
 
 
     public function contact()

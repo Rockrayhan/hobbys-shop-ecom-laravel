@@ -1,3 +1,12 @@
+/* ========= common ======= */
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 /*======= navbar ===== */
 
 .navbar .navbar-brand img {
@@ -20,16 +29,44 @@
 }
 
 
+
+
+.navbar h5 {
+  font-size: 24px;  
+}
+
+/* Medium devices (tablets, ≤ 992px) */
+@media (max-width: 992px) {
+  .navbar h5 {
+    font-size: 20px;
+  }
+}
+
+/* Small devices (phones, ≤ 576px) */
+@media (max-width: 576px) {
+  .navbar h5 {
+    font-size: 16px;
+  }
+}
+
+
+
 /*=========  banner =========*/
 
 .banner {
-    min-height: 100vh !important;
+    min-height: 90vh !important;
     height: fit-content;
 }
 
 .banner img {
     height: 50%;
     width: 50%;
+}
+
+.banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 /* ========= product card ========== */

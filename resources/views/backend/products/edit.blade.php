@@ -99,11 +99,11 @@
                     </div>
 
 
-                    {{-- On Sale --}}
+                    {{-- On Sale / on stock --}}
                     <div class="form-check mb-3">
                         <input type="checkbox" name="isOnSale" id="isOnSale" class="form-check-input"
                             {{ old('isOnSale', $product->isOnSale) ? 'checked' : '' }}>
-                        <label for="isOnSale" class="form-check-label">On Sale</label>
+                        <label for="isOnSale" class="form-check-label">Out Of Stock</label>
                     </div>
 
                     {{-- Buttons --}}

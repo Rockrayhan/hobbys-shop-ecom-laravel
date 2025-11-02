@@ -412,10 +412,10 @@ a {
   animation: 1s slide-clip forwards;
 }
 
-.slide-clip .swiper-slide.swiper-slide-prev .image-holder,
+/* .slide-clip .swiper-slide.swiper-slide-prev .image-holder,
 .slide-clip .swiper-slide.swiper-slide-next .image-holder {
   animation: 1s slide-down;
-}
+} */
 
 /* works on sections with images wrapped with image-holder */
 .aos-animate.slide-clip-animation .image-holder {

@@ -11,55 +11,56 @@
             <div class="row">
                 <div class="swiper overflow-hidden">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="row banner-item text-center align-items-center">
-                                <div class="col-lg-6">
-                                    <div class="image-holder">
-                                        <img src="{{ asset('images/two-col-banner-2.png') }}" alt="product"
-                                            class="banner-img img-fluid">
+                        @forelse ($banners as $banner)
+                            <div class="swiper-slide center">
+                                <div class="row banner-item text-center align-items-center">
+                                    <div class="col-lg-6">
+                                        <div class="image-holder">
+                                            <img src="{{ asset($banner->image) }}" alt="product"
+                                                class="banner-img img-fluid">
+                                        </div>
+                                    </div>
+                                    <div class="banner-content col-lg-6 p-5">
+                                        <h2 class="fw-bold text-uppercase txt-fx slide-up">{{ $banner->title }}
+                                        </h2>
+
+                                        @if ($banner->subtitle)
+                                            <p class=" text-secondary">{{ $banner->subtitle }}</p>
+                                        @endif
+
+                                        @if ($banner->product)
+                                            <div>
+                                                <a href="{{ route('product.details', $banner->product->slug) }}"
+                                                    class="btn btn-outline-dark text-uppercase mt-3 px-5">
+                                                    Explore Now
+                                                </a>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </div>
-                                <div class="banner-content col-lg-6 p-5">
-                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up"> Crafted for Perfection</h2>
-                                    <p>Discover the world's finest luxury timepieces, where precision meets artistry.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
-                                        Collections</a>
-                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="row banner-item text-center align-items-center">
-                                <div class="col-lg-6">
-                                    <div class="image-holder">
-                                        <img src="images/two-col-banner-3.png" alt="product" class=" banner-img img-fluid">
+                        @empty
+                            {{-- if no banner found --}}
+                            <div class="swiper-slide">
+                                <div class="row banner-item text-center align-items-center">
+                                    <div class="col-lg-6">
+                                        <div class="image-holder">
+                                            <img src="{{ asset('images/two-col-banner-2.png') }}" alt="product"
+                                                class="banner-img img-fluid">
+                                        </div>
+                                    </div>
+                                    <div class="banner-content col-lg-6 p-5">
+                                        <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up"> Crafted for Perfection
+                                        </h2>
+                                        <p>Discover the world's finest luxury timepieces, where precision meets artistry.
+                                        </p>
+                                        <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                            Collections</a>
                                     </div>
                                 </div>
-                                <div class="banner-content col-lg-6 p-5">
-                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Classic Elegance</h2>
-                                    <p>For those who appreciate timeless sophistication—sleek designs with refined
-                                        details, powered by mechanical mastery.</p>
-                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
-                                        Collections</a>
-                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="row banner-item text-center align-items-center">
-                                <div class="col-lg-6">
-                                    <div class="image-holder">
-                                        <img src="images/two-col-banner-1.png" alt="product" class=" banner-img img-fluid">
-                                    </div>
-                                </div>
-                                <div class="banner-content col-lg-6 p-5">
-                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Sport & Adventure</h2>
-                                    <p>Engineered for precision under pressure—robust, high-performance watches for the
-                                        modern explorer.</p>
-                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
-                                        Collections</a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
