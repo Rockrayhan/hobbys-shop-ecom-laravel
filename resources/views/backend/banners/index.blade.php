@@ -4,12 +4,13 @@
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="fw-bold">All Banners</h3>
-            <a href="{{ route('admin.banners.create') }}" class="btn btn-success">+ Add New</a>
+            <a href="{{ route('admin.banners.create') }}" class="btn btn-primary">+ Add New</a>
         </div>
 
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+
+        @php
+            $highlightId = session('highlight_id');
+        @endphp
 
         <div class="table-responsive shadow-sm bg-light rounded">
             <table class="table align-middle">
@@ -25,7 +26,7 @@
                 </thead>
                 <tbody>
                     @forelse ($banners as $banner)
-                        <tr>
+                        <tr @if ($highlightId == $banner->id) id="highlight-row" class="table-success" @endif>
                             <td>{{ $loop->iteration }}</td>
                             <td><img src="{{ asset($banner->image) }}" width="80" class="rounded"></td>
 
@@ -40,11 +41,10 @@
                                 <a href="{{ route('admin.banners.edit', $banner->id) }}"
                                     class="btn btn-sm btn-primary">Edit</a>
                                 <form action="{{ route('admin.banners.destroy', $banner->id) }}" method="POST"
-                                    class="d-inline">
+                                    class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Delete this banner?')">Delete</button>
+                                    <button class="btn btn-sm btn-danger delete-btn">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -55,10 +55,6 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
-
-        <div class="mt-3">
-            {{ $banners->links() }}
         </div>
     </div>
 @endsection

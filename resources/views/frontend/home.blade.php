@@ -5,6 +5,26 @@
 @section('content')
 
 
+    <style>
+        .testimonial-item {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .testimonial-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .review-img img {
+            transition: transform 0.4s ease;
+        }
+
+        .review-img img:hover {
+            transform: scale(1.03);
+        }
+    </style>
+
+
     {{-- banner --}}
     <section id="billboard" class="bg-secondary-subtle two-column-swiper slide-clip slide-in pt-4 banner">
         <div class="container">
@@ -206,49 +226,72 @@
 
 
 
-    {{-- testimonial --}}
-    {{-- <section class="testimonials py-5">
-        <div class="section-header text-center">
-            <h3 class="section-title text-uppercase"> Our Reviews </h3>
+    {{-- testimonials --}}
+    <section class="testimonials py-5">
+        <div class="section-header text-center mb-4">
+            <h3 class="section-title text-uppercase fs-2">Our Reviews</h3>
         </div>
-        <div class="swiper testimonial-swiper overflow-hidden">
+
+        <div class="swiper testimonial-swiper overflow-hidden px-5 py-4">
             <div class="swiper-wrapper d-flex">
-                <div class="swiper-slide">
-                    <div class="testimonial-item text-center">
-                        <blockquote>
-                            <p>“More than expected crazy soft, flexible and best fitted white simple denim shirt.”</p>
-                            <div class="review-title text-uppercase">casual way</div>
-                        </blockquote>
+                @forelse ($reviews as $review)
+                    <div class="swiper-slide">
+                        <div
+                            class="testimonial-item text-center p-4 bg-white shadow-sm rounded-4 border border-light-subtle">
+                            <div class="review-img mb-3">
+                                <img src="{{ asset($review->image ?? 'images/default-user.png') }}"
+                                    alt="{{ $review->customer_name }}" class="img-fluid rounded-3 shadow-sm border"
+                                    style="object-fit: cover; width: 320px; height: 220px;">
+                            </div>
+
+                            <blockquote class="mt-3">
+                                <h5 class="fw-bold text-uppercase text-dark mb-1">
+                                    {{ $review->customer_name }}
+                                </h5>
+                            </blockquote>
+
+                            {{-- ⭐ Rating display --}}
+                            <div class="text-warning mt-2">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="bi bi-star-fill fs-5"></i>
+                                @endfor
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="testimonial-item text-center">
-                        <blockquote>
-                            <p>“Best fitted white denim shirt more than expected crazy soft, flexible</p>
-                            <div class="review-title text-uppercase">uptop</div>
-                        </blockquote>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="testimonial-item text-center">
-                        <blockquote>
-                            <p>“Best fitted white denim shirt more white denim than expected flexible crazy soft.”</p>
-                            <div class="review-title text-uppercase">Denim craze</div>
-                        </blockquote>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="testimonial-item text-center">
-                        <blockquote>
-                            <p>“Best fitted white denim shirt more than expected crazy soft, flexible</p>
-                            <div class="review-title text-uppercase">uptop</div>
-                        </blockquote>
-                    </div>
-                </div>
+                @empty
+                    {{-- 🔹 Static demo reviews (show when DB has none) --}}
+                    @foreach ([['img' => 'images/demo-review-1.jpg', 'name' => 'John Doe', 'text' => 'Superb quality! The detail and comfort exceeded my expectations.'], ['img' => 'images/demo-review-2.jpg', 'name' => 'Sarah Williams', 'text' => 'Stylish and elegant. Perfect fit and finish!'], ['img' => 'images/demo-review-3.jpg', 'name' => 'David Kim', 'text' => 'Fast shipping and great experience overall.']] as $demo)
+                        <div class="swiper-slide">
+                            <div
+                                class="testimonial-item text-center p-4 bg-white shadow-sm rounded-4 border border-light-subtle">
+                                <div class="review-img mb-3">
+                                    <img src="{{ asset($demo['img']) }}" alt="{{ $demo['name'] }}"
+                                        class="img-fluid rounded-3 shadow-sm border"
+                                        style="object-fit: cover; width: 320px; height: 220px;">
+                                </div>
+
+                                <blockquote class="mt-3">
+                                    <h5 class="fw-bold text-uppercase text-dark mb-1">{{ $demo['name'] }}</h5>
+                                    <p class="text-muted fst-italic small">“{{ $demo['text'] }}”</p>
+                                </blockquote>
+
+                                <div class="text-warning mt-2">
+                                    @for ($i = 0; $i < 5; $i++)
+                                        <i class="bi bi-star-fill fs-5"></i>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endforelse
             </div>
-            <div class="swiper-pagination"></div>
+
+            {{-- Swiper Pagination --}}
+            <div class="swiper-pagination mt-3"></div>
         </div>
-    </section> --}}
+
+
+    </section>
 
 
 
@@ -397,5 +440,7 @@
             </div>
         </div>
     </section>
+
+
 
 @endsection

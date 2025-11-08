@@ -9,6 +9,7 @@ use App\Http\Controllers\frontend\OrderController as FrontendOrderController;
 use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\backend\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -86,6 +87,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // banner
     Route::resource('banners', BannerController::class);
+
+    // review
+    Route::resource('reviews', ReviewController::class);
 
 
     // orders

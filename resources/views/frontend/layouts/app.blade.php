@@ -355,38 +355,39 @@
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const input = document.getElementById('search-input');
-    const suggestions = document.getElementById('search-suggestions');
+    {{-- live search (not working !) --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.getElementById('search-input');
+            const suggestions = document.getElementById('search-suggestions');
 
-    if (!input || !suggestions) return; // Prevent error if not found
+            if (!input || !suggestions) return; // Prevent error if not found
 
-    let timeout = null;
+            let timeout = null;
 
-    input.addEventListener('input', function() {
-        const query = this.value.trim();
+            input.addEventListener('input', function() {
+                const query = this.value.trim();
 
-        if (timeout) clearTimeout(timeout);
+                if (timeout) clearTimeout(timeout);
 
-        if (!query) {
-            suggestions.style.display = 'none';
-            return;
-        }
+                if (!query) {
+                    suggestions.style.display = 'none';
+                    return;
+                }
 
-        timeout = setTimeout(() => {
-            fetch(`/search-suggestions?query=${encodeURIComponent(query)}`)
-                .then(res => res.json())
-                .then(data => {
-                    suggestions.innerHTML = '';
+                timeout = setTimeout(() => {
+                    fetch(`/search-suggestions?query=${encodeURIComponent(query)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestions.innerHTML = '';
 
-                    if (data.length) {
-                        data.forEach(product => {
-                            const item = document.createElement('a');
-                            item.href = `/products/${product.id}`;
-                            item.className =
-                                'list-group-item list-group-item-action d-flex align-items-center';
-                            item.innerHTML = `
+                            if (data.length) {
+                                data.forEach(product => {
+                                    const item = document.createElement('a');
+                                    item.href = `/products/${product.id}`;
+                                    item.className =
+                                        'list-group-item list-group-item-action d-flex align-items-center';
+                                    item.innerHTML = `
                                 <img src="${product.image ? product.image : '/images/no-image.png'}"
                                      class="me-2" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
                                 <div>
@@ -394,25 +395,24 @@ document.addEventListener("DOMContentLoaded", function() {
                                     <span class="text-primary fw-bold">${parseFloat(product.price).toFixed(2)} BDT</span>
                                 </div>
                             `;
-                            suggestions.appendChild(item);
-                        });
-                        suggestions.style.display = 'block';
-                    } else {
-                        suggestions.style.display = 'none';
-                    }
-                })
-                .catch(err => console.error('Live search error:', err));
-        }, 300);
-    });
+                                    suggestions.appendChild(item);
+                                });
+                                suggestions.style.display = 'block';
+                            } else {
+                                suggestions.style.display = 'none';
+                            }
+                        })
+                        .catch(err => console.error('Live search error:', err));
+                }, 300);
+            });
 
-    document.addEventListener('click', function(e) {
-        if (!input.contains(e.target) && !suggestions.contains(e.target)) {
-            suggestions.style.display = 'none';
-        }
-    });
-});
-</script>
-
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !suggestions.contains(e.target)) {
+                    suggestions.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
 
 </body>

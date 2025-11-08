@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -12,11 +13,17 @@ class FrontendController extends Controller
 
     public function home()
     {
-        $products = Product::with('category')->latest()->get();
+        // $products = Product::with('category')->latest()->get();
+        $products = Product::with('category')
+            ->where('isOnSale', false)
+            ->latest()
+            ->get();
+
         $categories = Category::all();
         $banners = Banner::with('product')->where('is_active', true)->get();
+        $reviews = Review::latest()->get();
 
-        return view('frontend.home', compact('products', 'categories', 'banners'));
+        return view('frontend.home', compact('products', 'categories', 'banners', 'reviews'));
     }
 
 

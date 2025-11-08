@@ -35,6 +35,7 @@ class ProductController extends Controller
         return view('backend.products.create', compact('categories'));
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
@@ -188,4 +189,6 @@ class ProductController extends Controller
         return redirect()->route('admin.products.trashed')
             ->with('success', '🗑️ Product permanently deleted!');
     }
+
+    
 }

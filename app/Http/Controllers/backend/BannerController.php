@@ -14,7 +14,7 @@ class BannerController extends Controller
 {
     public function index()
     {
-        $banners = Banner::latest()->paginate(10);
+        $banners = Banner::get();
         return view('backend.banners.index', compact('banners'));
     }
 
@@ -38,7 +38,7 @@ class BannerController extends Controller
         $imageName = "{$slug}-" . uniqid() . '.' . $request->file('image')->extension();
         $request->file('image')->move(public_path('uploads/banners'), $imageName);
 
-        Banner::create([
+        $banner =  Banner::create([
             'title'      => $request->title,
             'subtitle'   => $request->subtitle,
             'image'      => "uploads/banners/{$imageName}",
@@ -47,7 +47,9 @@ class BannerController extends Controller
         ]);
 
         return redirect()->route('admin.banners.index')
-            ->with('success', '✅ Banner created successfully.');
+            ->with('success', '✅ Banner created successfully.')
+            ->with('highlight_id', $banner->id);
+            
     }
 
     public function edit(Banner $banner)
@@ -86,7 +88,9 @@ class BannerController extends Controller
         ]);
 
         return redirect()->route('admin.banners.index')
-            ->with('success', '✅ Banner updated successfully.');
+            ->with('success', '✅ Banner updated successfully.')
+            ->with('highlight_id', $banner->id);
+            
     }
 
     public function destroy(Banner $banner)

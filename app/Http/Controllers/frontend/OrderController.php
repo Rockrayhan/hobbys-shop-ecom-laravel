@@ -13,21 +13,7 @@ use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
 
-    // public function showCheckoutPage()
-    // {
-    //     $cart = session()->get('cart', []);
-    //     // if (empty($cart)) {
-    //     //     return redirect()->route('home')->with('info', 'Your cart is empty.');
-    //     // }
 
-
-    //     $subtotal = 0;
-    //     foreach ($cart as $id => $item) {
-    //         $subtotal += ((float)$item['price']) * ((int)$item['quantity']);
-    //     }
-
-    //     return view('frontend.checkout', compact('cart', 'subtotal'));
-    // }
     public function showCheckoutPage(Request $request)
     {
         // 🛒 Existing cart

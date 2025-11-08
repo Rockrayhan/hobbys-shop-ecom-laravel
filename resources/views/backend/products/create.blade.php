@@ -85,7 +85,7 @@
                     <div class="form-check mb-3">
                         <input type="checkbox" name="isOnSale" id="isOnSale" class="form-check-input"
                             {{ old('isOnSale') ? 'checked' : '' }}>
-                        <label for="isOnSale" class="form-check-label">On Sale</label>
+                        <label for="isOnSale" class="form-check-label">Is Stock Out</label>
                     </div>
 
                     <button type="submit" class="btn btn-success">Save Product</button>

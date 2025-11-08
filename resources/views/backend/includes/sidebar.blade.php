@@ -107,71 +107,58 @@
                 </li>
 
 
+                {{-- banners --}}
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#Banners">
+                        <i class="fas fa-layer-group"></i>
+                        <p> Banners </p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="Banners">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/admin/banners">
+                                    <span class="sub-item">All Banners</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/banners/create">
+                                    <span class="sub-item">Create Banners</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
 
+                {{-- reviews --}}
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#tables">
-                        <i class="fas fa-table"></i>
-                        <p>Tables</p>
+                    <a data-bs-toggle="collapse" href="#Reviews">
+                        <i class="fas fa-layer-group"></i>
+                        <p> Reviews </p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="tables">
+                    <div class="collapse" id="Reviews">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="tables/tables.html">
-                                    <span class="sub-item">Basic Table</span>
+                                <a href="/admin/reviews">
+                                    <span class="sub-item">All Reviews</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="tables/datatables.html">
-                                    <span class="sub-item">Datatables</span>
+                                <a href="/admin/reviews/create">
+                                    <span class="sub-item">Create Review</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#maps">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>Maps</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="maps">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="maps/googlemaps.html">
-                                    <span class="sub-item">Google Maps</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="maps/jsvectormap.html">
-                                    <span class="sub-item">Jsvectormap</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#charts">
-                        <i class="far fa-chart-bar"></i>
-                        <p>Charts</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="charts">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="charts/charts.html">
-                                    <span class="sub-item">Chart Js</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="charts/sparkline.html">
-                                    <span class="sub-item">Sparkline</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+
+
+
+
+
+            
                 <li class="nav-item">
                     <a href="widgets.html">
                         <i class="fas fa-desktop"></i>

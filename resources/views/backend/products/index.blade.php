@@ -42,7 +42,7 @@
                     <th>Name</th>
                     <th>Category</th>
                     <th>Current Price</th>
-                    <th>On Sale</th>
+                    <th> In Stock</th>
                     <th>Image</th>
                     <th>Action</th>
                 </tr>
@@ -56,9 +56,9 @@
                         <td>{{ number_format($prod->current_price, 2) }} bdt</td>
                         <td>
                             @if ($prod->isOnSale)
-                                <span class="badge bg-success">Yes</span>
-                            @else
                                 <span class="badge bg-secondary">No</span>
+                            @else
+                                <span class="badge bg-success">Yes</span>
                             @endif
                         </td>
                         <td>
