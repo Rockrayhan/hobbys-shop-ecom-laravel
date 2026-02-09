@@ -6,6 +6,12 @@
 }
 
 
+.section-title {
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1;
+}
+
 
 /*======= navbar ===== */
 
@@ -22,11 +28,10 @@
 .navbar .nav-link {
     color: #000;
     transition: color 0.2s;
+    margin-top: 10px;
 }
 
-.navbar .nav-link:hover {
-    color: #fc2929;
-}
+
 
 
 

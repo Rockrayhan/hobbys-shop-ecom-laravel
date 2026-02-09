@@ -77,13 +77,13 @@
                         <h5 class="widget-title text-uppercase mb-4">Help & Info</h5>
                         <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
                             <li class="menu-item">
-                                <a href="#" class="item-anchor">Track Your Order</a>
+                                <a href="{{route('order.track')}}" class="item-anchor">Track Your Order</a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="item-anchor">Returns + Exchanges</a>
+                                <a href="{{ route('privacy.policy') }}" class="item-anchor">Privacy Policy</a>
                             </li>
                             <li class="menu-item">
-                                <a href="#" class="item-anchor">Shipping + Delivery</a>
+                                <a href="{{ route('return-refund-policy') }}" class="item-anchor">Return & Refund Policy</a>
                             </li>
                             <li class="menu-item">
                                 <a href="#" class="item-anchor">Contact Us</a>

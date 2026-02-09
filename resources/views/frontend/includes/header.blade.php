@@ -11,13 +11,13 @@
         <!-- Middle (Desktop Only) -->
         <div class="d-none d-lg-flex align-items-center">
             <ul class="navbar-nav justify-content-center flex-grow-1 gap-3">
-                <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
+                <li class="nav-item border-animation-left"><a class="nav-link item-anchor" href="{{ route('home') }}">Home</a></li>
 
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Categories
+                        Products
                     </a>
 
                     <ul class="dropdown-menu">
@@ -76,11 +76,11 @@
     <!-- Offcanvas for Mobile Menu (Visible on mobile only) -->
     <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="offcanvasNavbar"
         aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <div class="offcanvas-header " style="display: flex; justify-content:end">
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-
+        <hr>
+        
         <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-center flex-grow-1 gap-3">
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
@@ -88,7 +88,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Categories
+                        Products
                     </a>
 
                     <ul class="dropdown-menu">

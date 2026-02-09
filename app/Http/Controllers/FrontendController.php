@@ -120,4 +120,16 @@ class FrontendController extends Controller
     {
         return view('frontend.contact');
     }
+
+
+
+    public function privacyPolicy()
+    {
+        return view('frontend.privacy-policy');
+    }
+
+    public function returnRefundPolicy()
+    {
+        return view('frontend.return-refund-policy');
+    }
 }

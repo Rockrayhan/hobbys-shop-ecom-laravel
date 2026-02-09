@@ -54,85 +54,90 @@ class OrderController extends Controller
     }
 
 
-public function placeOrder(Request $request)
-{
-    // ✅ Decode updated cart from frontend
-    $frontendCart = json_decode($request->input('cart_data'), true) ?? [];
+    public function placeOrder(Request $request)
+    {
+        // ✅ Decode updated cart from frontend
+        $frontendCart = json_decode($request->input('cart_data'), true) ?? [];
 
-    if (empty($frontendCart)) {
-        return back()->withErrors(['cart' => 'Your cart is empty.']);
-    }
-
-    // ✅ Validation
-    $data = $request->validate([
-        'user_name' => 'required|string|max:255',
-        'phone' => 'required|string|max:40',
-        'address' => 'required|string|max:1000',
-        'delivery_charge' => 'required|numeric|in:60,100',
-    ]);
-
-    $deliveryCharge = (float) $data['delivery_charge'];
-
-    // ✅ Build normalized cart structure
-    $cart = collect($frontendCart)->mapWithKeys(function ($item) {
-        $unitPrice = $item['lineTotal'] / $item['qty'];
-        return [
-            $item['id'] => [
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'price' => $unitPrice,
-                'quantity' => $item['qty'],
-            ]
-        ];
-    });
-
-    $subtotal = $cart->sum(fn($item) => $item['price'] * $item['quantity']);
-    $total = $subtotal + $deliveryCharge;
-
-    try {
-        DB::beginTransaction();
-
-        $order = Order::create([
-            'user_name' => $data['user_name'],
-            'phone' => $data['phone'],
-            'address' => $data['address'],
-            'delivery_charge' => $deliveryCharge,
-            'subtotal' => $subtotal,
-            'grand_total' => $total,
-            'order_status' => 'pending',
-        ]);
-
-        foreach ($cart as $productId => $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $productId,
-                'quantity' => (int)$item['quantity'],
-                'unit_price' => (float)$item['price'],
-                'total_price' => ((float)$item['price']) * ((int)$item['quantity']),
-            ]);
+        if (empty($frontendCart)) {
+            return back()->withErrors(['cart' => 'Your cart is empty.']);
         }
 
-        DB::commit();
-
-        // ✅ Clear both cart and temporary buy-now item
-        session()->forget('cart');
-        session()->forget('buy_now_item');
-
-        // ✅ Optional: You can also flash a success message
-        // session()->flash('success', 'Your order has been placed successfully!');
-
-        return redirect()->route('order.success', $order->id);
-    } catch (\Throwable $e) {
-        DB::rollBack();
-        Log::error('Order placement failed', [
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
+        // ✅ Validation
+        $data = $request->validate([
+            'user_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:40',
+            'address' => 'required|string|max:1000',
+            'delivery_charge' => 'required|numeric|in:60,100',
         ]);
 
-        return back()->withErrors('Something went wrong while placing your order.');
+        $deliveryCharge = (float) $data['delivery_charge'];
+
+        // ✅ Build normalized cart structure
+        $cart = collect($frontendCart)->mapWithKeys(function ($item) {
+            $unitPrice = $item['lineTotal'] / $item['qty'];
+            return [
+                $item['id'] => [
+                    'id' => $item['id'],
+                    'name' => $item['name'],
+                    'price' => $unitPrice,
+                    'quantity' => $item['qty'],
+                ]
+            ];
+        });
+
+        $subtotal = $cart->sum(fn($item) => $item['price'] * $item['quantity']);
+        $total = $subtotal + $deliveryCharge;
+
+        // create unique traking number
+        $trackingNumber = 'TRK-' . strtoupper(uniqid());
+
+
+        try {
+            DB::beginTransaction();
+
+            $order = Order::create([
+                'tracking_number' => $trackingNumber,
+                'user_name' => $data['user_name'],
+                'phone' => $data['phone'],
+                'address' => $data['address'],
+                'delivery_charge' => $deliveryCharge,
+                'subtotal' => $subtotal,
+                'grand_total' => $total,
+                'order_status' => 'pending',
+            ]);
+
+            foreach ($cart as $productId => $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $productId,
+                    'quantity' => (int)$item['quantity'],
+                    'unit_price' => (float)$item['price'],
+                    'total_price' => ((float)$item['price']) * ((int)$item['quantity']),
+                ]);
+            }
+
+            DB::commit();
+
+            // ✅ Clear both cart and temporary buy-now item
+            session()->forget('cart');
+            session()->forget('buy_now_item');
+
+            // ✅ Optional: You can also flash a success message
+            // session()->flash('success', 'Your order has been placed successfully!');
+
+            return redirect()->route('order.success', $order->id);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            Log::error('Order placement failed', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+
+            return back()->withErrors('Something went wrong while placing your order.');
+        }
     }
-}
 
 
 
@@ -143,4 +148,36 @@ public function placeOrder(Request $request)
         $order->load('items.product');
         return view('frontend.order_success', compact('order'));
     }
+
+
+
+
+    public function trackOrderPage()
+    {
+        return view('frontend.track_order');
+    }
+
+
+
+    
+
+    public function trackOrder(Request $request)
+    {
+        $request->validate(['tracking_number' => 'required|string']);
+
+        $order = Order::where('tracking_number', $request->tracking_number)->first();
+
+        if (!$order) {
+            return back()->withErrors(['tracking_number' => 'Tracking number not found!']);
+        }
+
+        return view('frontend.track_order_result', compact('order'));
+    }
+
+
+
+
+
+    
+
 }

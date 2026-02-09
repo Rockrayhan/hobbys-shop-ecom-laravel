@@ -26,7 +26,7 @@
 
 
     {{-- banner --}}
-    <section id="billboard" class="bg-secondary-subtle two-column-swiper slide-clip slide-in pt-4 banner">
+    {{-- <section id="billboard" class="bg-secondary-subtle two-column-swiper slide-clip slide-in pt-4 banner">
         <div class="container">
             <div class="row">
                 <div class="swiper overflow-hidden">
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         @empty
-                            {{-- if no banner found --}}
+                            
                             <div class="swiper-slide">
                                 <div class="row banner-item text-center align-items-center">
                                     <div class="col-lg-6">
@@ -92,7 +92,78 @@
                     </svg></div>
             </div>
         </div>
+    </section> --}}
+
+
+    {{-- banner --}}
+    <section id="billboard" class="bg-secondary-subtle two-column-swiper slide-clip slide-in pt-4 banner">
+        <div class="container">
+            <div class="row">
+                <div class="swiper overflow-hidden">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="row banner-item text-center align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="image-holder">
+                                        <img src="{{ asset('images/two-col-banner-2.png') }}" alt="product"
+                                            class="banner-img img-fluid">
+                                    </div>
+                                </div>
+                                <div class="banner-content col-lg-6 p-5">
+                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up"> Crafted for Perfection
+                                    </h2>
+                                    <p>Discover the world's finest luxury timepieces, where precision meets artistry.
+                                    </p>
+                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                        Collections</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row banner-item text-center align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="image-holder">
+                                        <img src="images/two-col-banner-3.png" alt="product" class=" banner-img img-fluid">
+                                    </div>
+                                </div>
+                                <div class="banner-content col-lg-6 p-5">
+                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Classic Elegance</h2>
+                                    <p>For those who appreciate timeless sophistication—sleek designs with refined
+                                        details, powered by mechanical mastery.</p>
+                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                        Collections</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="row banner-item text-center align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="image-holder">
+                                        <img src="images/two-col-banner-1.png" alt="product" class=" banner-img img-fluid">
+                                    </div>
+                                </div>
+                                <div class="banner-content col-lg-6 p-5">
+                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Sport & Adventure</h2>
+                                    <p>Engineered for precision under pressure—robust, high-performance watches for the
+                                        modern explorer.</p>
+                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                        Collections</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="icon-arrow icon-arrow-left"><svg width="50" height="50" viewBox="0 0 24 24">
+                        <use xlink:href="#angle-left"></use>
+                    </svg></div>
+                <div class="icon-arrow icon-arrow-right"><svg width="50" height="50" viewBox="0 0 24 24">
+                        <use xlink:href="#angle-right"></use>
+                    </svg></div>
+            </div>
+        </div>
     </section>
+
 
 
     {{-- categoires --}}
@@ -141,6 +212,11 @@
 
     {{-- all products nav tab --}}
     <section class="product-grid py-5 clearfix">
+
+        <div class="section-header text-center mb-4">
+            <h3 class="section-title text-uppercase fs-2">Our Products</h3>
+        </div>
+
         <div class="container">
             <div class="row">
 

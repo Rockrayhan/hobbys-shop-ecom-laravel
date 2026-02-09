@@ -125,7 +125,7 @@
 
 
                     <a href="{{ route('checkout.form', ['product' => $product->slug]) }}"
-                        class="btn btn-primary btn-sm px-4 py-2">
+                        class="btn btn-primary btn-sm px-4 py-2 buy-now-btn">
                         Buy Now
                     </a>
 
@@ -166,7 +166,7 @@
     </div>
 
 
-
+{{-- swiper script --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var swiperThumbs = new Swiper(".mySwiper", {
@@ -183,5 +183,68 @@
             });
         });
     </script>
+
+
+{{-- product details view content --}}
+    <script>
+        fbq('track', 'ViewContent', {
+            content_type: 'product',
+            content_ids: ['{{ $product->id }}'],
+            content_name: @json($product->name),
+            value: {{ $product->current_price }},
+            currency: 'BDT'
+        });
+    </script>
+
+
+{{-- add to cart event --}}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select the Add to Cart button
+    var addToCartBtn = document.querySelector(".add-to-cart");
+
+    if(addToCartBtn) {
+        addToCartBtn.addEventListener("click", function() {
+            // Read product info from data attributes
+            var productId = this.getAttribute("data-id");
+            var productName = this.getAttribute("data-name");
+            var productPrice = this.getAttribute("data-price");
+
+            // Fire AddToCart event
+            fbq('track', 'AddToCart', {
+                content_ids: [productId],
+                content_name: productName,
+                content_type: 'product',
+                value: productPrice,
+                currency: 'BDT'
+            });
+
+            console.log("AddToCart event sent:", productName, productPrice);
+        });
+    }
+});
+</script>
+
+
+{{-- buy-now / checkout event --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buyNowBtn = document.querySelector('.buy-now-btn');
+
+    if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', function () {
+            fbq('track', 'InitiateCheckout', {
+                content_type: 'product',
+                content_ids: ['{{ $product->id }}'],
+                content_name: '{{ $product->name }}',
+                value: {{ $product->current_price }},
+                currency: 'BDT'
+            });
+        });
+    }
+});
+</script>
+
+
 
 @endsection

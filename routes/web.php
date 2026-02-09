@@ -36,6 +36,19 @@ Route::post('/checkout', [FrontendOrderController::class, 'placeOrder'])->name('
 Route::get('/order/success/{order}', [FrontendOrderController::class, 'success'])->name('order.success');
 
 
+// track order
+Route::get('/track-order', [FrontendOrderController::class, 'trackOrderPage'])->name('order.track');
+Route::post('/track-order', [FrontendOrderController::class, 'trackOrder'])->name('order.track.post');
+
+
+
+
+// Privacy & Policy pages
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
+
+Route::get('/return-refund-policy', [FrontendController::class, 'returnRefundPolicy'])->name('return-refund-policy');
+
+
 
 
 // Route::post('/checkout/buy-now/{id}', [FrontendOrderController::class, 'buyNow'])->name('checkout.buyNow');

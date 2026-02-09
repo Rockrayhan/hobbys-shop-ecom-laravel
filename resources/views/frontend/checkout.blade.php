@@ -141,7 +141,7 @@
         @endif
     </div>
 
-    {{-- JavaScript --}}
+    {{-- checkout js --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
