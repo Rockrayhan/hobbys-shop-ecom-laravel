@@ -57,6 +57,11 @@ A user friendly E-commerce website — built with **Laravel**, **MySQL** , **Boo
 * Order tracking, basic SEO setup, fully responsive UI improving user experience.
 
 
+#### Admin Credentials: 
+- https://hobbyshop.ektukhanitech.com/login
+- email : admin@gmail.com
+- password: 123456789
+
 
 
 
