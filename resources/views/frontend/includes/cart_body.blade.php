@@ -4,7 +4,10 @@
         <span class="badge bg-primary rounded-pill">{{ count(session('cart', [])) }}</span>
     </h6>
 
-    @php $total = 0; @endphp
+    @php 
+        $total = 0; 
+        $missingVariation = false; 
+    @endphp
 
     @forelse (session('cart', []) as $id => $item)
         @php
@@ -14,30 +17,54 @@
 
         <!-- Product Row -->
         <div class="row align-items-center border rounded p-2 mb-3 shadow-sm">
+
             <!-- Product Image -->
             <div class="col-4">
-                <img src="{{ $item['image'] ?? 'https://via.placeholder.com/100' }}" alt="{{ $item['name'] }}"
-                    class="img-fluid rounded">
+                <img src="{{ $item['image'] ?? 'https://via.placeholder.com/100' }}" 
+                     alt="{{ $item['name'] }}"
+                     class="img-fluid rounded">
             </div>
 
             <!-- Product Info -->
             <div class="col-8">
-                <h6 class="fw-semibold mb-1">{{ $item['name'] }}</h6>
+                <h6 class="fw-semibold mb-1">
+                    {{ $item['name'] }}
+                </h6>
+
+                {{-- ✅ Variation Handling --}}
+                @if (!empty($item['has_variation']))
+                    @if (!empty($item['size']))
+                        <div class="small text-muted">
+                            Size:
+                            <span class="badge bg-light text-dark border">
+                                {{ $item['size'] }}
+                            </span>
+                        </div>
+                    @else
+                        @php $missingVariation = true; @endphp
+                        <div class="small text-danger">
+                            ⚠ Size not selected
+                        </div>
+                    @endif
+                @endif
+
                 <p class="mb-2 text-muted small">
                     Price:
-                    {{ fmod($item['price'], 1) == 0 ? number_format($item['price'], 0) : number_format($item['price'], 2) }}
-                    bdt
+                    {{ fmod($item['price'], 1) == 0 ? number_format($item['price'], 0) : number_format($item['price'], 2) }} bdt
                 </p>
 
                 <!-- Quantity + Remove -->
                 <div class="d-flex gap-2 align-items-center">
-                    <button class="btn btn-sm btn-outline-secondary update-qty" data-id="{{ $id }}"
-                        data-action="decrease">−</button>
-                    <span class="fw-bold">{{ $item['quantity'] }}</span>
-                    <button class="btn btn-sm btn-outline-secondary update-qty" data-id="{{ $id }}"
-                        data-action="increase">+</button>
+                    <button class="btn btn-sm btn-outline-secondary update-qty" 
+                        data-id="{{ $id }}" data-action="decrease">−</button>
 
-                    <button class="btn btn-danger btn-sm ms-auto remove-cart-item" data-id="{{ $id }}">
+                    <span class="fw-bold">{{ $item['quantity'] }}</span>
+
+                    <button class="btn btn-sm btn-outline-secondary update-qty" 
+                        data-id="{{ $id }}" data-action="increase">+</button>
+
+                    <button class="btn btn-danger btn-sm ms-auto remove-cart-item" 
+                        data-id="{{ $id }}">
                         Remove
                     </button>
                 </div>
@@ -51,8 +78,9 @@
                 </span>
             </div>
         </div>
+
     @empty
-        <!-- 🛍 Empty Cart Message -->
+        <!-- Empty Cart -->
         <div class="text-center py-5">
             <i class="bi bi-cart-x fs-1 text-muted"></i>
             <p class="mt-3 text-muted fs-5">Your cart is currently empty.</p>
@@ -60,19 +88,32 @@
     @endforelse
 
     @if (count(session('cart', [])) > 0)
-        <!-- Cart Summary -->
+
+        <!-- Subtotal -->
         <div class="d-flex justify-content-between border-top pt-3 fw-bold">
             <h6>SubTotal</h6>
-            <h6>{{ fmod($total, 1) == 0 ? number_format($total, 0) : number_format($total, 2) }} bdt</h6>
+            <h6>
+                {{ fmod($total, 1) == 0 ? number_format($total, 0) : number_format($total, 2) }} bdt
+            </h6>
         </div>
+
+        <!-- ⚠️ Warning -->
+        @if ($missingVariation)
+            <div class="alert alert-danger mt-3 py-2 small">
+                Please select product variation (size) before checkout.
+            </div>
+        @endif
 
         <!-- Checkout -->
         <div class="mt-3">
             <a href="/checkout">
-                <button class="w-100 btn btn-lg btn-warning text-dark fw-semibold shadow-sm">
+                <button 
+                    class="w-100 btn btn-lg btn-warning text-dark fw-semibold shadow-sm"
+                    {{ $missingVariation ? 'disabled' : '' }}>
                     Order Now
                 </button>
             </a>
         </div>
+
     @endif
 </div>

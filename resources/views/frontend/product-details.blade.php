@@ -153,7 +153,7 @@
                         Buy Now
                     </a>
 
-                    
+
 
                 </div>
             </div>
@@ -248,39 +248,63 @@
 
 
     {{-- add to cart event --}}
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
 
-            var addToCartBtn = document.querySelector(".add-to-cart");
+    let selectedVariationId = null;
 
-            if (addToCartBtn) {
-                addToCartBtn.addEventListener("click", function(e) {
+    // Handle size/variation selection
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active from all
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
 
-                    // ❌ if no size selected
-                    if (!selectedVariationId) {
-                        e.preventDefault();
-                        document.getElementById('size-error').classList.remove('d-none');
-                        return;
-                    }
+            // Add active to clicked
+            this.classList.add('active');
 
-                    // ✅ attach variation id
-                    this.setAttribute('data-variation-id', selectedVariationId);
+            // Store selected variation ID
+            selectedVariationId = this.dataset.id;
 
-                    // FB Pixel
-                    fbq('track', 'AddToCart', {
-                        content_ids: [this.dataset.id],
-                        content_name: this.dataset.name,
-                        content_type: 'product',
-                        value: this.dataset.price,
-                        currency: 'BDT'
-                    });
+            // Hide error
+            document.getElementById('size-error').classList.add('d-none');
 
-                    console.log("Variation ID:", selectedVariationId);
-                });
-            }
+            // Mark Add to Cart button as valid
+            const addBtn = document.querySelector('.add-to-cart');
+            if (addBtn) addBtn.dataset.valid = "true";
         });
-    </script>
+    });
 
+    // Add to Cart button click (validation only)
+    const addToCartBtn = document.querySelector(".add-to-cart");
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener("click", function(e) {
+
+            // If product has variations but none selected
+            if (document.querySelectorAll('.size-btn').length && !selectedVariationId) {
+                e.preventDefault();
+                document.getElementById('size-error').classList.remove('d-none');
+
+                // Mark invalid to prevent global handler
+                this.dataset.valid = "false";
+                return;
+            }
+
+            // Attach variation ID for global handler
+            this.dataset.variationId = selectedVariationId;
+            this.dataset.valid = "true";
+
+            // FB Pixel
+            fbq('track', 'AddToCart', {
+                content_ids: [this.dataset.id],
+                content_name: this.dataset.name,
+                content_type: 'product',
+                value: this.dataset.price,
+                currency: 'BDT'
+            });
+        });
+    }
+});
+</script>
 
     {{-- buy-now / checkout event --}}
     <script>

@@ -277,17 +277,20 @@
     {{-- Add to Cart  --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 🔁 Helper to update cart count everywhere
+            // Helper to update cart count
             function updateCartCount(count) {
-                document.querySelectorAll('.cart-count').forEach(el => {
-                    el.textContent = count;
-                });
+                document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
             }
 
-            // ✅ Add to Cart
+            // Add to Cart
             document.querySelectorAll(".add-to-cart").forEach(function(btn) {
                 btn.addEventListener("click", function(e) {
                     e.preventDefault();
+
+                    // ❌ STOP if invalid
+                    if (this.dataset.valid === "false") {
+                        return;
+                    }
 
                     fetch("{{ route('cart.add') }}", {
                             method: "POST",
@@ -299,20 +302,18 @@
                                 id: this.dataset.id,
                                 name: this.dataset.name,
                                 price: this.dataset.price,
-                                image: this.dataset.image
+                                image: this.dataset.image,
+                                variation_id: this.dataset.variationId || null
                             })
                         })
                         .then(res => res.json())
                         .then(data => {
                             if (data.status === "success") {
-                                // 🛒 Update offcanvas content
                                 document.querySelector("#offcanvasCartBody").innerHTML = data
                                     .cart_view;
-
-                                // 🔁 Update cart count in navbar
                                 updateCartCount(data.cart_count);
 
-                                // 🧊 Keep offcanvas visible
+                                // Show offcanvas
                                 let cartCanvas = bootstrap.Offcanvas.getOrCreateInstance(
                                     document.getElementById("offcanvasCart")
                                 );

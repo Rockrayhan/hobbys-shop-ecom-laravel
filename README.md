@@ -26,12 +26,15 @@
 
 
 7. order_items
-- id, order_id (FK), product_id (FK), quantity, unit_price , total_price
+- id, order_id (FK), product_id (FK), quantity, unit_price , total_price, variation_id, size/type
 
 
 8. reviews 
 - id, user_id(fk), product_id(fk), rating, comment, status, 
 
+
+9. product variation
+- product_id - size/type - stock - is_active
 
 
 
@@ -41,6 +44,18 @@ user -> product -> add to cart -> checkout page
  -->
 
 
+
+
+
+
+<!-- Flow:
+
+User sees product in listing → clicks “Add to Cart”
+If product has no variations → adds directly to cart (fast!)
+If product has variations → opens modal/pop-up:
+Shows product name, image, price
+Lets user select variation/size/type
+Quantity input + Confirm Add to Cart button -->
 
 
 
