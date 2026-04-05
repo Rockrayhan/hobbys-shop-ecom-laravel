@@ -17,10 +17,10 @@ class OrderController extends Controller
             $query->where('order_status', $request->status);
         }
 
-        $orders = $query->paginate(10)->withQueryString(); // preserve filter in pagination links
+        $orders = $query->paginate(20)->withQueryString(); 
 
         return view('backend.orders.index', compact('orders'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+            ->with('i', (request()->input('page', 1) - 1) * 20);
     }
 
 

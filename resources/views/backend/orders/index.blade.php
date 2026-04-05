@@ -267,17 +267,26 @@
                 <tbody>
                     @forelse ($orders as $order)
                         <tr @if ($highlightId == $order->id) id="highlight-row" class="table-success" @endif>
+                            {{-- order id --}}
                             <td><strong>{{ $order->id }}</strong></td>
+                            {{-- customer name --}}
                             <td>{{ $order->user_name }}</td>
+                            {{-- customer phone --}}
                             <td>{{ $order->phone }}</td>
+                            {{-- address --}}
                             <td>
                                 <div style="max-height: 60px; overflow: hidden; text-overflow: ellipsis;">
                                     {{ Str::limit($order->address, 50) }}
                                 </div>
                             </td>
+                            {{-- total --}}
                             <td class="text-nowrap">{{ number_format($order->subtotal, 2) }} bdt</td>
+                            {{-- delivery charge --}}
                             <td class="text-nowrap">{{ number_format($order->delivery_charge, 2) }} bdt</td>
+                            {{-- grand total --}}
                             <td class="text-nowrap"><strong>{{ number_format($order->grand_total, 2) }} bdt</strong></td>
+                            
+                            {{-- order status --}}
                             <td>
                                 @php
                                     $statusClasses = [
@@ -292,6 +301,8 @@
                                 </span>
 
                             </td>
+
+                            {{-- product image & name --}}
                             <td>
                                 <div class="d-flex flex-column gap-1">
                                     @foreach ($order->items as $item)
@@ -307,14 +318,27 @@
                                                 </div>
                                             @endif
                                             <span>
-                                                <strong>{{ $item->product ? $item->product->name : 'Product #' . $item->product_id }}</strong><br>
+                                                <strong>
+                                                    {{ $item->product ? $item->product->name : 'Product #' . $item->product_id }}
+                                                </strong><br>
+
+                                                @if ($item->size)
+                                                    <small class="text-muted d-block">
+                                                        Type: {{ $item->size }}
+                                                    </small>
+                                                @endif
+
                                                 <small class="text-muted">Qty: {{ $item->quantity }}</small>
                                             </span>
                                         </div>
                                     @endforeach
                                 </div>
                             </td>
+
+                            {{-- order date --}}
                             <td class="text-nowrap">{{ $order->created_at->format('d M Y, h:i A') }}</td>
+
+                            {{-- action --}}
                             <td>
 
                                 <span>
@@ -359,7 +383,7 @@
             <!-- Pagination Links -->
             <div class="d-flex justify-content-center">
                 {{ $orders->links('pagination::bootstrap-5') }}
-                    
+
             </div>
 
         </div>

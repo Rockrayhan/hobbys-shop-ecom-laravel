@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -104,6 +105,18 @@ class FrontendController extends Controller
 
         return view('frontend.all-products', compact('products', 'categories'));
     }
+
+
+
+
+    // show order success page
+    public function OrderSuccess(Order $order)
+    {
+        $order->load('items.product', 'items.variation'); // 👈 add this
+        return view('frontend.order_success', compact('order'));
+    }
+
+
 
 
 

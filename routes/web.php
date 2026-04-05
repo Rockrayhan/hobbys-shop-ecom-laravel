@@ -33,7 +33,7 @@ Route::get('/search-suggestions', [FrontendController::class, 'liveSearch'])
 // orders
 Route::get('/checkout', [FrontendOrderController::class, 'showCheckoutPage'])->name('checkout.form');
 Route::post('/checkout', [FrontendOrderController::class, 'placeOrder'])->name('checkout.place');
-Route::get('/order/success/{order}', [FrontendOrderController::class, 'success'])->name('order.success');
+Route::get('/order/success/{order}', [FrontendController::class, 'OrderSuccess'])->name('order.success');
 
 
 // track order
@@ -45,7 +45,6 @@ Route::post('/track-order', [FrontendOrderController::class, 'trackOrder'])->nam
 
 // Privacy & Policy pages
 Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy.policy');
-
 Route::get('/return-refund-policy', [FrontendController::class, 'returnRefundPolicy'])->name('return-refund-policy');
 
 

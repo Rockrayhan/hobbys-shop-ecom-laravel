@@ -37,13 +37,26 @@
                                         $subtotal += $lineTotal;
                                     @endphp
                                     <div class="d-flex align-items-center justify-content-between border rounded-3 p-3 mb-3 cart-item"
-                                        data-id="{{ $id }}" data-price="{{ $item['price'] }}">
+                                        data-id="{{ $item['id'] }}" data-variation-id="{{ $item['variation_id'] }}"
+                                        data-price="{{ $item['price'] }}">
+
                                         <div class="d-flex align-items-center">
                                             <img src="{{ $item['image'] ?? 'https://via.placeholder.com/60' }}"
                                                 alt="{{ $item['name'] }}" class="rounded me-3" width="65"
                                                 height="65">
                                             <div>
-                                                <h6 class="mb-1">{{ $item['name'] }}</h6>
+
+                                                <h6 class="mb-1">
+                                                    {{ $item['name'] }}
+
+                                                    @if (isset($item['size']))
+                                                        <small class="text-muted d-block">
+                                                            Type: {{ $item['size'] }}
+                                                        </small>
+                                                    @endif
+                                                </h6>
+
+
                                                 <div class="d-flex align-items-center mt-2">
                                                     <button
                                                         class="btn btn-sm btn-outline-secondary rounded-circle decrease-qty">−</button>
@@ -154,19 +167,30 @@
                     const qty = parseInt(item.querySelector('.quantity').textContent);
                     const unitPrice = parseFloat(item.getAttribute('data-price'));
                     const id = item.getAttribute('data-id');
-                    const name = item.querySelector('h6').textContent;
+                    const name = item.querySelector('h6').childNodes[0].textContent.trim();
+                    const sizeEl = item.querySelector('small');
+                    const size = sizeEl ? sizeEl.textContent.replace('Size: ', '').trim() : null;
                     const lineTotal = unitPrice * qty;
-
+                    console.log({
+                        id,
+                        variation_id: item.getAttribute('data-variation-id'),
+                        size
+                    });
                     subtotal += lineTotal;
                     item.querySelector('.line-total').textContent = 'BDT ' + lineTotal.toFixed(2);
 
                     cartData.push({
                         id,
+                        variation_id: item.getAttribute('data-variation-id') ?
+                            parseInt(item.getAttribute('data-variation-id')) : null,
                         name,
+                        size,
                         qty,
                         lineTotal
                     });
                 });
+
+
 
                 // ✅ Update Subtotal, Delivery, and Total
                 const delivery = parseInt(document.querySelector('input[name="delivery"]:checked').value);

@@ -99,6 +99,26 @@
                     </div>
 
 
+                    {{-- Sizes & Stock --}}
+                    <div id="size-wrapper">
+                        @foreach ($product->variations as $key => $variation)
+                            <div class="d-flex gap-2 mb-2 align-items-center size-item">
+                                <input type="text" name="sizes[{{ $key }}][name]"
+                                    value="{{ $variation->size }}" class="form-control">
+
+                                <input type="number" name="sizes[{{ $key }}][stock]"
+                                    value="{{ $variation->stock }}" class="form-control">
+
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)">
+                                    ✕
+                                </button>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSize()">+ Add Size</button>
+
+
                     {{-- On Sale / on stock --}}
                     <div class="form-check mb-3">
                         <input type="checkbox" name="isOnSale" id="isOnSale" class="form-check-input"
@@ -113,4 +133,34 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <script>
+        let index = {{ $product->variations->count() }};
+
+        function addSize() {
+            const wrapper = document.getElementById('size-wrapper');
+
+            const html = `
+        <div class="d-flex gap-2 mb-2 align-items-center size-item">
+            <input type="text" name="sizes[${index}][name]" class="form-control" placeholder="Size">
+            <input type="number" name="sizes[${index}][stock]" class="form-control" placeholder="Stock">
+
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)">
+                ✕
+            </button>
+        </div>
+    `;
+
+            wrapper.insertAdjacentHTML('beforeend', html);
+            index++;
+        }
+
+        function removeSize(btn) {
+            const row = btn.closest('.size-item');
+            row.remove();
+        }
+    </script>
 @endsection

@@ -80,6 +80,20 @@
                         @endfor
                     </div>
 
+                    {{-- Sizes & Stock --}}
+                    <div id="size-wrapper">
+                        <div class="d-flex gap-2 mb-2 align-items-center size-item">
+                            <input type="text" name="sizes[0][name]" class="form-control" placeholder="Size (M, L, 32)">
+                            <input type="number" name="sizes[0][stock]" class="form-control" placeholder="Stock">
+
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSize()">+ Add Size</button>
+
 
                     {{-- On Sale --}}
                     <div class="form-check mb-3">
@@ -93,4 +107,32 @@
             </div>
         </div>
     </div>
+
+
+<script>
+let index = 1;
+
+function addSize() {
+    const wrapper = document.getElementById('size-wrapper');
+
+    const html = `
+        <div class="d-flex gap-2 mb-2 align-items-center size-item">
+            <input type="text" name="sizes[${index}][name]" class="form-control" placeholder="Size">
+            <input type="number" name="sizes[${index}][stock]" class="form-control" placeholder="Stock">
+
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeSize(this)">
+                ✕
+            </button>
+        </div>
+    `;
+
+    wrapper.insertAdjacentHTML('beforeend', html);
+    index++;
+}
+
+function removeSize(btn) {
+    const row = btn.closest('.size-item');
+    row.remove();
+}
+</script>
 @endsection

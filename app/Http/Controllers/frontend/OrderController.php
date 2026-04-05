@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -19,31 +20,32 @@ class OrderController extends Controller
         // 🛒 Existing cart
         $cart = session()->get('cart', []);
 
-        // 💥 Handle Buy Now (if product param exists)
-        if ($request->has('product')) {
+        if ($request->has('product') && $request->has('variation_id')) {
+
             $product = Product::where('slug', $request->product)->firstOrFail();
 
-            // Temporary Buy Now item (not saved in cart)
+            $variation = ProductVariation::findOrFail($request->variation_id);
+
             $buyNowItem = [
                 'id' => $product->id,
+                'variation_id' => $variation->id,
+                'size' => $variation->size,
                 'name' => $product->name,
                 'price' => $product->current_price,
                 'quantity' => 1,
                 'image' => $product->image ? asset($product->image) : null,
-                'is_buy_now' => true, // flag for UI
+                'is_buy_now' => true,
             ];
 
-            // Store temporarily in session for checkout
             session(['buy_now_item' => $buyNowItem]);
 
-            // ✅ Merge cart + buy now item (but do not modify session cart)
             $cartWithBuyNow = $cart;
-            $cartWithBuyNow[$buyNowItem['id']] = $buyNowItem;
+
+            // ⚠️ key must be unique → use variation id
+            $cartWithBuyNow[$product->id . '-' . $variation->id] = $buyNowItem;
         } else {
-            // Normal checkout
             $cartWithBuyNow = $cart;
         }
-
         // 🧮 Calculate subtotal
         $subtotal = collect($cartWithBuyNow)->sum(fn($item) => $item['price'] * $item['quantity']);
 
@@ -74,17 +76,19 @@ class OrderController extends Controller
         $deliveryCharge = (float) $data['delivery_charge'];
 
         // ✅ Build normalized cart structure
-        $cart = collect($frontendCart)->mapWithKeys(function ($item) {
-            $unitPrice = $item['lineTotal'] / $item['qty'];
+        $cart = collect($frontendCart)->map(function ($item) {
             return [
-                $item['id'] => [
-                    'id' => $item['id'],
-                    'name' => $item['name'],
-                    'price' => $unitPrice,
-                    'quantity' => $item['qty'],
-                ]
+                'product_id'   => $item['product_id'] ?? $item['id'],
+                'variation_id' => $item['variation_id'] ?? null,
+                'name'         => $item['name'],
+                'size'         => $item['size'] ?? null,
+                'price'        => $item['lineTotal'] / $item['qty'],
+                'quantity'     => $item['qty'],
             ];
         });
+
+        // dd($frontendCart, $cart->toArray());
+
 
         $subtotal = $cart->sum(fn($item) => $item['price'] * $item['quantity']);
         $total = $subtotal + $deliveryCharge;
@@ -107,10 +111,12 @@ class OrderController extends Controller
                 'order_status' => 'pending',
             ]);
 
-            foreach ($cart as $productId => $item) {
+            foreach ($cart as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $productId,
+                    'product_id' => $item['product_id'],
+                    'variation_id' => $item['variation_id'] ?? null,
+                    'size' => $item['size'],
                     'quantity' => (int)$item['quantity'],
                     'unit_price' => (float)$item['price'],
                     'total_price' => ((float)$item['price']) * ((int)$item['quantity']),
@@ -142,15 +148,6 @@ class OrderController extends Controller
 
 
 
-    // show success page
-    public function success(Order $order)
-    {
-        $order->load('items.product');
-        return view('frontend.order_success', compact('order'));
-    }
-
-
-
 
     public function trackOrderPage()
     {
@@ -159,7 +156,7 @@ class OrderController extends Controller
 
 
 
-    
+
 
     public function trackOrder(Request $request)
     {
@@ -173,11 +170,4 @@ class OrderController extends Controller
 
         return view('frontend.track_order_result', compact('order'));
     }
-
-
-
-
-
-    
-
 }

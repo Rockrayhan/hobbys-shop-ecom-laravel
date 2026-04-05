@@ -14,7 +14,10 @@
                             <i class="bi bi-check-circle-fill text-success fs-1"></i>
                         </div>
 
-                        <h2 class="mb-3">Order #{{ $order->id }} Placed!</h2>
+                        <h2 class="mb-2 fw-bold text-success">
+                            Order #{{ $order->id }} Confirmed 🎉
+                        </h2>
+                        <p class="text-muted">Your order has been successfully placed</p>
                         <p class="lead">
                             Thank you, <strong>{{ $order->user_name }}</strong>!<br>
                             Your order status is <span
@@ -35,7 +38,18 @@
                                 @foreach ($order->items as $item)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <div>
-                                            {{ $item->product ? $item->product->name : 'Product #' . $item->product_id }}
+                                            <div class="fw-semibold">
+                                                {{ $item->product ? $item->product->name : 'Product #' . $item->product_id }}
+                                            </div>
+
+                                            @if ($item->variation)
+                                                <div class="small text-muted">
+                                                    Size: <span class="badge bg-light text-dark border">
+                                                        {{ $item->variation->size }}
+                                                    </span>
+                                                </div>
+                                            @endif
+
                                             <div class="small text-muted">Qty: {{ $item->quantity }}</div>
                                         </div>
                                         <span>{{ number_format($item->total_price, 2) }} BDT</span>
@@ -73,14 +87,13 @@
     </div>
 
 
-<script>
-fbq('track', 'Purchase', {
-    value: {{ $order->grand_total }},
-    currency: 'BDT',
-    content_type: 'product',
-    content_ids: {!! json_encode($order->items->pluck('product_id')) !!},
-    num_items: {{ $order->items->sum('quantity') }}
-});
-</script>
-
+    <script>
+        fbq('track', 'Purchase', {
+            value: {{ $order->grand_total }},
+            currency: 'BDT',
+            content_type: 'product',
+            content_ids: {!! json_encode($order->items->pluck('product_id')) !!},
+            num_items: {{ $order->items->sum('quantity') }}
+        });
+    </script>
 @endsection

@@ -90,13 +90,16 @@
 
             <!-- Right: Details -->
             <div class="col-md-7">
+                {{-- title --}}
                 <h2 class="fw-semibold mb-3">{{ $product->name }}</h2>
 
+                {{-- category --}}
                 <p class="text-muted mb-2">
                     Category:
                     <span class="fw-semibold text-dark">{{ $product->category->name ?? 'N/A' }}</span>
                 </p>
 
+                {{-- price --}}
                 <div class="mb-3">
                     @if ($product->previous_price > 0 && $product->previous_price > $product->current_price)
                         <span class="text-decoration-line-through text-muted me-2">
@@ -111,23 +114,46 @@
                     </span>
                 </div>
 
+                {{-- Sizes --}}
+                @if ($product->variations->count())
+                    <div class="mb-4">
+                        <label class="fw-semibold d-block mb-2">Select Type:</label>
+
+                        <div id="size-options" class="d-flex flex-wrap gap-2">
+                            @foreach ($product->variations as $variation)
+                                <button type="button" class="btn btn-outline-dark size-btn" data-id="{{ $variation->id }}"
+                                    {{ $variation->stock == 0 ? 'disabled' : '' }}>
+                                    {{ $variation->size }}
+                                </button>
+                            @endforeach
+                        </div>
+
+                        <small id="size-error" class="text-danger d-none">Please select a product-type</small>
+                    </div>
+                @endif
+
+                {{-- prduct description --}}
                 <p class="mb-4">
                     {!! $product->description ?? 'No description available.' !!}
 
                 </p>
 
+
                 <div class="d-flex align-items-center gap-3">
                     <button class="btn btn-sm add-to-cart btn-outline-primary px-4 py-2" data-id="{{ $product->id }}"
                         data-name="{{ $product->name }}" data-price="{{ $product->current_price }}"
                         data-image="{{ asset($product->image) }}">
+
                         <i class="bi bi-cart me-1"></i> Add to cart
                     </button>
 
 
-                    <a href="{{ route('checkout.form', ['product' => $product->slug]) }}"
-                        class="btn btn-primary btn-sm px-4 py-2 buy-now-btn">
+                    <a href="#" class="btn btn-primary btn-sm px-4 py-2 buy-now-btn" data-slug="{{ $product->slug }}"
+                        data-variation-id="">
                         Buy Now
                     </a>
+
+                    
 
                 </div>
             </div>
@@ -166,7 +192,7 @@
     </div>
 
 
-{{-- swiper script --}}
+    {{-- swiper script --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var swiperThumbs = new Swiper(".mySwiper", {
@@ -185,7 +211,31 @@
     </script>
 
 
-{{-- product details view content --}}
+    {{-- select product variation script --}}
+    <script>
+        let selectedVariationId = null;
+
+        // handle size click
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+
+                // remove active from all
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+
+                // add active to clicked
+                this.classList.add('active');
+
+                // store variation id
+                selectedVariationId = this.dataset.id;
+
+                // hide error
+                document.getElementById('size-error').classList.add('d-none');
+            });
+        });
+    </script>
+
+
+    {{-- product details view content --}}
     <script>
         fbq('track', 'ViewContent', {
             content_type: 'product',
@@ -197,53 +247,74 @@
     </script>
 
 
-{{-- add to cart event --}}
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Select the Add to Cart button
-    var addToCartBtn = document.querySelector(".add-to-cart");
+    {{-- add to cart event --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
-    if(addToCartBtn) {
-        addToCartBtn.addEventListener("click", function() {
-            // Read product info from data attributes
-            var productId = this.getAttribute("data-id");
-            var productName = this.getAttribute("data-name");
-            var productPrice = this.getAttribute("data-price");
+            var addToCartBtn = document.querySelector(".add-to-cart");
 
-            // Fire AddToCart event
-            fbq('track', 'AddToCart', {
-                content_ids: [productId],
-                content_name: productName,
-                content_type: 'product',
-                value: productPrice,
-                currency: 'BDT'
-            });
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener("click", function(e) {
 
-            console.log("AddToCart event sent:", productName, productPrice);
+                    // ❌ if no size selected
+                    if (!selectedVariationId) {
+                        e.preventDefault();
+                        document.getElementById('size-error').classList.remove('d-none');
+                        return;
+                    }
+
+                    // ✅ attach variation id
+                    this.setAttribute('data-variation-id', selectedVariationId);
+
+                    // FB Pixel
+                    fbq('track', 'AddToCart', {
+                        content_ids: [this.dataset.id],
+                        content_name: this.dataset.name,
+                        content_type: 'product',
+                        value: this.dataset.price,
+                        currency: 'BDT'
+                    });
+
+                    console.log("Variation ID:", selectedVariationId);
+                });
+            }
         });
-    }
-});
-</script>
+    </script>
 
 
-{{-- buy-now / checkout event --}}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const buyNowBtn = document.querySelector('.buy-now-btn');
+    {{-- buy-now / checkout event --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buyNowBtn = document.querySelector('.buy-now-btn');
 
-    if (buyNowBtn) {
-        buyNowBtn.addEventListener('click', function () {
-            fbq('track', 'InitiateCheckout', {
-                content_type: 'product',
-                content_ids: ['{{ $product->id }}'],
-                content_name: '{{ $product->name }}',
-                value: {{ $product->current_price }},
-                currency: 'BDT'
-            });
+            if (buyNowBtn) {
+                buyNowBtn.addEventListener('click', function(e) {
+
+                    // ❌ prevent default link behavior
+                    e.preventDefault();
+
+                    // ❌ if no size selected
+                    if (!selectedVariationId) {
+                        document.getElementById('size-error').classList.remove('d-none');
+                        return;
+                    }
+
+                    // ✅ FB Pixel
+                    fbq('track', 'InitiateCheckout', {
+                        content_type: 'product',
+                        content_ids: ['{{ $product->id }}'],
+                        content_name: '{{ $product->name }}',
+                        value: {{ $product->current_price }},
+                        currency: 'BDT'
+                    });
+
+                    // ✅ redirect WITH variation_id
+                    const slug = "{{ $product->slug }}";
+                    window.location.href = `/checkout?product=${slug}&variation_id=${selectedVariationId}`;
+                });
+            }
         });
-    }
-});
-</script>
+    </script>
 
 
 

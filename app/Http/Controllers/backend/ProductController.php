@@ -6,6 +6,7 @@ use App\Helpers\ImageUploadHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,14 +15,14 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with('category')->latest();
+        $query = Product::with(['category', 'variations'])->latest();
 
         // Filter by category if provided
         if ($request->filled('category_id') && $request->category_id !== 'all') {
             $query->where('category_id', $request->category_id);
         }
 
-        $products = $query->paginate(10)->withQueryString(); // keep filters during pagination
+        $products = $query->paginate(10)->withQueryString(); 
 
         $categories = Category::orderBy('name')->get();
 
@@ -36,7 +37,6 @@ class ProductController extends Controller
         return view('backend.products.create', compact('categories'));
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
@@ -44,15 +44,22 @@ class ProductController extends Controller
             'name'            => 'required|unique:products|min:3',
             'current_price'   => 'required|numeric',
             'previous_price'  => 'nullable|numeric',
+
             'image'           => 'nullable|image|max:4096',
             'image_2'         => 'nullable|image|max:3072',
             'image_3'         => 'nullable|image|max:3072',
             'image_4'         => 'nullable|image|max:3072',
             'image_5'         => 'nullable|image|max:3072',
+
+            // variations
+            'sizes'           => 'nullable|array',
+            'sizes.*.name'    => 'nullable|string|max:20',
+            'sizes.*.stock'   => 'nullable|integer|min:0',
         ]);
 
         $slug = Str::slug($request->name);
 
+        // ✅ Create Product
         $product = Product::create([
             'category_id'    => $request->category_id,
             'name'           => $request->name,
@@ -62,31 +69,27 @@ class ProductController extends Controller
             'previous_price' => $request->previous_price,
             'isOnSale'       => $request->has('isOnSale') ? 1 : 0,
 
-            // ✅ compressed WebP images
+            // images
             'image' => ImageUploadHelper::uploadWebp(
                 $request->file('image'),
                 'uploads/products',
                 "{$slug}-main"
             ),
-
             'image_2' => ImageUploadHelper::uploadWebp(
                 $request->file('image_2'),
                 'uploads/products',
                 "{$slug}-2"
             ),
-
             'image_3' => ImageUploadHelper::uploadWebp(
                 $request->file('image_3'),
                 'uploads/products',
                 "{$slug}-3"
             ),
-
             'image_4' => ImageUploadHelper::uploadWebp(
                 $request->file('image_4'),
                 'uploads/products',
                 "{$slug}-4"
             ),
-
             'image_5' => ImageUploadHelper::uploadWebp(
                 $request->file('image_5'),
                 'uploads/products',
@@ -94,11 +97,25 @@ class ProductController extends Controller
             ),
         ]);
 
+        // ✅ Save Variations
+        if ($request->sizes) {
+            foreach ($request->sizes as $size) {
+
+                if (!empty($size['name'])) {
+                    ProductVariation::create([
+                        'product_id' => $product->id,
+                        'size'       => $size['name'],
+                        'stock'      => $size['stock'] ?? 0,
+                        'is_active'  => ($size['stock'] ?? 0) > 0,
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('admin.products.index')
             ->with('success', '✅ Product added successfully!')
             ->with('highlight_id', $product->id);
     }
-
 
 
 
@@ -110,57 +127,6 @@ class ProductController extends Controller
     }
 
 
-
-    // public function update(Request $request, $id)
-    // {
-    //     $product = Product::findOrFail($id);
-
-    //     $request->validate([
-    //         'category_id'     => 'required|exists:categories,id',
-    //         'name'            => 'required|min:3|unique:products,name,' . $id,
-    //         'current_price'   => 'required|numeric',
-    //         'previous_price'  => 'nullable|numeric',
-    //         'image'           => 'nullable|image|max:4096',
-    //         'image_2'         => 'nullable|image|max:3072',
-    //         'image_3'         => 'nullable|image|max:3072',
-    //         'image_4'         => 'nullable|image|max:3072',
-    //         'image_5'         => 'nullable|image|max:3072',
-    //     ]);
-
-    //     $slug = Str::slug($request->name);
-
-    //     // 🔹 Reusable helper to replace image if new file uploaded
-    //     $replaceImage = function ($file, $oldPath, $index) use ($slug) {
-    //         if (!$file) return $oldPath;
-    //         if ($oldPath && file_exists(public_path($oldPath))) {
-    //             unlink(public_path($oldPath));
-    //         }
-    //         $filename = "{$slug}-{$index}-" . uniqid() . '.' . $file->extension();
-    //         $file->move(public_path('uploads/products'), $filename);
-    //         return 'uploads/products/' . $filename;
-    //     };
-
-    //     $product->update([
-    //         'category_id'    => $request->category_id,
-    //         'name'           => $request->name,
-    //         'slug'           => $slug,
-    //         'description'    => $request->description,
-    //         'current_price'  => $request->current_price,
-    //         'previous_price' => $request->previous_price,
-    //         'isOnSale'       => $request->has('isOnSale') ? 1 : 0,
-    //         'image'          => $replaceImage($request->file('image'), $product->image, 'main'),
-    //         'image_2'        => $replaceImage($request->file('image_2'), $product->image_2, 2),
-    //         'image_3'        => $replaceImage($request->file('image_3'), $product->image_3, 3),
-    //         'image_4'        => $replaceImage($request->file('image_4'), $product->image_4, 4),
-    //         'image_5'        => $replaceImage($request->file('image_5'), $product->image_5, 5),
-    //     ]);
-
-    //     return redirect()->route('admin.products.index')
-    //         ->with('success', '✅ Product updated successfully!')
-    //         ->with('highlight_id', $product->id);
-    // }
-
-
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -170,27 +136,29 @@ class ProductController extends Controller
             'name'            => 'required|min:3|unique:products,name,' . $id,
             'current_price'   => 'required|numeric',
             'previous_price'  => 'nullable|numeric',
+
             'image'           => 'nullable|image|max:4096',
             'image_2'         => 'nullable|image|max:3072',
             'image_3'         => 'nullable|image|max:3072',
             'image_4'         => 'nullable|image|max:3072',
             'image_5'         => 'nullable|image|max:3072',
+
+            // variations
+            'sizes'           => 'nullable|array',
+            'sizes.*.name'    => 'nullable|string|max:20',
+            'sizes.*.stock'   => 'nullable|integer|min:0',
         ]);
 
         $slug = Str::slug($request->name);
 
-        /**
-         * Helper to replace image
-         */
+        // helper for replacing image
         $replaceImage = function ($file, $oldPath, $suffix) use ($slug) {
             if (!$file) {
                 return $oldPath;
             }
 
-            // delete old image
             ImageUploadHelper::delete($oldPath);
 
-            // upload new image
             return ImageUploadHelper::uploadWebp(
                 $file,
                 'uploads/products',
@@ -198,6 +166,7 @@ class ProductController extends Controller
             );
         };
 
+        // ✅ Update Product
         $product->update([
             'category_id'    => $request->category_id,
             'name'           => $request->name,
@@ -214,10 +183,29 @@ class ProductController extends Controller
             'image_5' => $replaceImage($request->file('image_5'), $product->image_5, '5'),
         ]);
 
+        // ❌ Delete old variations
+        $product->variations()->delete();
+
+        // ✅ Insert new variations
+        if ($request->sizes) {
+            foreach ($request->sizes as $size) {
+
+                if (!empty($size['name'])) {
+                    ProductVariation::create([
+                        'product_id' => $product->id,
+                        'size'       => $size['name'],
+                        'stock'      => $size['stock'] ?? 0,
+                        'is_active'  => ($size['stock'] ?? 0) > 0,
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('admin.products.index')
             ->with('success', '✅ Product updated successfully!')
             ->with('highlight_id', $product->id);
     }
+
 
 
 
