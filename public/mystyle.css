@@ -1,19 +1,18 @@
 /* ========= common ======= */
-.center{
+.center {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
 .section-title {
-  font-size: 1em;
-  font-weight: 700;
-  line-height: 1;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1;
 }
 
 
-/*======= navbar ===== */
+/*=================== navbar ====================== */
 
 .navbar .navbar-brand img {
     height: 70px;
@@ -31,30 +30,57 @@
     margin-top: 10px;
 }
 
+/* Mega menu fix */
+.navbar .dropdown-menu {
+    left: 0;
+    right: 0;
+}
 
-
-
-
+/* Hover effect */
+.dropdown-item:hover {
+    background-color: transparent;
+    color: #000;
+    transform: translateX(3px);
+    transition: 0.2s;
+}
 
 .navbar h5 {
-  font-size: 24px;  
+    font-size: 24px;
 }
+
+/* Show dropdown on hover (desktop only) */
+
+@media (min-width: 992px) {
+    .navbar .dropdown-menu {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.25s ease;
+    }
+
+    .navbar .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+
 
 /* Medium devices (tablets, ≤ 992px) */
 @media (max-width: 992px) {
-  .navbar h5 {
-    font-size: 20px;
-  }
+    .navbar h5 {
+        font-size: 20px;
+    }
 }
 
 /* Small devices (phones, ≤ 576px) */
 @media (max-width: 576px) {
-  .navbar h5 {
-    font-size: 16px;
-  }
+    .navbar h5 {
+        font-size: 16px;
+    }
 }
-
-
 
 /*=========  banner =========*/
 
@@ -72,6 +98,24 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+}
+
+/* ========= category section  ========== */
+
+.category-image {
+    height: 500px;
+    object-fit: cover;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .category-image {
+        height: 250px;
+    }
+}
+
+.category-content {
+    background-color: #171717dd;
 }
 
 /* ========= product card ========== */
@@ -138,7 +182,9 @@
     border-radius: 50px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.5px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 /* subtle lift effect on hover */

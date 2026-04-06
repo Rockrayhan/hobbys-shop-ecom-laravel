@@ -28,7 +28,12 @@ class AppServiceProvider extends ServiceProvider
 
         // Share all categories with all frontend views
         View::composer('*', function ($view) {
-            $view->with('allCategories', Category::orderBy('name')->get());
+            $categories = Category::with('children')
+                ->whereNull('parent_id') // only main categories
+                ->orderBy('name')
+                ->get();
+
+            $view->with('allCategories', $categories);
         });
     }
 }

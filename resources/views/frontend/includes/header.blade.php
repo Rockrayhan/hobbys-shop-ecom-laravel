@@ -11,26 +11,43 @@
         <!-- Middle (Desktop Only) -->
         <div class="d-none d-lg-flex align-items-center">
             <ul class="navbar-nav justify-content-center flex-grow-1 gap-3">
-                <li class="nav-item border-animation-left"><a class="nav-link item-anchor" href="{{ route('home') }}">Home</a></li>
+                <li class="nav-item border-animation-left"><a class="nav-link item-anchor"
+                        href="{{ route('home') }}">Home</a></li>
 
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+
+                <li class="nav-item dropdown position-static">
+                    <a class="nav-link dropdown-toggle" href="#">
                         Products
                     </a>
 
-                    <ul class="dropdown-menu">
-                        @forelse ($allCategories as $category)
-                            <li>
-                                <a class="dropdown-item" href="{{ route('category.details', $category->slug) }}">
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @empty
-                            <li><span class="dropdown-item text-muted">No categories found</span></li>
-                        @endforelse
-                    </ul>
+                    <div class="dropdown-menu w-100 mt-0 border-0 shadow p-4">
+                        <div class="container">
+                            <div class="row">
+
+                                @foreach ($allCategories as $category)
+                                    <div class="col-md-3 mb-3">
+
+                                        <!-- Parent Category -->
+                                        <a href="{{ route('category.details', $category->slug) }}"
+                                            class="fw-bold text-dark text-decoration-none d-block mb-2">
+                                            {{ $category->name }}
+                                        </a>
+
+                                        <!-- Children -->
+                                        @foreach ($category->children as $child)
+                                            <a href="{{ route('category.details', $child->slug) }}"
+                                                class="dropdown-item small text-muted ps-0">
+                                                {{ $child->name }}
+                                            </a>
+                                        @endforeach
+
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
                 </li>
 
 
@@ -80,28 +97,41 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <hr>
-        
+
         <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-center flex-grow-1 gap-3">
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#mobileCategories">
                         Products
                     </a>
 
-                    <ul class="dropdown-menu">
-                        @forelse ($allCategories as $category)
-                            <li>
-                                <a class="dropdown-item" href="{{ route('category.details', $category->slug) }}">
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @empty
-                            <li><span class="dropdown-item text-muted">No categories found</span></li>
-                        @endforelse
-                    </ul>
+                    <div class="collapse" id="mobileCategories">
+                        <ul class="list-unstyled ps-3">
+
+                            @foreach ($allCategories as $category)
+                                <li>
+
+                                    <!-- Parent -->
+                                    <a class="fw-bold d-block py-1"
+                                        href="{{ route('category.details', $category->slug) }}">
+                                        {{ $category->name }}
+                                    </a>
+
+                                    <!-- Children -->
+                                    @foreach ($category->children as $child)
+                                        <a class="d-block small text-muted ps-3 py-1"
+                                            href="{{ route('category.details', $child->slug) }}">
+                                            {{ $child->name }}
+                                        </a>
+                                    @endforeach
+
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    </div>
                 </li>
 
 

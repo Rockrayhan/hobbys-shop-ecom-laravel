@@ -109,14 +109,17 @@
                                             class="banner-img img-fluid">
                                     </div>
                                 </div>
+
+
                                 <div class="banner-content col-lg-6 p-5">
-                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up"> Crafted for Perfection
-                                    </h2>
-                                    <p>Discover the world's finest luxury timepieces, where precision meets artistry.
-                                    </p>
-                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                    <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Crafted for Perfection</h2>
+                                    <p>For those who appreciate timeless sophistication—sleek designs with refined
+                                        details, powered by mechanical mastery.</p>
+                                    <a href="{{route('all-products')}}" class="btn btn-outline-dark text-uppercase mt-3">Explore the
                                         Collections</a>
                                 </div>
+
+
                             </div>
                         </div>
                         <div class="swiper-slide">
@@ -130,7 +133,7 @@
                                     <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Classic Elegance</h2>
                                     <p>For those who appreciate timeless sophistication—sleek designs with refined
                                         details, powered by mechanical mastery.</p>
-                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                    <a href="{{route('all-products')}}" class="btn btn-outline-dark text-uppercase mt-3">Explore the
                                         Collections</a>
                                 </div>
                             </div>
@@ -146,7 +149,7 @@
                                     <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Sport & Adventure</h2>
                                     <p>Engineered for precision under pressure—robust, high-performance watches for the
                                         modern explorer.</p>
-                                    <a href="#" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                    <a href="{{route('all-products')}}" class="btn btn-outline-dark text-uppercase mt-3">Explore the
                                         Collections</a>
                                 </div>
                             </div>
@@ -166,143 +169,41 @@
 
 
 
-    {{-- categoires --}}
+
+    {{-- categories --}}
     <section class="categories full-width-container overflow-hidden pb-5 slide-clip-animation" data-aos="fade-in">
         <div class="row d-flex flex-wrap g-0">
-            <div class="col-md-4 col-sm-6">
-                <div class="cat-item image-zoom-effect position-relative">
-                    <div class="image-holder">
-                        <a href="shop-four-column-wide.html"><img src="{{ asset('images/category-banner-3.jpg') }}"
-                                alt="categories" class="product-image img-fluid"></a>
-                        <div class="category-content position-absolute bottom-0 p-5 text-uppercase">
-                            <h4 class="section-title text-white">For Men</h4>
-                            <a href="shop-four-column-wide.html" class="text-white btn-link">Shop it Now</a>
+            @forelse ($featuredCategories as $cat)
+                <div class="col-md-4 col-sm-6">
+                    <div class="cat-item image-zoom-effect position-relative">
+                        <div class="image-holder">
+                            <a href="{{ route('category.details', $cat->slug) }}">
+                                <img src="{{ $cat->image ? asset($cat->image) : asset('images/default-category.jpg') }}"
+                                    alt="{{ $cat->name }}" class="category-image img-fluid w-100">
+                                    <div class="category-content position-absolute bottom-0 p-5 text-uppercase bg-gradient">
+                                        <h4 class="section-title text-white">{{ $cat->name }}</h4>
+                                    </div>
+                                </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="cat-item image-zoom-effect position-relative">
-                    <div class="image-holder">
-                        <a href="shop-four-column-wide.html"><img src="{{ asset('images/category-banner-1.jpg') }}"
-                                alt="categories" class="product-image img-fluid"></a>
-                        <div class="category-content position-absolute bottom-0 p-5 text-uppercase">
-                            <h4 class="section-title text-white">For Women</h4>
-                            <a href="shop-four-column-wide.html" class="text-white btn-link">Shop it Now</a>
-                        </div>
-                    </div>
+            @empty
+                <div class="col-12 text-center">
+                    <p class="text-muted">No featured categories to display.</p>
                 </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="cat-item image-zoom-effect position-relative">
-                    <div class="image-holder">
-                        <a href="shop-four-column-wide.html"><img src="{{ asset('images/category-banner-2.jpg') }}"
-                                alt="categories" class="product-image img-fluid"></a>
-                        <div class="category-content position-absolute bottom-0 p-5 text-uppercase bg-dark bg-gradient">
-                            <h4 class="section-title text-white">For Accessories</h4>
-                            <a href="shop-four-column-wide.html" class="text-white btn-link">Shop it Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
     </section>
 
 
 
-    {{-- all products nav tab --}}
-    <section class="product-grid py-5 clearfix">
+    {{-- products section --}}
 
-        <div class="section-header text-center mb-4">
-            <h3 class="section-title text-uppercase fs-2">Our Products</h3>
-        </div>
-
-        <div class="container">
-            <div class="row">
-
-                <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
-                    <a href="#" class="btn-link text-uppercase is-checked" data-filter="*">All</a>
-                    @foreach ($categories as $cat)
-                        <a href="#" class="btn-link text-uppercase" data-filter=".{{ Str::slug($cat->name) }}">
-                            {{ $cat->name }}
-                        </a>
-                    @endforeach
-                </div>
-
-
-                <div class="grid p-0 clearfix">
-                    @foreach ($products as $item)
-                        <!-- Product Card -->
-                        <div
-                            class="col-12 col-sm-6 col-md-4 col-lg-3 p-2 product-item {{ Str::slug($item->category->name) }}">
-                            <div class="product-card position-relative bg-white rounded-3 overflow-hidden shadow-sm h-100">
-
-                                <!-- Product Image -->
-                                <div class="image-holder position-relative overflow-hidden">
-                                    <a href="{{ route('product.details', $item->slug) }}" class="d-block">
-                                        @if ($item->image)
-                                            <img src="{{ asset($item->image) }}" alt="{{ $item->name }}"
-                                                class="product-img w-100 object-fit-cover">
-                                        @else
-                                            <span class="text-muted d-block text-center py-5">No Image</span>
-                                        @endif
-                                    </a>
-
-                                    <!-- Discount Price -->
-                                    @if ($item->previous_price > 0 && $item->previous_price > $item->current_price)
-                                        <span class="discount-price">
-                                            {{ number_format($item->previous_price - $item->current_price, 0) }}৳ OFF
-                                        </span>
-                                    @endif
-                                </div>
-
-                                <!-- Product Info -->
-                                <div class="product-content p-3">
-                                    <h5 class="element-title text-uppercase fw-semibold fs-6 mb-3 ">
-                                        <a href="{{ route('product.details', $item->slug) }}"
-                                            class="text-dark text-decoration-none">
-                                            {{ $item->name }}
-                                        </a>
-                                    </h5>
-
-                                    <div class="mb-3">
-                                        <span class="fw-bold text-primary fs-5">
-                                            {{ fmod($item['current_price'], 1) == 0
-                                                ? number_format($item['current_price'], 0)
-                                                : number_format($item['current_price'], 2) }}
-                                            ৳
-                                        </span>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <button class="btn btn-sm add-to-cart px-3 py-2" data-id="{{ $item->id }}"
-                                            data-name="{{ $item->name }}" data-price="{{ $item->current_price }}"
-                                            data-image="{{ asset($item->image) }}">
-                                            <i class="bi bi-cart me-1"></i> Add to cart
-                                        </button>
-
-                                        {{-- <a href="{{ route('checkout.form', ['product' => $item->slug]) }}"
-                                            class="btn btn-primary btn-sm px-4 py-2">
-                                            Buy Now
-                                        </a> --}}
-                                        <a href="{{ route('product.details', $item->slug) }}"
-                                            class="btn btn-primary btn-sm px-4 py-2">
-                                            Buy Now
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
-
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
+    @include('frontend.components.product_section', [
+        'products' => $products,
+        'categories' => $categories, // only top-level categories
+        'title' => 'Our Products',
+    ])
 
 
 
@@ -379,79 +280,6 @@
 
 
 
-    {{-- blogs --}}
-    <section class="blog py-5">
-        <div class="container">
-            <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 mb-3">
-                <h4 class="text-uppercase">Read Blog Posts</h4>
-                <a href="blog-classic.html" class="btn-link">View All</a>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <article class="post-item">
-                        <div class="post-image">
-                            <a href="single-post.html">
-                                <img src="images/post-image1.jpg" alt="image" class="post-grid-image img-fluid">
-                            </a>
-                        </div>
-                        <div class="post-content d-flex flex-wrap gap-2 my-3">
-                            <div class="post-meta text-uppercase fs-6 text-secondary">
-                                <span class="post-category">Fashion /</span>
-                                <span class="meta-day"> jul 11, 2022</span>
-                            </div>
-                            <h5 class="post-title text-uppercase">
-                                <a href="single-post.html">How to look outstanding in pastel</a>
-                            </h5>
-                            <p>Dignissim lacus,turpis ut suspendisse vel tellus.Turpis purus,gravida orci,fringilla...
-                            </p>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-md-4">
-                    <article class="post-item">
-                        <div class="post-image">
-                            <a href="single-post.html">
-                                <img src="images/post-image2.jpg" alt="image" class="post-grid-image img-fluid">
-                            </a>
-                        </div>
-                        <div class="post-content d-flex flex-wrap gap-2 my-3">
-                            <div class="post-meta text-uppercase fs-6 text-secondary">
-                                <span class="post-category">Fashion /</span>
-                                <span class="meta-day"> jul 11, 2022</span>
-                            </div>
-                            <h5 class="post-title text-uppercase">
-                                <a href="single-post.html">Top 10 fashion trend for summer</a>
-                            </h5>
-                            <p>Turpis purus, gravida orci, fringilla dignissim lacus, turpis ut suspendisse vel
-                                tellus...</p>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-md-4">
-                    <article class="post-item">
-                        <div class="post-image">
-                            <a href="single-post.html">
-                                <img src="images/post-image3.jpg" alt="image" class="post-grid-image img-fluid">
-                            </a>
-                        </div>
-                        <div class="post-content d-flex flex-wrap gap-2 my-3">
-                            <div class="post-meta text-uppercase fs-6 text-secondary">
-                                <span class="post-category">Fashion /</span>
-                                <span class="meta-day"> jul 11, 2022</span>
-                            </div>
-                            <h5 class="post-title text-uppercase">
-                                <a href="single-post.html">Crazy fashion with unique moment</a>
-                            </h5>
-                            <p>Turpis purus, gravida orci, fringilla dignissim lacus, turpis ut suspendisse vel
-                                tellus...</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
     {{-- brand logo --}}
     <section class="logo-bar py-5 my-5">
         <div class="container">
@@ -469,57 +297,6 @@
 
 
 
-
-    {{-- instagrtam / social media --}}
-    <section class="instagram py-5">
-        <div class="container">
-            <div class="row g-3">
-                <h6 class="element-title text-center">Follow us on Instagram</h6>
-                <div class="col-6 col-sm-4 col-md-2">
-                    <div class="insta-item">
-                        <a href="https://www.instagram.com/templatesjungle/" target="_blank">
-                            <img src="images/insta-item1.jpg" alt="instagram" class="insta-image img-fluid">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-4 col-md-2">
-                    <div class="insta-item">
-                        <a href="https://www.instagram.com/templatesjungle/" target="_blank">
-                            <img src="images/insta-item2.jpg" alt="instagram" class="insta-image img-fluid">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-4 col-md-2">
-                    <div class="insta-item">
-                        <a href="https://www.instagram.com/templatesjungle/" target="_blank">
-                            <img src="images/insta-item3.jpg" alt="instagram" class="insta-image img-fluid">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-4 col-md-2">
-                    <div class="insta-item">
-                        <a href="https://www.instagram.com/templatesjungle/" target="_blank">
-                            <img src="images/insta-item4.jpg" alt="instagram" class="insta-image img-fluid">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-4 col-md-2">
-                    <div class="insta-item">
-                        <a href="https://www.instagram.com/templatesjungle/" target="_blank">
-                            <img src="images/insta-item5.jpg" alt="instagram" class="insta-image img-fluid">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-4 col-md-2">
-                    <div class="insta-item">
-                        <a href="https://www.instagram.com/templatesjungle/" target="_blank">
-                            <img src="images/insta-item6.jpg" alt="instagram" class="insta-image img-fluid">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
 

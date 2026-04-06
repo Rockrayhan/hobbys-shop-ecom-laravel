@@ -17,6 +17,7 @@
                     <th>#</th>
                     <th>Name</th>
                     <th>Slug</th>
+                    <th> Featured </th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -26,6 +27,13 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $cat->name }}</td>
                         <td>{{ $cat->slug }}</td>
+                        <td>
+                            @if ($cat->featured_on_home == 1)
+                                <span class="badge bg-success">Featured</span>
+                            @else
+                                <span class="badge bg-secondary"></span>
+                            @endif
+                        </td>
 
                         <td>
                             <a href="{{ route('admin.categories.edit', $cat->id) }}" class="btn btn-warning btn-sm">

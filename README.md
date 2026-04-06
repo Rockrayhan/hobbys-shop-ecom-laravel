@@ -5,7 +5,7 @@
 
 
 2. Products
-- id, category_id (FK), name, slug, image, description, Current_price,  previous_price, isOnSale 
+- id, category_id (FK), name, slug, image(1-5), description, Current_price,  previous_price, isOnSale 
 
 
 3. users
@@ -22,7 +22,7 @@
 
 
 6. orders 
-- id, user_name, phone, address, is_inside_dhaka, delivery_charge, order_status, subtotal , grand_total
+- id, tracking_number, user_name, phone, address, is_inside_dhaka, delivery_charge, order_status, subtotal , grand_total
 
 
 7. order_items

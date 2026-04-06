@@ -14,18 +14,64 @@ class FrontendController extends Controller
 
     public function home()
     {
-        // $products = Product::with('category')->latest()->get();
-        $products = Product::with('category')
-            ->where('isOnSale', false)
-            ->latest()
-            ->get();
+        // All products
+        $products = Product::with('category')->where('isOnSale', false)->latest()->get();
 
-        $categories = Category::all();
+        // Only parent categories for filter buttons
+        $categories = Category::whereNull('parent_id')->with('children')->get();
+
+        // Only featured categories for home page display
+        $featuredCategories = Category::where('featured_on_home', true)->get();
+
         $banners = Banner::with('product')->where('is_active', true)->get();
         $reviews = Review::latest()->get();
 
-        return view('frontend.home', compact('products', 'categories', 'banners', 'reviews'));
+        return view('frontend.home', compact(
+            'products',
+            'categories',
+            'featuredCategories',
+            'banners',
+            'reviews'
+        ));
     }
+
+
+
+    public function categoryDetails($slug)
+    {
+        $category = Category::with('children')->where('slug', $slug)->firstOrFail();
+
+        // Collect category IDs
+        $categoryIds = [$category->id];
+
+        if ($category->children->count()) {
+            $childIds = $category->children->pluck('id')->toArray();
+            $categoryIds = array_merge($categoryIds, $childIds);
+        }
+
+        // Products
+        $products = \App\Models\Product::whereIn('category_id', $categoryIds)
+            ->latest()
+            ->paginate(9);
+
+        // 👉 Filter categories (IMPORTANT)
+        $filterCategories = collect([$category])->merge($category->children);
+
+        // Related categories
+        $relatedCategories = Category::where('id', '!=', $category->id)
+            ->take(5)
+            ->get();
+
+        return view('frontend.category-details', compact(
+            'category',
+            'products',
+            'relatedCategories',
+            'filterCategories'
+        ));
+    }
+
+
+
 
 
 
@@ -41,22 +87,6 @@ class FrontendController extends Controller
 
         return view('frontend.product-details', compact('product', 'relatedProducts'));
     }
-
-
-    public function categoryDetails($slug)
-    {
-        // Find category by slug
-        $category = Category::where('slug', $slug)->firstOrFail();
-
-        // Get products that belong to this category
-        $products = $category->products()->latest()->paginate(9);
-
-        // Optionally: get related categories (excluding current one)
-        $relatedCategories = Category::where('id', '!=', $category->id)->take(5)->get();
-
-        return view('frontend.category-details', compact('category', 'products', 'relatedCategories'));
-    }
-
 
 
 
