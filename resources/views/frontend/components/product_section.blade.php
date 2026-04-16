@@ -6,20 +6,26 @@
 <section class="product-grid py-5 clearfix">
 
     <div class="section-header text-center mb-4">
-        <h3 class="section-title text-uppercase fs-2">{{ $title }}</h3>
+        <h3 class="section-title text-uppercase fs-2 ">{{ $title }}</h3>
     </div>
 
     <div class="container">
         <div class="row">
 
             {{-- Filters --}}
-            <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
-                <a href="#" class="btn-link text-uppercase is-checked" data-filter="*">All</a>
+            <div id="filters" class="button-group d-flex flex-wrap justify-content-center gap-2 gap-md-3 py-4">
+
+                <a href="#" class="btn btn-sm btn-outline-dark text-uppercase is-checked" data-filter="*">
+                    All
+                </a>
+
                 @foreach ($categories as $cat)
-                    <a href="#" class="btn-link text-uppercase" data-filter=".{{ Str::slug($cat->slug) }}">
+                    <a href="#" class="btn btn-sm btn-outline-dark text-uppercase"
+                        data-filter=".{{ Str::slug($cat->slug) }}">
                         {{ $cat->name }}
                     </a>
                 @endforeach
+
             </div>
 
             {{-- Products Grid --}}

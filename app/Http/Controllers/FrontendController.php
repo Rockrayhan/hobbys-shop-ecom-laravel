@@ -131,7 +131,8 @@ class FrontendController extends Controller
     {
 
         $products = Product::with('category')->latest()->get();
-        $categories = Category::all();
+                // Only parent categories for filter buttons
+        $categories = Category::whereNull('parent_id')->with('children')->get();
 
         return view('frontend.all-products', compact('products', 'categories'));
     }
@@ -142,7 +143,7 @@ class FrontendController extends Controller
     // show order success page
     public function OrderSuccess(Order $order)
     {
-        $order->load('items.product', 'items.variation'); // 👈 add this
+        $order->load('items.product', 'items.variation'); 
         return view('frontend.order_success', compact('order'));
     }
 

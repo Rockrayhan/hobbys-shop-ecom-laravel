@@ -42,8 +42,8 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-center justify-content-between">
-                <button class="btn btn-sm add-to-cart px-3 py-2" data-id="{{ $item->id }}"
+            <div class="d-flex align-items-center justify-content-center ">
+                {{-- <button class="btn btn-sm add-to-cart px-3 py-2" data-id="{{ $item->id }}"
                     data-name="{{ $item->name }}" data-price="{{ $item->current_price }}"
                     data-image="{{ asset($item->image) }}">
                     <i class="bi bi-cart me-1"></i> Add to cart
@@ -51,6 +51,11 @@
 
                 <a href="{{ route('checkout.form', ['product' => $item->slug]) }}"
                     class="btn btn-primary btn-sm px-4 py-2">
+                    Buy Now
+                </a> --}}
+
+                <a href="{{ route('product.details', $item->slug) }}"
+                    class="btn btn-primary btn-sm px-4 py-2 w-100">
                     Buy Now
                 </a>
             </div>

@@ -20,7 +20,6 @@
 - id, cart_id (FK), product_id (FK), quantity, unit_price
 
 
-
 6. orders 
 - id, tracking_number, user_name, phone, address, is_inside_dhaka, delivery_charge, order_status, subtotal , grand_total
 

@@ -5,24 +5,7 @@
 @section('content')
 
 
-    <style>
-        .testimonial-item {
-            transition: all 0.3s ease-in-out;
-        }
 
-        .testimonial-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .review-img img {
-            transition: transform 0.4s ease;
-        }
-
-        .review-img img:hover {
-            transform: scale(1.03);
-        }
-    </style>
 
 
     {{-- banner --}}
@@ -103,9 +86,9 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="row banner-item text-center align-items-center">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="image-holder">
-                                        <img src="{{ asset('images/two-col-banner-2.png') }}" alt="product"
+                                        <img src="{{ asset('images/banner1.webp') }}" alt="product"
                                             class="banner-img img-fluid">
                                     </div>
                                 </div>
@@ -113,43 +96,48 @@
 
                                 <div class="banner-content col-lg-6 p-5">
                                     <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Crafted for Perfection</h2>
-                                    <p>For those who appreciate timeless sophistication—sleek designs with refined
+                                    <p>1 For those who appreciate timeless sophistication—sleek designs with refined
                                         details, powered by mechanical mastery.</p>
-                                    <a href="{{route('all-products')}}" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+
+                                    <a href="{{ route('all-products') }}"
+                                        class="btn btn-outline-dark text-uppercase mt-3 py-3">Explore the
                                         Collections</a>
+
                                 </div>
 
 
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="row banner-item text-center align-items-center">
+                            <div class="row banner-item align-items-center">
                                 <div class="col-lg-6">
                                     <div class="image-holder">
-                                        <img src="images/two-col-banner-3.png" alt="product" class=" banner-img img-fluid">
+                                        <img src="{{asset('images/banner2.webp')}}" alt="product" class=" banner-img img-fluid">
                                     </div>
                                 </div>
                                 <div class="banner-content col-lg-6 p-5">
                                     <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Classic Elegance</h2>
                                     <p>For those who appreciate timeless sophistication—sleek designs with refined
                                         details, powered by mechanical mastery.</p>
-                                    <a href="{{route('all-products')}}" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                    <a href="{{ route('all-products') }}"
+                                        class="btn btn-outline-dark text-uppercase mt-3 py-3">Explore the
                                         Collections</a>
                                 </div>
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="row banner-item text-center align-items-center">
+                            <div class="row banner-item align-items-center">
                                 <div class="col-lg-6">
                                     <div class="image-holder">
-                                        <img src="images/two-col-banner-1.png" alt="product" class=" banner-img img-fluid">
+                                        <img src="{{asset('images/banner3.webp')}}" alt="product" class=" banner-img img-fluid">
                                     </div>
                                 </div>
-                                <div class="banner-content col-lg-6 p-5">
+                                <div class="banner-content col-lg-6 order-1 order-lg-2 p-5">
                                     <h2 class="display-2 fw-bold text-uppercase txt-fx slide-up">Sport & Adventure</h2>
                                     <p>Engineered for precision under pressure—robust, high-performance watches for the
                                         modern explorer.</p>
-                                    <a href="{{route('all-products')}}" class="btn btn-outline-dark text-uppercase mt-3">Explore the
+                                    <a href="{{ route('all-products') }}"
+                                        class="btn btn-outline-dark text-uppercase mt-3 py-3">Explore the
                                         Collections</a>
                                 </div>
                             </div>
@@ -180,10 +168,10 @@
                             <a href="{{ route('category.details', $cat->slug) }}">
                                 <img src="{{ $cat->image ? asset($cat->image) : asset('images/default-category.jpg') }}"
                                     alt="{{ $cat->name }}" class="category-image img-fluid w-100">
-                                    <div class="category-content position-absolute bottom-0 p-5 text-uppercase bg-gradient">
-                                        <h4 class="section-title text-white">{{ $cat->name }}</h4>
-                                    </div>
-                                </a>
+                                <div class="category-content position-absolute bottom-0 p-5 text-uppercase bg-gradient">
+                                    <h4 class="section-title text-white">{{ $cat->name }}</h4>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -208,71 +196,9 @@
 
 
     {{-- testimonials --}}
-    <section class="testimonials py-5">
-        <div class="section-header text-center mb-4">
-            <h3 class="section-title text-uppercase fs-2">Our Reviews</h3>
-        </div>
 
-        <div class="swiper testimonial-swiper overflow-hidden px-5 py-4">
-            <div class="swiper-wrapper d-flex">
-                @forelse ($reviews as $review)
-                    <div class="swiper-slide">
-                        <div
-                            class="testimonial-item text-center p-4 bg-white shadow-sm rounded-4 border border-light-subtle">
-                            <div class="review-img mb-3">
-                                <img src="{{ asset($review->image ?? 'images/default-user.png') }}"
-                                    alt="{{ $review->customer_name }}" class="img-fluid rounded-3 shadow-sm border"
-                                    style="object-fit: cover; width: 320px; height: 220px;">
-                            </div>
+    @include('frontend.components.testimonial_section')
 
-                            <blockquote class="mt-3">
-                                <h5 class="fw-bold text-uppercase text-dark mb-1">
-                                    {{ $review->customer_name }}
-                                </h5>
-                            </blockquote>
-
-                            {{-- ⭐ Rating display --}}
-                            <div class="text-warning mt-2">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <i class="bi bi-star-fill fs-5"></i>
-                                @endfor
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    {{-- 🔹 Static demo reviews (show when DB has none) --}}
-                    @foreach ([['img' => 'images/demo-review-1.jpg', 'name' => 'John Doe', 'text' => 'Superb quality! The detail and comfort exceeded my expectations.'], ['img' => 'images/demo-review-2.jpg', 'name' => 'Sarah Williams', 'text' => 'Stylish and elegant. Perfect fit and finish!'], ['img' => 'images/demo-review-3.jpg', 'name' => 'David Kim', 'text' => 'Fast shipping and great experience overall.']] as $demo)
-                        <div class="swiper-slide">
-                            <div
-                                class="testimonial-item text-center p-4 bg-white shadow-sm rounded-4 border border-light-subtle">
-                                <div class="review-img mb-3">
-                                    <img src="{{ asset($demo['img']) }}" alt="{{ $demo['name'] }}"
-                                        class="img-fluid rounded-3 shadow-sm border"
-                                        style="object-fit: cover; width: 320px; height: 220px;">
-                                </div>
-
-                                <blockquote class="mt-3">
-                                    <h5 class="fw-bold text-uppercase text-dark mb-1">{{ $demo['name'] }}</h5>
-                                    <p class="text-muted fst-italic small">“{{ $demo['text'] }}”</p>
-                                </blockquote>
-
-                                <div class="text-warning mt-2">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="bi bi-star-fill fs-5"></i>
-                                    @endfor
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                @endforelse
-            </div>
-
-            {{-- Swiper Pagination --}}
-            <div class="swiper-pagination mt-3"></div>
-        </div>
-
-
-    </section>
 
 
 
@@ -283,14 +209,32 @@
     {{-- brand logo --}}
     <section class="logo-bar py-5 my-5">
         <div class="container">
-            <div class="row">
-                <div class="logo-content d-flex flex-wrap justify-content-between">
-                    <img src="images/logo1.png" alt="logo" class="logo-image img-fluid">
-                    <img src="images/logo2.png" alt="logo" class="logo-image img-fluid">
-                    <img src="images/logo3.png" alt="logo" class="logo-image img-fluid">
-                    <img src="images/logo4.png" alt="logo" class="logo-image img-fluid">
-                    <img src="images/logo5.png" alt="logo" class="logo-image img-fluid">
+            <div class="row gx-5 gy-4">
+
+                <div class="col-6 col-sm-4 col-md-2 d-flex justify-content-center">
+                    <img src="{{ asset('images/logo1.png') }}" alt="logo" class="img-fluid">
                 </div>
+
+                <div class="col-6 col-sm-4 col-md-2 d-flex justify-content-center">
+                    <img src="{{ asset('images/logo2.png') }}" alt="logo" class="img-fluid">
+                </div>
+
+                <div class="col-6 col-sm-4 col-md-2 d-flex justify-content-center">
+                    <img src="{{ asset('images/logo3.png') }}" alt="logo" class="img-fluid">
+                </div>
+
+                <div class="col-6 col-sm-4 col-md-2 d-flex justify-content-center">
+                    <img src="{{ asset('images/logo4.png') }}" alt="logo" class="img-fluid">
+                </div>
+
+                <div class="col-6 col-sm-4 col-md-2 d-flex justify-content-center">
+                    <img src="{{ asset('images/logo5.png') }}" alt="logo" class="img-fluid">
+                </div>
+
+                <div class="col-6 col-sm-4 col-md-2 d-flex justify-content-center">
+                    <img src="{{ asset('images/logo3.png') }}" alt="logo" class="img-fluid">
+                </div>
+
             </div>
         </div>
     </section>

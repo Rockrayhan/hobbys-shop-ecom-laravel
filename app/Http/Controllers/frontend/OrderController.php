@@ -14,16 +14,14 @@ use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
 {
 
-
     public function showCheckoutPage(Request $request)
     {
-        // 🛒 Existing cart
         $cart = session()->get('cart', []);
 
+        // ✅ Case 1: Product WITH variation
         if ($request->has('product') && $request->has('variation_id')) {
 
             $product = Product::where('slug', $request->product)->firstOrFail();
-
             $variation = ProductVariation::findOrFail($request->variation_id);
 
             $buyNowItem = [
@@ -37,20 +35,34 @@ class OrderController extends Controller
                 'is_buy_now' => true,
             ];
 
-            session(['buy_now_item' => $buyNowItem]);
-
-            $cartWithBuyNow = $cart;
-
-            // ⚠️ key must be unique → use variation id
-            $cartWithBuyNow[$product->id . '-' . $variation->id] = $buyNowItem;
-        } else {
-            $cartWithBuyNow = $cart;
+            $cart[$product->id . '-' . $variation->id] = $buyNowItem;
         }
-        // 🧮 Calculate subtotal
-        $subtotal = collect($cartWithBuyNow)->sum(fn($item) => $item['price'] * $item['quantity']);
+
+        // ✅ Case 2: Product WITHOUT variation
+        elseif ($request->has('product')) {
+
+            $product = Product::where('slug', $request->product)->firstOrFail();
+
+            $buyNowItem = [
+                'id' => $product->id,
+                'variation_id' => null,
+                'size' => null,
+                'name' => $product->name,
+                'price' => $product->current_price,
+                'quantity' => 1,
+                'image' => $product->image ? asset($product->image) : null,
+                'is_buy_now' => true,
+            ];
+
+            // 🔑 unique key without variation
+            $cart[$product->id] = $buyNowItem;
+        }
+
+        // 🧮 subtotal
+        $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
 
         return view('frontend.checkout', [
-            'cart' => $cartWithBuyNow,
+            'cart' => $cart,
             'subtotal' => $subtotal,
         ]);
     }

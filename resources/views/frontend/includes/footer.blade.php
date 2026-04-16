@@ -55,20 +55,15 @@
                         <h5 class="widget-title text-uppercase mb-4">Quick Links</h5>
                         <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
                             <li class="menu-item">
-                                <a href="index.html" class="item-anchor">Home</a>
+                                <a href="/" class="item-anchor">Home</a>
                             </li>
                             <li class="menu-item">
-                                <a href="shop-four-column-wide.html" class="item-anchor">About</a>
+                                <a href="{{ route('all-products') }}" class="item-anchor">All Products</a>
                             </li>
                             <li class="menu-item">
-                                <a href="blog.html" class="item-anchor">Services</a>
+                                <a href="{{route('contact')}}" class="item-anchor">Contact</a>
                             </li>
-                            <li class="menu-item">
-                                <a href="styles.html" class="item-anchor">Single item</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Contact</a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -77,23 +72,16 @@
                         <h5 class="widget-title text-uppercase mb-4">Help & Info</h5>
                         <ul class="menu-list list-unstyled text-uppercase border-animation-left fs-6">
                             <li class="menu-item">
-                                <a href="{{route('order.track')}}" class="item-anchor">Track Your Order</a>
+                                <a href="{{ route('order.track') }}" class="item-anchor">Track Your Order</a>
                             </li>
                             <li class="menu-item">
                                 <a href="{{ route('privacy.policy') }}" class="item-anchor">Privacy Policy</a>
                             </li>
                             <li class="menu-item">
-                                <a href="{{ route('return-refund-policy') }}" class="item-anchor">Return & Refund Policy</a>
+                                <a href="{{ route('return-refund-policy') }}" class="item-anchor">Return & Refund
+                                    Policy</a>
                             </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Contact Us</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="item-anchor">Find us easy</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="faqs.html" class="item-anchor">Faqs</a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -113,18 +101,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 d-flex flex-wrap">
-                        <div class="payment-option">
-                            <span>We accept:</span>
-                            <img src="images/visa-card.png" alt="card">
-                            <img src="images/paypal-card.png" alt="card">
-                            <img src="images/master-card.png" alt="card">
-                        </div>
+
                     </div>
                     <div class="col-md-6 text-end">
-                        <p class="footer-credit">
+                        {{-- <p class="footer-credit">
                             © Copyright 2025 Elegant. All rights reserved.
                             Design by <a href="https://templatesjungle.com" target="_blank">TemplatesJungle</a>
-                        </p>
+                        </p> --}}
                         <p>
                             Develped by <a target="_blank" href="https://khayrul-alam-portfo.netlify.app/">Khayrul
                                 Alam 👨‍💻</a>

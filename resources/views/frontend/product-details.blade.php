@@ -36,6 +36,41 @@
             object-fit: cover;
             border-radius: 8px;
         }
+
+
+
+
+
+        /* related products */
+        .product-card {
+            transition: all 0.25s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-img {
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+
+        @media (max-width: 576px) {
+            .product-img {
+                height: 140px;
+            }
+
+            .product-card h6 {
+                font-size: 13px;
+            }
+        }
     </style>
     <div class="container mt-5">
 
@@ -161,27 +196,64 @@
 
         <!-- Related Products -->
         @if ($relatedProducts->count() > 0)
-            <div class="mt-5">
-                <h4 class="fw-semibold mb-4">Related Products</h4>
-                <div class="row">
+            <div class="mt-5 pt-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Related Products</h4>
+                    <a href="{{ route('all-products') }}" class="small text-decoration-none text-primary">
+                        View All →
+                    </a>
+                </div>
+
+                <div class="row g-3">
                     @foreach ($relatedProducts as $item)
-                        <div class="col-6 col-md-3 mb-4">
-                            <div class="product-card bg-white rounded-3 shadow-sm h-100">
-                                <div class="image-holder">
+                        <div class="col-6 col-md-3 h-75">
+                            <div class="product-card bg-white rounded-4 shadow-sm  border-0">
+
+                                <!-- Image -->
+                                <div class="position-relative overflow-hidden rounded-top">
                                     <a href="{{ route('product.details', $item->slug) }}">
-                                        <img src="{{ asset($item->image) }}" class="w-100 object-fit-cover rounded-top">
+                                        <img src="{{ asset($item->image) }}" class="w-100 product-img"
+                                            alt="{{ $item->name }}">
                                     </a>
+
+                                    {{-- Discount badge --}}
+                                    @if ($item->previous_price > $item->current_price)
+                                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                                            {{ round((($item->previous_price - $item->current_price) / $item->previous_price) * 100) }}%
+                                            OFF
+                                        </span>
+                                    @endif
                                 </div>
-                                <div class="p-3">
-                                    <h6 class="fw-semibold mb-2">
+
+                                <!-- Content -->
+                                <div class="p-3 d-flex flex-column">
+
+                                    <h6 class="fw-semibold mb-2 flex-grow-1">
                                         <a href="{{ route('product.details', $item->slug) }}"
                                             class="text-dark text-decoration-none">
-                                            {{ Str::limit($item->name, 25) }}
+                                            {{ Str::limit($item->name, 40) }}
                                         </a>
                                     </h6>
-                                    <span class="fw-bold text-primary">
-                                        {{ number_format($item->current_price, 0) }}৳
-                                    </span>
+
+                                    <!-- Price -->
+                                    <div class="mb-2">
+                                        @if ($item->previous_price > $item->current_price)
+                                            <small class="text-muted text-decoration-line-through me-1">
+                                                {{ number_format($item->previous_price, 0) }}৳
+                                            </small>
+                                        @endif
+
+                                        <span class="fw-bold text-danger">
+                                            {{ number_format($item->current_price, 0) }}৳
+                                        </span>
+                                    </div>
+
+                                    <!-- CTA -->
+                                    <a href="{{ route('product.details', $item->slug) }}"
+                                        class="btn btn-sm btn-outline-primary w-100">
+                                        View Details
+                                    </a>
+
                                 </div>
                             </div>
                         </div>
@@ -248,65 +320,69 @@
 
 
     {{-- add to cart event --}}
-  <script>
-document.addEventListener("DOMContentLoaded", function() {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
-    let selectedVariationId = null;
+            let selectedVariationId = null;
 
-    // Handle size/variation selection
-    document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active from all
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            // Handle size/variation selection
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active from all
+                    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove(
+                        'active'));
 
-            // Add active to clicked
-            this.classList.add('active');
+                    // Add active to clicked
+                    this.classList.add('active');
 
-            // Store selected variation ID
-            selectedVariationId = this.dataset.id;
+                    // Store selected variation ID
+                    selectedVariationId = this.dataset.id;
 
-            // Hide error
-            document.getElementById('size-error').classList.add('d-none');
+                    // Hide error
+                    document.getElementById('size-error').classList.add('d-none');
 
-            // Mark Add to Cart button as valid
-            const addBtn = document.querySelector('.add-to-cart');
-            if (addBtn) addBtn.dataset.valid = "true";
-        });
-    });
-
-    // Add to Cart button click (validation only)
-    const addToCartBtn = document.querySelector(".add-to-cart");
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener("click", function(e) {
-
-            // If product has variations but none selected
-            if (document.querySelectorAll('.size-btn').length && !selectedVariationId) {
-                e.preventDefault();
-                document.getElementById('size-error').classList.remove('d-none');
-
-                // Mark invalid to prevent global handler
-                this.dataset.valid = "false";
-                return;
-            }
-
-            // Attach variation ID for global handler
-            this.dataset.variationId = selectedVariationId;
-            this.dataset.valid = "true";
-
-            // FB Pixel
-            fbq('track', 'AddToCart', {
-                content_ids: [this.dataset.id],
-                content_name: this.dataset.name,
-                content_type: 'product',
-                value: this.dataset.price,
-                currency: 'BDT'
+                    // Mark Add to Cart button as valid
+                    const addBtn = document.querySelector('.add-to-cart');
+                    if (addBtn) addBtn.dataset.valid = "true";
+                });
             });
-        });
-    }
-});
-</script>
 
-    {{-- buy-now / checkout event --}}
+            // Add to Cart button click (validation only)
+            const addToCartBtn = document.querySelector(".add-to-cart");
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener("click", function(e) {
+
+                    // If product has variations but none selected
+                    if (document.querySelectorAll('.size-btn').length && !selectedVariationId) {
+                        e.preventDefault();
+                        document.getElementById('size-error').classList.remove('d-none');
+
+                        // Mark invalid to prevent global handler
+                        this.dataset.valid = "false";
+                        return;
+                    }
+
+                    // Attach variation ID for global handler
+                    this.dataset.variationId = selectedVariationId;
+                    this.dataset.valid = "true";
+
+                    // FB Pixel
+                    fbq('track', 'AddToCart', {
+                        content_ids: [this.dataset.id],
+                        content_name: this.dataset.name,
+                        content_type: 'product',
+                        value: this.dataset.price,
+                        currency: 'BDT'
+                    });
+                });
+            }
+        });
+    </script>
+
+
+
+
+    {{-- buy-now / checkout event new --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const buyNowBtn = document.querySelector('.buy-now-btn');
@@ -314,11 +390,12 @@ document.addEventListener("DOMContentLoaded", function() {
             if (buyNowBtn) {
                 buyNowBtn.addEventListener('click', function(e) {
 
-                    // ❌ prevent default link behavior
                     e.preventDefault();
 
-                    // ❌ if no size selected
-                    if (!selectedVariationId) {
+                    const hasVariations = document.querySelectorAll('.size-btn').length > 0;
+
+                    // ❌ Only block if variations exist AND none selected
+                    if (hasVariations && !selectedVariationId) {
                         document.getElementById('size-error').classList.remove('d-none');
                         return;
                     }
@@ -332,14 +409,21 @@ document.addEventListener("DOMContentLoaded", function() {
                         currency: 'BDT'
                     });
 
-                    // ✅ redirect WITH variation_id
                     const slug = "{{ $product->slug }}";
-                    window.location.href = `/checkout?product=${slug}&variation_id=${selectedVariationId}`;
+
+                    // ✅ Build URL properly
+                    let url = `/checkout?product=${slug}`;
+
+                    // only add variation if exists
+                    if (selectedVariationId) {
+                        url += `&variation_id=${selectedVariationId}`;
+                    }
+
+                    window.location.href = url;
                 });
             }
         });
     </script>
-
 
 
 @endsection

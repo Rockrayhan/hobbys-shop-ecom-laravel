@@ -11,96 +11,215 @@
     line-height: 1;
 }
 
+/*=================== NAVBAR ====================== */
 
-/*=================== navbar ====================== */
+.navbar {
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.899);
+    backdrop-filter: blur(5px);
+}
 
+/* Logo */
 .navbar .navbar-brand img {
-    height: 70px;
-    border-radius: 10px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
 }
 
-.navbar .cart-count {
-    font-size: 0.8rem;
-    vertical-align: top;
+/* Brand text */
+.navbar h5 {
+    font-size: 22px;
+    margin: 0;
 }
 
+/* Nav links */
 .navbar .nav-link {
     color: #000;
-    transition: color 0.2s;
-    margin-top: 10px;
+    transition: all 0.2s ease;
+    margin-top: 6px;
+    position: relative;
 }
 
-/* Mega menu fix */
+.navbar .nav-link:hover {
+    color: #0d6efd;
+}
+
+/* Cart */
+.navbar .cart-count {
+    font-size: 0.7rem;
+}
+
+/* Mega menu full width */
 .navbar .dropdown-menu {
     left: 0;
     right: 0;
+    top: 100%;
+    border-radius: 0;
 }
 
-/* Hover effect */
+/* Dropdown item hover */
 .dropdown-item:hover {
-    background-color: transparent;
+    background: transparent;
     color: #000;
-    transform: translateX(3px);
+    transform: translateX(4px);
     transition: 0.2s;
 }
 
-.navbar h5 {
-    font-size: 24px;
-}
-
-/* Show dropdown on hover (desktop only) */
-
+/* HOVER DROPDOWN (DESKTOP) */
 @media (min-width: 992px) {
+
     .navbar .dropdown-menu {
         display: block;
         opacity: 0;
         visibility: hidden;
         transform: translateY(10px);
         transition: all 0.25s ease;
+        pointer-events: none;
     }
 
     .navbar .dropdown:hover .dropdown-menu {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
+        pointer-events: auto;
     }
 }
 
+/*  MOBILE RESPONSIVE  */
 
-
-/* Medium devices (tablets, ≤ 992px) */
+/* Tablet */
 @media (max-width: 992px) {
+
     .navbar h5 {
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    .navbar .navbar-brand img {
+        height: 50px;
+    }
+
+    .navbar .nav-link {
+        margin-top: 0;
+        padding: 8px 0;
     }
 }
 
-/* Small devices (phones, ≤ 576px) */
+/* Mobile */
 @media (max-width: 576px) {
+
     .navbar h5 {
         font-size: 16px;
     }
+
+    .navbar .navbar-brand img {
+        height: 45px;
+    }
+
+    .navbar {
+        margin-bottom: 20px;
+    }
+
 }
 
-/*=========  banner =========*/
+/*  OFFCANVAS  */
+
+.offcanvas-body .nav-link {
+    font-size: 15px;
+}
+
+.offcanvas-body a {
+    text-decoration: none;
+}
+
+.offcanvas-body a:hover {
+    color: #0d6efd;
+}
+
+
+
+
+
+/*======================  banner =====================*/
 
 .banner {
-    min-height: 90vh !important;
-    height: fit-content;
+    height: 90vh;
+    display: flex;
+    align-items: center;
 }
 
-.banner img {
-    height: 50%;
-    width: 50%;
+/* each slide full height */
+.banner .swiper,
+.banner .swiper-wrapper,
+.banner .swiper-slide {
+    height: 100%;
 }
 
+/* layout */
+.banner-item {
+    min-height: 100vh;
+}
+
+/* image */
+.banner-img {
+    width: 100%;
+    max-height: 800px;
+    object-fit: contain;
+}
+
+/* content */
 .banner-content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    justify-content: center;
+    gap: 3px;
 }
 
-/* ========= category section  ========== */
+/* text tuning */
+.banner-content h2 {
+    line-height: 1.1;
+}
+
+/* 🔥 Tablet */
+@media (max-width: 991px) {
+    .banner-item {
+        height: auto;
+        padding: 40px 0;
+    }
+
+    .banner-content {
+        text-align: center;
+        padding: 20px !important;
+    }
+
+    .banner-img {
+        max-height: 350px;
+    }
+}
+
+/* 🔥 Mobile */
+@media (max-width: 576px) {
+    .banner {
+        min-height: auto;
+        padding: 30px 0;
+    }
+
+    .banner-content h2 {
+        font-size: 28px;
+    }
+
+    .banner-content p {
+        font-size: 14px;
+    }
+
+    .banner-img {
+        max-height: 250px;
+    }
+}
+
+
+
+
+/* =================== category section (home page)  ==================== */
 
 .category-image {
     height: 500px;
@@ -118,7 +237,7 @@
     background-color: #171717dd;
 }
 
-/* ========= product card ========== */
+/* =================== product card ================ */
 
 .product-img {
     height: 350px !important;
@@ -193,7 +312,79 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
-/*====== footer ======*/
+
+
+
+/* ==================== product filter ================== */
+#filters .btn {
+    border-radius: 20px;
+    padding: 6px 14px;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+/* Active */
+#filters .is-checked {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* Hover */
+#filters .btn:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Mobile optimization */
+@media (max-width: 576px) {
+    #filters {
+        justify-content: center;
+    }
+
+    #filters .btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
+
+/*=========================  testimonial section =========================*/
+
+
+/* ================= TESTIMONIAL ================= */
+/* Image */
+.review-image {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+}
+
+/* Card hover */
+.testimonial-item {
+    transition: 0.3s;
+}
+
+.testimonial-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Desktop focus effect */
+@media (min-width: 992px) {
+    .testimonial-swiper .swiper-slide {
+        opacity: 0.4;
+        transform: scale(0.9);
+        transition: 0.3s;
+        width: 42% ;
+    }
+
+    .testimonial-swiper .swiper-slide-active {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/*=========================  footer =========================*/
 .footer-logo {
     height: 8rem;
     width: auto;

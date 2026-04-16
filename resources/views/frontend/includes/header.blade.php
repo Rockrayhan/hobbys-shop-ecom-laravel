@@ -1,5 +1,5 @@
-<nav class="navbar fixed-top navbar-expand-lg bg-white text-uppercase fs-6 py-1  border-bottom">
-    <div class="container-fluid d-flex justify-content-between justify-content-md-around align-items-center">
+<nav class="navbar fixed-top navbar-expand-lg  text-uppercase fs-6 py-1  border-bottom ">
+    <div class="container-fluid d-flex justify-content-between justify-content-md-around align-items-center nav-div">
 
 
         <!-- Left: Brand -->
@@ -72,13 +72,13 @@
             </a>
 
             <!-- Search -->
-            <li class="search-box mx-2">
+            {{-- <div class="search-box mx-2">
                 <a href="#search" class="search-button">
                     <svg width="24" height="24" viewBox="0 0 24 24">
                         <use xlink:href="#search"></use>
                     </svg>
                 </a>
-            </li>
+            </div> --}}
 
 
             <!-- Toggler (visible on mobile only) -->

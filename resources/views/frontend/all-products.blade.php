@@ -5,10 +5,10 @@
 @section('content')
     <div class="container">
 
-        <h3 class="text-center fw-semibold mt-5 mb-0"> All products </h3>
+        {{-- <h3 class="text-center fw-semibold mt-5 mb-0"> All products </h3> --}}
 
         {{-- all products nav tab --}}
-        <section class="product-grid clearfix">
+        {{-- <section class="product-grid clearfix">
             <div class="container">
                 <div class="row">
 
@@ -89,9 +89,16 @@
 
                 </div>
             </div>
-        </section>
+        </section> --}}
 
 
+        {{-- products section --}}
+
+        @include('frontend.components.product_section', [
+            'products' => $products,
+            'categories' => $categories, // only top-level categories
+            'title' => 'Our Products',
+        ])
 
     </div>
 

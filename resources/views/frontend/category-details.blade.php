@@ -6,10 +6,10 @@
     <div class="container">
 
         <!-- Category Title -->
-        <div class="text-center mb-4">
+        {{-- <div class="text-center mb-4">
             <h2 class="fw-bold">{{ $category->name }}</h2>
             <p class="text-muted">Explore our latest products in this category</p>
-        </div>
+        </div> --}}
 
 
 
