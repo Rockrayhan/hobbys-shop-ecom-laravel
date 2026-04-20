@@ -16,7 +16,7 @@
 .navbar {
     z-index: 999;
     background-color: rgba(255, 255, 255, 0.899);
-    backdrop-filter: blur(5px);
+
 }
 
 /* Logo */
@@ -136,106 +136,128 @@
 }
 
 
-
-
-
-/*======================  banner =====================*/
+/* ================= BANNER V2 ================= */
 
 .banner {
-    height: 90vh;
+    position: relative;
+}
+
+/* full slide */
+.banner-bg {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    background-size: cover;
+    background-position: center;
     display: flex;
     align-items: center;
 }
 
-/* each slide full height */
-.banner .swiper,
-.banner .swiper-wrapper,
-.banner .swiper-slide {
-    height: 100%;
-}
-
-/* layout */
-.banner-item {
-    min-height: 100vh;
-}
-
-/* image */
-.banner-img {
-    width: 100%;
-    max-height: 800px;
-    object-fit: contain;
+/* overlay for text visibility */
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.6),
+        rgba(0,0,0,0.2)
+    );
 }
 
 /* content */
 .banner-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    max-width: 600px;
+    padding: 0 40px;
 }
 
-/* text tuning */
+/* text */
 .banner-content h2 {
     line-height: 1.1;
 }
 
-/* 🔥 Tablet */
+/* ==== RESPONSIVE ==== */
+
+/* Tablet */
 @media (max-width: 991px) {
-    .banner-item {
-        height: auto;
-        padding: 40px 0;
+    .banner-bg {
+        height: 60vh;
+        justify-content: center;
+        text-align: center;
     }
 
     .banner-content {
-        text-align: center;
-        padding: 20px !important;
-    }
-
-    .banner-img {
-        max-height: 350px;
-    }
-}
-
-/* 🔥 Mobile */
-@media (max-width: 576px) {
-    .banner {
-        min-height: auto;
-        padding: 30px 0;
+        padding: 0 20px;
     }
 
     .banner-content h2 {
-        font-size: 28px;
+        font-size: 32px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .banner-bg {
+        height: 50vh;
     }
 
-    .banner-content p {
+    .banner-content h2 {
+        font-size: 24px;
+    }
+
+    .banner-content button {
         font-size: 14px;
-    }
-
-    .banner-img {
-        max-height: 250px;
+        padding: 8px 16px;
     }
 }
 
 
-
-
-/* =================== category section (home page)  ==================== */
+/* ================= CATEGORY ================= */
 
 .category-image {
-    height: 500px;
+    width: 100%;
+    height: 350px;
     object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* hover zoom */
+.cat-item:hover .category-image {
+    transform: scale(1.08);
+}
+
+/* overlay */
+.category-content {
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
     width: 100%;
 }
 
-@media (max-width: 768px) {
+/* tablet */
+@media (max-width: 992px) {
     .category-image {
-        height: 250px;
+        height: 260px;
     }
 }
 
-.category-content {
-    background-color: #171717dd;
+/* mobile */
+@media (max-width: 576px) {
+    .category-image {
+        height: 200px;
+    }
+
+    .category-content {
+        padding: 15px !important;
+    }
+
+    .category-content h4 {
+        font-size: 16px;
+    }
 }
+
+
+
 
 /* =================== product card ================ */
 
