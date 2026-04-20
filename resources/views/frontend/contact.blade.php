@@ -21,7 +21,7 @@
     <div>
 
         {{-- Contact Info Section --}}
-        <section class="container my-5">
+        <section class="container pt-3 my-5">
 
             <div class="text-center mb-5">
                 <h3 class=" fw-semibold"> Contact Us </h3>

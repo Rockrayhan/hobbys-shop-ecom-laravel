@@ -1,4 +1,4 @@
-    <section id="billboard" class="bg-secondary-subtle two-column-swiper slide-clip slide-in pt-4 banner">
+    <section id="billboard" class="two-column-swiper slide-clip slide-in banner">
         <div class="container">
             <div class="row">
                 <div class="swiper overflow-hidden">
@@ -31,7 +31,7 @@
 
                         {{-- banner 2 --}}
                         <div class="swiper-slide">
-                            <a href="{{ route('all-products') }}" class="banner-item d-block image-holder">
+                            <a href="{{ route('all-products') }}" class="banner-item d-block ">
 
                                 <!-- Background Image -->
                                 <div class="banner-bg "
@@ -57,7 +57,7 @@
 
                         {{-- banner 3 --}}
                         <div class="swiper-slide">
-                            <a href="{{ route('all-products') }}" class="banner-item d-block image-holder">
+                            <a href="{{ route('all-products') }}" class="banner-item d-block">
 
                                 <!-- Background Image -->
                                 <div class="banner-bg "
@@ -83,12 +83,21 @@
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
-                <div class="icon-arrow icon-arrow-left"><svg width="50" height="50" viewBox="0 0 24 24">
+                
+                <div class="icon-arrow icon-arrow-left bg-">
+                    {{-- <svg width="50" height="50"
+                        viewBox="0 0 24 24">
                         <use xlink:href="#angle-left"></use>
-                    </svg></div>
-                <div class="icon-arrow icon-arrow-right"><svg width="50" height="50" viewBox="0 0 24 24">
+                    </svg> --}}
+                    <i class="bi bi-chevron-left"></i>
+                </div>
+                <div class="icon-arrow icon-arrow-right bg-">
+                    {{-- <svg width="50" height="50"
+                        viewBox="0 0 24 24">
                         <use xlink:href="#angle-right"></use>
-                    </svg></div>
+                    </svg> --}}
+                    <i class="bi bi-chevron-right"></i>
+                </div>
             </div>
         </div>
     </section>

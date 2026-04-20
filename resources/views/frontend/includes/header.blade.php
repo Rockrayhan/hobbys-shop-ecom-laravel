@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-lg  text-uppercase fs-6 py-1  border-bottom ">
+<nav class="navbar fixed-top navbar-expand-lg  text-uppercase fs-6 py-2  border-bottom">
     <div class="container-fluid d-flex justify-content-between justify-content-md-around align-items-center nav-div">
 
 
@@ -14,47 +14,10 @@
                 <li class="nav-item border-animation-left"><a class="nav-link item-anchor"
                         href="{{ route('home') }}">Home</a></li>
 
-
-
-                <li class="nav-item dropdown position-static">
-                    <a class="nav-link dropdown-toggle" href="#">
-                        Products
-                    </a>
-
-                    <div class="dropdown-menu w-100 mt-0 border-0 shadow p-4">
-                        <div class="container">
-                            <div class="row">
-
-                                @foreach ($allCategories as $category)
-                                    <div class="col-md-3 mb-3">
-
-                                        <!-- Parent Category -->
-                                        <a href="{{ route('category.details', $category->slug) }}"
-                                            class="fw-bold text-dark text-decoration-none d-block mb-2">
-                                            {{ $category->name }}
-                                        </a>
-
-                                        <!-- Children -->
-                                        @foreach ($category->children as $child)
-                                            <a href="{{ route('category.details', $child->slug) }}"
-                                                class="dropdown-item small text-muted ps-0">
-                                                {{ $child->name }}
-                                            </a>
-                                        @endforeach
-
-                                    </div>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-
-
                 <li class="nav-item"><a class="nav-link" href="{{ route('all-products') }}">All Products</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
             </ul>
+
         </div>
 
         <!-- Right: Cart + Search + Toggler -->
@@ -90,6 +53,8 @@
         </div>
     </div>
 
+
+
     <!-- Offcanvas for Mobile Menu (Visible on mobile only) -->
     <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="offcanvasNavbar"
         aria-labelledby="offcanvasNavbarLabel">
@@ -103,29 +68,44 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
 
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#mobileCategories">
-                        Products
+                    <a class="nav-link fw-semibold d-flex justify-content-between align-items-center category-toggle"
+                        data-bs-toggle="collapse" href="#mobileCategories">
+
+                        <span>Categories</span>
+                        <i class="bi bi-chevron-down small toggle-icon"></i>
                     </a>
 
                     <div class="collapse" id="mobileCategories">
-                        <ul class="list-unstyled ps-3">
+                        <ul class="list-unstyled mt-2">
 
                             @foreach ($allCategories as $category)
-                                <li>
+                                <li class="mb-2">
 
-                                    <!-- Parent -->
-                                    <a class="fw-bold d-block py-1"
-                                        href="{{ route('category.details', $category->slug) }}">
-                                        {{ $category->name }}
-                                    </a>
+                                    <!-- Parent (toggle if has children) -->
+                                    @if ($category->children->count())
+                                        <a class="d-flex justify-content-between align-items-center category-parent"
+                                            data-bs-toggle="collapse" href="#cat-{{ $category->id }}">
 
-                                    <!-- Children -->
-                                    @foreach ($category->children as $child)
-                                        <a class="d-block small text-muted ps-3 py-1"
-                                            href="{{ route('category.details', $child->slug) }}">
-                                            {{ $child->name }}
+                                            <span>{{ $category->name }}</span>
+                                            <i class="bi bi-chevron-down small"></i>
                                         </a>
-                                    @endforeach
+
+                                        <!-- Children -->
+                                        <div class="collapse subcategory-wrapper" id="cat-{{ $category->id }}">
+                                            @foreach ($category->children as $child)
+                                                <a class="subcategory-link"
+                                                    href="{{ route('category.details', $child->slug) }}">
+                                                    {{ $child->name }}
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <!-- If no children -->
+                                        <a class="category-parent"
+                                            href="{{ route('category.details', $category->slug) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    @endif
 
                                 </li>
                             @endforeach
@@ -143,4 +123,38 @@
 
 
 
+</nav>
+
+
+{{--========= category navbar ========= --}}
+<nav class="category-navbar d-none d-lg-block">
+    <div class="container me-5">
+        <ul class="category-menu d-flex align-items-center gap-4 mb-0">
+
+            @foreach ($allCategories as $category)
+                <li class="category-item">
+
+                    <!-- Parent -->
+                    <a href="{{ route('category.details', $category->slug) }}" class="category-link">
+                        {{ $category->name }}
+                    </a>
+
+                    <!-- Children Dropdown -->
+                    @if ($category->children->count())
+                        <div class="subcategory-menu">
+
+                            @foreach ($category->children as $child)
+                                <a href="{{ route('category.details', $child->slug) }}">
+                                    {{ $child->name }}
+                                </a>
+                            @endforeach
+
+                        </div>
+                    @endif
+
+                </li>
+            @endforeach
+
+        </ul>
+    </div>
 </nav>

@@ -14,9 +14,11 @@
 /*=================== NAVBAR ====================== */
 
 .navbar {
-    z-index: 999;
-    background-color: rgba(255, 255, 255, 0.899);
-
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.947);
+    height: 70px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 /* Logo */
@@ -67,7 +69,6 @@
 
 /* HOVER DROPDOWN (DESKTOP) */
 @media (min-width: 992px) {
-
     .navbar .dropdown-menu {
         display: block;
         opacity: 0;
@@ -89,7 +90,6 @@
 
 /* Tablet */
 @media (max-width: 992px) {
-
     .navbar h5 {
         font-size: 18px;
     }
@@ -106,7 +106,6 @@
 
 /* Mobile */
 @media (max-width: 576px) {
-
     .navbar h5 {
         font-size: 16px;
     }
@@ -118,7 +117,6 @@
     .navbar {
         margin-bottom: 20px;
     }
-
 }
 
 /*  OFFCANVAS  */
@@ -135,11 +133,147 @@
     color: #0d6efd;
 }
 
+/* ==== CATEGORY NAVBAR ===== */
 
-/* ================= BANNER V2 ================= */
+.category-navbar {
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    background-color: rgba(177, 174, 174, 0.882);
+    z-index: 998;
+    /* border-bottom: 1px solid #eee; */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+/* menu */
+.category-menu {
+    list-style: none;
+    padding: 10px 0;
+}
+
+/* parent */
+.category-item {
+    position: relative;
+}
+
+.category-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    padding: 8px 0;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.category-link:hover {
+    color: #0d6efd;
+}
+
+/* dropdown */
+.subcategory-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    min-width: 220px;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: 0.25s ease;
+}
+
+/* show on hover */
+.category-item:hover .subcategory-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* child links */
+.subcategory-menu a {
+    display: block;
+    padding: 6px 10px;
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.subcategory-menu a:hover {
+    background: #f5f5f5;
+    color: #000;
+    padding-left: 14px;
+}
+
+/* ===== MOBILE CATEGORY MENU ======*/
+
+.category-parent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.category-parent:hover {
+    color: #0d6efd;
+}
+
+/* subcategory wrapper */
+.subcategory-wrapper {
+    padding-left: 12px;
+    margin-top: 6px;
+}
+
+/* subcategory links */
+.subcategory-link {
+    display: block;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #666;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.subcategory-link:hover {
+    color: #000;
+    padding-left: 6px;
+}
+
+/* arrow rotate animation */
+.category-parent[aria-expanded="true"] i {
+    transform: rotate(180deg);
+    transition: 0.3s;
+}
+
+/* rotate arrow when open */
+.category-toggle[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+/* ================= BANNER ================= */
 
 .banner {
     position: relative;
+    margin-top: 3.6rem;
+}
+
+@media (max-width: 576px) {
+    .banner {
+        margin-top: 0px;
+    }
 }
 
 /* full slide */
@@ -159,8 +293,8 @@
     inset: 0;
     background: linear-gradient(
         to right,
-        rgba(0,0,0,0.6),
-        rgba(0,0,0,0.2)
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0.2)
     );
 }
 
@@ -213,7 +347,6 @@
     }
 }
 
-
 /* ================= CATEGORY ================= */
 
 .category-image {
@@ -230,7 +363,7 @@
 
 /* overlay */
 .category-content {
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    background: rgba(0, 0, 0, 0.652);
     width: 100%;
 }
 
@@ -255,9 +388,6 @@
         font-size: 16px;
     }
 }
-
-
-
 
 /* =================== product card ================ */
 
@@ -334,9 +464,6 @@
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
-
-
-
 /* ==================== product filter ================== */
 #filters .btn {
     border-radius: 20px;
@@ -370,9 +497,7 @@
     }
 }
 
-
 /*=========================  testimonial section =========================*/
-
 
 /* ================= TESTIMONIAL ================= */
 /* Image */
@@ -397,7 +522,7 @@
         opacity: 0.4;
         transform: scale(0.9);
         transition: 0.3s;
-        width: 42% ;
+        width: 42%;
     }
 
     .testimonial-swiper .swiper-slide-active {
