@@ -15,10 +15,10 @@
 
 .navbar {
     z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.947);
+    background-color: rgba(255, 255, 255, 0.971);
     height: 70px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    /* backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); */
 }
 
 /* Logo */
@@ -139,7 +139,8 @@
     position: fixed;
     top: 70px;
     width: 100%;
-    background-color: rgba(177, 174, 174, 0.882);
+    /* background-color: rgba(177, 174, 174, 0.882); */
+    background-color: #121212de;
     z-index: 998;
     /* border-bottom: 1px solid #eee; */
     backdrop-filter: blur(3px);
@@ -150,6 +151,7 @@
 .category-menu {
     list-style: none;
     padding: 10px 0;
+    
 }
 
 /* parent */
@@ -159,15 +161,17 @@
 
 .category-link {
     text-decoration: none;
-    color: #000;
+    color: white ;
     font-weight: 500;
     padding: 8px 0;
     display: inline-block;
     transition: 0.2s;
 }
 
-.category-link:hover {
-    color: #0d6efd;
+.category-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /* dropdown */
@@ -209,6 +213,20 @@
     color: #000;
     padding-left: 14px;
 }
+
+
+/* arrow */
+.category-arrow {
+    font-size: 12px;
+    transition: transform 0.25s ease;
+    opacity: 0.8;
+}
+
+/* rotate on hover */
+.category-item:hover .category-arrow {
+    transform: rotate(180deg);
+}
+
 
 /* ===== MOBILE CATEGORY MENU ======*/
 

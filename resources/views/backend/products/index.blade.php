@@ -56,9 +56,9 @@
                         <td>{{ number_format($prod->current_price, 2) }} bdt</td>
                         <td>
                             @if ($prod->isOnSale)
-                                <span class="badge bg-secondary">No</span>
+                                <span class="badge bg-danger">Stock Out</span>
                             @else
-                                <span class="badge bg-success">Yes</span>
+                                <span class="badge bg-success"></span>
                             @endif
                         </td>
                         <td>

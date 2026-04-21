@@ -82,11 +82,11 @@
                             @php
                                 $imageField = $i == 1 ? 'image' : 'image_' . $i;
                             @endphp
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">Image {{ $i }}</label><br>
                                 @if ($product->$imageField)
-                                    <img src="{{ asset($product->$imageField) }}" width="100"
-                                        class="img-thumbnail mb-2 d-block">
+                                    <img src="{{ asset($product->$imageField) }}" height="100" width="100"
+                                        class="mb-2 d-block">
                                 @else
                                     <small class="text-muted d-block mb-2">No image</small>
                                 @endif
@@ -116,7 +116,7 @@
                         @endforeach
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSize()">+ Add Size</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSize()">+ Add Variant</button>
 
 
                     {{-- On Sale / on stock --}}

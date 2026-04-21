@@ -14,8 +14,10 @@
                 <li class="nav-item border-animation-left"><a class="nav-link item-anchor"
                         href="{{ route('home') }}">Home</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="{{ route('all-products') }}">All Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
+                <li class="nav-item border-animation-left"><a class="nav-link item-anchor"
+                        href="{{ route('all-products') }}">All Products</a></li>
+                <li class="nav-item border-animation-left"><a class="nav-link item-anchor"
+                        href="{{ route('contact') }}">Contact</a></li>
             </ul>
 
         </div>
@@ -126,7 +128,7 @@
 </nav>
 
 
-{{--========= category navbar ========= --}}
+{{-- ========= category navbar ========= --}}
 <nav class="category-navbar d-none d-lg-block">
     <div class="container me-5">
         <ul class="category-menu d-flex align-items-center gap-4 mb-0">
@@ -134,21 +136,24 @@
             @foreach ($allCategories as $category)
                 <li class="category-item">
 
-                    <!-- Parent -->
-                    <a href="{{ route('category.details', $category->slug) }}" class="category-link">
+                    <a href="{{ route('category.details', $category->slug) }}"
+                        class="category-link d-flex align-items-center gap-1">
+
                         {{ $category->name }}
+
+                        @if ($category->children->count())
+                            <i class="bi bi-chevron-down category-arrow"></i>
+                        @endif
+
                     </a>
 
-                    <!-- Children Dropdown -->
                     @if ($category->children->count())
                         <div class="subcategory-menu">
-
                             @foreach ($category->children as $child)
                                 <a href="{{ route('category.details', $child->slug) }}">
                                     {{ $child->name }}
                                 </a>
                             @endforeach
-
                         </div>
                     @endif
 

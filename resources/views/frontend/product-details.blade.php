@@ -71,16 +71,50 @@
                 font-size: 13px;
             }
         }
-    </style>
-    <div class="container mt-5">
 
-        <!-- Product Details -->
+
+    </style>
+    <div class="container pt-3 mt-5">
+
+        <!-- Product showcase -->
         <div class="row g-4 align-items-start">
             <!-- Left: Image -->
-            <div class="col-md-5">
+            <div class="col-md-6">
 
+                {{-- bradcrump --}}
+                    @php
+                        function getCategoryPath($category)
+                        {
+                            $path = [];
+                            while ($category) {
+                                array_unshift($path, $category);
+                                $category = $category->parent;
+                            }
+                            return $path;
+                        }
 
-                <div class="bg-white p-3 rounded-3 shadow-sm">
+                        $categoryPath = $product->category ? getCategoryPath($product->category) : [];
+                    @endphp
+
+                    @if (count($categoryPath))
+                        <div class="small px-2 py-1">
+
+                            @foreach ($categoryPath as $index => $cat)
+                                <a href="{{ route('category.details', $cat->slug) }}"
+                                    class="text-decoration-none text-muted fw-medium">
+                                    {{ $cat->name }}
+                                </a>
+
+                                @if (!$loop->last)
+                                    <span class="mx-1">›</span>
+                                @endif
+                            @endforeach
+
+                        </div>
+                    @endif
+              
+
+                <div class="p-2 rounded-3 shadow-sm">
                     @php
                         $images = collect([
                             $product->image,
@@ -124,9 +158,9 @@
             </div>
 
             <!-- Right: Details -->
-            <div class="col-md-7">
+            <div class="col-md-6">
                 {{-- title --}}
-                <h2 class="fw-semibold mb-3">{{ $product->name }}</h2>
+                <h2 class="fw-semibold mb-3 display-5">{{ $product->name }}</h2>
 
                 {{-- category --}}
                 <p class="text-muted mb-2">
@@ -167,11 +201,7 @@
                     </div>
                 @endif
 
-                {{-- prduct description --}}
-                <p class="mb-4">
-                    {!! $product->description ?? 'No description available.' !!}
 
-                </p>
 
 
                 <div class="d-flex align-items-center gap-3">
@@ -192,6 +222,20 @@
 
                 </div>
             </div>
+
+
+
+
+        </div>
+
+        <!-- Product Details -->
+        <div class="card p-3 shadow mt-5">
+            {{-- prduct description --}}
+            <h4 class="font-semibold font-underline border-bottom border-2 pb-2"> Description </h4>
+            {{-- <hr> --}}
+            <p>
+                {!! $product->description ?? 'No description available.' !!}
+            </p>
         </div>
 
         <!-- Related Products -->

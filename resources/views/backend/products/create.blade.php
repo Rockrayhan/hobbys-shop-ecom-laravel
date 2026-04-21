@@ -70,7 +70,7 @@
                     {{-- Images --}}
                     <div class="row">
                         @for ($i = 1; $i <= 5; $i++)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <label class="form-label">Image {{ $i }}</label>
                                 <input type="file" name="{{ $i == 1 ? 'image' : 'image_' . $i }}" class="form-control">
                                 @error($i == 1 ? 'image' : 'image_' . $i)
@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSize()">+ Add Size</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSize()">+ Add Variant</button>
 
 
                     {{-- On Sale --}}

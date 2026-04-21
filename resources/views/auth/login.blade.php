@@ -41,8 +41,8 @@
     <div class="container">
         <div class="login-container">
             <div class="text-center mb-4">
-                <img class="img-fluid w-25 rounded-4" src="{{asset('/images/my/logo.png')}}" alt="company-logo">
-                <h2 class="mt-2">Login</h2>
+                <img class="img-fluid w-25 rounded-4" src="{{asset('/images/main-logo.png')}}" alt="company-logo">
+                <h2 class="mt-2">Admin-Login</h2>
             </div>
 
             @if ($errors->any())
@@ -76,10 +76,10 @@
                     </button>
                 </div>
 
-                <div class="text-center">
+                {{-- <div class="text-center">
                     <a href="#" class="text-decoration-none">Forgot password?</a>
                     <p class="mt-2">Don't have an account? <a href="{{ route('customer.register') }}" class="text-decoration-none">Sign up</a></p>
-                </div>
+                </div> --}}
             </form>
         </div>
     </div>
